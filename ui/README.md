@@ -1,7 +1,9 @@
 ## Project setup
 
 ```bash
+$ .venv\Scripts\activate.bat
 $ pip install streamlit
+$ pip install "python-socketio[client]"
 ```
 
 ## Compile and run the project
