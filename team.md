@@ -1,3 +1,9 @@
+# CS673 2025 Fall 1 Team1 - Chit Chat
+**Masih Vahida** - Team Leader \
 Hello, This is Masih Vahida, the team leader of the team 1
+**Ardit Briskaj** - Requirement Leader  \
 Hello, this is Ardit Briskaj, I am the requirement leader of the team.
+**Deasia Little** - QA Leader  \
 Hello, this is Deasia Little. I am the QA leader of team 1 for the CS 673 Fall 1 online class. I look forward to working with the team on this project as I complete my Master's in Software Development. Our team has a good project idea.
+**Jordyn Lipsey** - Configuration Leader \
+Hello, my name is Jordyn Lipsey. I am the Configuration Leader for Team 1 of CS 673 Fall 1. This is my final semester of the Master of Science in Software Development program. My undergraduate is in Actuarial Science from University of Wisconsin – Eau Claire. Since graduating, I have worked as a machine learning engineer with a background in actuarial and data science.
