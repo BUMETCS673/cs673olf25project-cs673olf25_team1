@@ -1,0 +1,41 @@
+<svg width="200" height="120" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Gradient definitions -->
+    <defs>
+        <linearGradient id="bubbleGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#6366F1"/>
+            <stop offset="100%" style="stop-color:#4F46E5"/>
+        </linearGradient>
+        <linearGradient id="bubbleGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#8B5CF6"/>
+            <stop offset="100%" style="stop-color:#6D28D9"/>
+        </linearGradient>
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+            <feOffset dx="2" dy="2" result="offsetblur"/>
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.2"/>
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Background chat bubble -->
+    <path d="M140 40C140 51.0457 131.046 60 120 60C108.954 60 100 51.0457 100 40C100 28.9543 108.954 20 120 20C131.046 20 140 28.9543 140 40Z" fill="url(#bubbleGradient1)" filter="url(#shadow)"/>
+    
+    <!-- Foreground chat bubble -->
+    <path d="M120 80C120 91.0457 111.046 100 100 100C88.9543 100 80 91.0457 80 80C80 68.9543 88.9543 60 100 60C111.046 60 120 68.9543 120 80Z" fill="url(#bubbleGradient2)" filter="url(#shadow)"/>
+    
+    <!-- Text with stylized font -->
+    <text x="30" y="65" font-family="Arial Black, Helvetica, sans-serif" font-size="32" fill="#2D3748" filter="url(#shadow)">
+        <tspan x="30" dy="0" font-weight="bold">Chit</tspan>
+        <tspan x="110" dy="0" font-weight="bold" fill="#4F46E5">Chat</tspan>
+    </text>
+
+    <!-- Decorative dots -->
+    <circle cx="95" cy="35" r="3" fill="white" opacity="0.8"/>
+    <circle cx="105" cy="35" r="3" fill="white" opacity="0.8"/>
+    <circle cx="115" cy="35" r="3" fill="white" opacity="0.8"/>
+</svg>
