@@ -1,10 +1,52 @@
-## System requirements
+## Chit Chat Project
 
+Welcome to Chit Chat! This is a real-time chat application built with a React/Vite UI and a NestJS API using Socket.IO for live messaging.
+
+---
+
+## System Requirements
+
+- **Node.js**: v22.x or higher
+- **npm**: v9.x or higher
+
+---
+
+## Getting Started
+
+
+### 1. Install Dependencies
+
+#### Install Node.js
+
+If you don't have Node.js installed, download it from the official website:
+
+- [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+
+After installation, verify it in your terminal:
 ```bash
-$ node version: 22
+node -v
+npm -v
+```
 
-## How to access the project
-# Step 1
-    - Run both UI and API (follow guide under each folder)
-# Step 2
-$ Go to http://localhost:8000/
+#### Install Project Dependencies
+
+Navigate to each folder and run:
+```bash
+npm install   # For UI and API folders
+```
+
+### 2. Run the Servers
+
+- **API**: In the `api` folder, run:
+    ```bash
+    npm run start
+    ```
+- **UI**: In the `chit-chat-ui` folder, run:
+    ```bash
+    npm run dev
+    ```
+
+### 3. Access the App
+
+- Open your browser and go to:
+    - [http://localhost:8000/](http://localhost:8000/) (or your configured port)
