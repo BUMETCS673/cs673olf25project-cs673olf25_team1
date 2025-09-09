@@ -13,10 +13,24 @@ Welcome to Chit Chat! This is a real-time chat application built with a React/Vi
 
 ## Getting Started
 
+
 ### 1. Install Dependencies
 
-Navigate to each folder and run:
+#### Install Node.js
 
+If you don't have Node.js installed, download it from the official website:
+
+- [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+
+After installation, verify it in your terminal:
+```bash
+node -v
+npm -v
+```
+
+#### Install Project Dependencies
+
+Navigate to each folder and run:
 ```bash
 npm install   # For UI and API folders
 ```
