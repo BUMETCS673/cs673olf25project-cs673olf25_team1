@@ -1,4 +1,5 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { log } from 'console';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
@@ -18,8 +19,10 @@ export class AppSocketGateway {
     console.log(`Client disconnected: ${socket.id}`);
   }
   
-  @SubscribeMessage('request_event_test')
+  @SubscribeMessage('chat-message')
   handleMessage(socket: Socket, payload: any) {
-  this.server.emit('request_event_test', { data: `${socket.id}: broadcasted an event!` });
+    console.log("message received", payload)
+    this.server.emit('chat-message', { data: [socket.id, payload] });
   }
+  
 }
