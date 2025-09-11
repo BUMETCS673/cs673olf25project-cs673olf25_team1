@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Start API and UI",
+      "configurations": ["API", "UI"],
+      "preLaunchTask": "",
+      "stopAll": true
+    }
+  ],
+  "configurations": [
+    {
+      "name": "API",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/api",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "UI",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/chit-chat-ui",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
