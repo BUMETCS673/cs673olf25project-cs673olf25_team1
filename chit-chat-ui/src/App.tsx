@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import io from 'socket.io-client';
 import ChitChatLogo from './assets/chit_chat_logo.svg'
 import './App.css'
@@ -9,42 +9,35 @@ function App() {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
 
-
-
-
+  // Ref for scrolling
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleButtonClick = () => {
     if (inputText.trim() !== "") {
-      setMessages([...messages, `You: ${inputText}`]); //add "you" at the begining of the self text
+      setMessages([...messages, `You: ${inputText}`]); //add "you" at the beginning of the self text
       setInputText(""); // clear input after sending
       socket.emit('chat-message', inputText);
     }
-    
   };
-
-
-
-
 
   useEffect(() => {
     console.log("Setting up socket listeners");
     socket.on('connect', () => {
-      setMessages((prevMessages) => [...prevMessages, `Connected to the server with Socket ID: ${socket.id}`]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        `Connected to the server with Socket ID: ${socket.id}`
+      ]);
     });
-
-
-
-
 
     socket.on('chat-message', (result) => {
-      if (result.data[0] != socket.id){ //only show data received from other users and ignore data from self 
-        setMessages((prevMessages) => [...prevMessages, `${socket.id}: ${result.data[1]}`]);
+      if (result.data[0] !== socket.id) { 
+        // only show data received from other users
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          `${result.data[0]}: ${result.data[1]}`
+        ]);
       }
     });
-
-
-
-
 
     return () => {
       socket.off('connect');
@@ -52,14 +45,12 @@ function App() {
     };
   }, []);
 
-
-
-
-
-
-
-
-
+  // Auto scroll effect
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <>
@@ -86,9 +77,11 @@ function App() {
           {messages.map((msg, index) => (
             <div key={index}>{msg}</div>
           ))}
+          {/* Scroll target */}
+          <div ref={messagesEndRef} />
         </div>
 
-        {/* Input + send button now BELOW */}
+        {/* Input + send button BELOW */}
         <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
           <input
             type="text"
