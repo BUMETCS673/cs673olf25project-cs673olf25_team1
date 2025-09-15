@@ -8,14 +8,15 @@ const socket = io('http://localhost:3000');
 function App() {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
+  const [autoScroll, setAutoScroll] = useState(true); // track if auto-scroll is enabled
 
-  // Ref for scrolling
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleButtonClick = () => {
     if (inputText.trim() !== "") {
-      setMessages([...messages, `You: ${inputText}`]); //add "you" at the beginning of the self text
-      setInputText(""); // clear input after sending
+      setMessages([...messages, `You: ${inputText}`]);
+      setInputText("");
       socket.emit('chat-message', inputText);
     }
   };
@@ -30,8 +31,7 @@ function App() {
     });
 
     socket.on('chat-message', (result) => {
-      if (result.data[0] !== socket.id) { 
-        // only show data received from other users
+      if (result.data[0] !== socket.id) {
         setMessages((prevMessages) => [
           ...prevMessages,
           `${result.data[0]}: ${result.data[1]}`
@@ -45,12 +45,24 @@ function App() {
     };
   }, []);
 
-  // Auto scroll effect
+  // Auto scroll when new message arrives — only if autoScroll is true
   useEffect(() => {
-    if (messagesEndRef.current) {
+    if (autoScroll && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
+  }, [messages, autoScroll]);
+
+  // Handle user scrolling
+  const handleScroll = () => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
+
+    const isAtBottom =
+      container.scrollHeight - container.scrollTop <= container.clientHeight + 5; 
+      // +5 px tolerance
+
+    setAutoScroll(isAtBottom);
+  };
 
   return (
     <>
@@ -63,6 +75,8 @@ function App() {
         {/* Scrollable messages container */}
         <div
           className="messages-container"
+          ref={messagesContainerRef}
+          onScroll={handleScroll}
           style={{
             marginTop: "5px",
             height: "300px",
@@ -77,7 +91,6 @@ function App() {
           {messages.map((msg, index) => (
             <div key={index}>{msg}</div>
           ))}
-          {/* Scroll target */}
           <div ref={messagesEndRef} />
         </div>
 
