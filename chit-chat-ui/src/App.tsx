@@ -67,29 +67,41 @@ function App() {
         <img src={ChitChatLogo} className="logo" alt="Chit Chat logo" />
       </div>
       <h1>Chit Chat App</h1>
+
       <div className="card">
-        
-        <div style={{ display: "flex", gap: "8px" }}>
+        {/* Scrollable messages container */}
+        <div
+          className="messages-container"
+          style={{
+            marginTop: "16px",
+            height: "200px",
+            overflowY: "auto",
+            border: "1px solid #ccc",
+            padding: "8px",
+            borderRadius: "8px",
+            background: "#f9f9f9",
+            textAlign: "left",
+          }}
+        >
+          {messages.map((msg, index) => (
+            <div key={index}>{msg}</div>
+          ))}
+        </div>
+
+        {/* Input + send button now BELOW */}
+        <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
           <input
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Type a message..."
+            style={{ flex: 1 }}
           />
           <button onClick={handleButtonClick}>Send</button>
         </div>
-
-
-        <div className="messages-container" style={{ marginTop: "16px" }}>
-          {messages.map((msg, index) => (
-            <div key={index}>{msg}</div>
-          ))}
-        </div>
       </div>
 
-      <p className="footer">
-        This app is made by Team 1.
-      </p>
+      <p className="footer">This app is made by Team 1.</p>
     </>
   )
 }
