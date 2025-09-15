@@ -79,7 +79,7 @@ function App() {
             border: "3px solid #ccc",
             padding: "8px",
             borderRadius: "8px",
-            background: "#f9f9f9",
+            background: "#d1e9f3ff",
             textAlign: "left",
           }}
         >
