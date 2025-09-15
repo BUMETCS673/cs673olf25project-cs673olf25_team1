@@ -73,10 +73,10 @@ function App() {
         <div
           className="messages-container"
           style={{
-            marginTop: "16px",
-            height: "200px",
+            marginTop: "5px",
+            height: "300px",
             overflowY: "auto",
-            border: "1px solid #ccc",
+            border: "3px solid #ccc",
             padding: "8px",
             borderRadius: "8px",
             background: "#f9f9f9",
