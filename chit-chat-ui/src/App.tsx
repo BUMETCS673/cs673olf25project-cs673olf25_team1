@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import io from 'socket.io-client';
 import ChitChatLogo from './assets/chit_chat_logo.svg'
 import './App.css'
@@ -8,43 +8,36 @@ const socket = io('http://localhost:3000');
 function App() {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
+  const [autoScroll, setAutoScroll] = useState(true); // track if auto-scroll is enabled
 
-
-
-
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleButtonClick = () => {
     if (inputText.trim() !== "") {
-      setMessages([...messages, `You: ${inputText}`]); //add "you" at the begining of the self text
-      setInputText(""); // clear input after sending
+      setMessages([...messages, `You: ${inputText}`]);
+      setInputText("");
       socket.emit('chat-message', inputText);
     }
-    
   };
-
-
-
-
 
   useEffect(() => {
     console.log("Setting up socket listeners");
     socket.on('connect', () => {
-      setMessages((prevMessages) => [...prevMessages, `Connected to the server with Socket ID: ${socket.id}`]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        `Connected to the server with Socket ID: ${socket.id}`
+      ]);
     });
-
-
-
-
 
     socket.on('chat-message', (result) => {
-      if (result.data[0] != socket.id){ //only show data received from other users and ignore data from self 
-        setMessages((prevMessages) => [...prevMessages, `${socket.id}: ${result.data[1]}`]);
+      if (result.data[0] !== socket.id) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          `${result.data[0]}: ${result.data[1]}`
+        ]);
       }
     });
-
-
-
-
 
     return () => {
       socket.off('connect');
@@ -52,14 +45,24 @@ function App() {
     };
   }, []);
 
+  // Auto scroll when new message arrives — only if autoScroll is true
+  useEffect(() => {
+    if (autoScroll && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, autoScroll]);
 
+  // Handle user scrolling
+  const handleScroll = () => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
 
+    const isAtBottom =
+      container.scrollHeight - container.scrollTop <= container.clientHeight + 5; 
+      // +5 px tolerance
 
-
-
-
-
-
+    setAutoScroll(isAtBottom);
+  };
 
   return (
     <>
@@ -67,29 +70,44 @@ function App() {
         <img src={ChitChatLogo} className="logo" alt="Chit Chat logo" />
       </div>
       <h1>Chit Chat App</h1>
+
       <div className="card">
-        
-        <div style={{ display: "flex", gap: "8px" }}>
+        {/* Scrollable messages container */}
+        <div
+          className="messages-container"
+          ref={messagesContainerRef}
+          onScroll={handleScroll}
+          style={{
+            marginTop: "5px",
+            height: "300px",
+            overflowY: "auto",
+            border: "3px solid #ccc",
+            padding: "8px",
+            borderRadius: "8px",
+            background: "#d1e9f3ff",
+            textAlign: "left",
+          }}
+        >
+          {messages.map((msg, index) => (
+            <div key={index}>{msg}</div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input + send button BELOW */}
+        <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
           <input
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Type a message..."
+            style={{ flex: 1 }}
           />
           <button onClick={handleButtonClick}>Send</button>
         </div>
-
-
-        <div className="messages-container" style={{ marginTop: "16px" }}>
-          {messages.map((msg, index) => (
-            <div key={index}>{msg}</div>
-          ))}
-        </div>
       </div>
 
-      <p className="footer">
-        This app is made by Team 1.
-      </p>
+      <p className="footer">This app is made by Team 1.</p>
     </>
   )
 }
