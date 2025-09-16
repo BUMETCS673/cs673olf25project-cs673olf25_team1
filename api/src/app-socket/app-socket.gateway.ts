@@ -24,5 +24,11 @@ export class AppSocketGateway {
     console.log("message received", payload)
     this.server.emit('chat-message', { data: [socket.id, payload] });
   }
+
+  @SubscribeMessage('user-typing')
+  handleUserTyping(socket: Socket, payload: any) {
+    //console.log("user-typing received", payload)
+    this.server.emit('user-typing', { data: [socket.id, payload] });
+  }
   
 }

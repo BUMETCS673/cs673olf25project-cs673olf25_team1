@@ -3,15 +3,26 @@ import io from 'socket.io-client';
 import ChitChatLogo from './assets/chit_chat_logo.svg'
 import './App.css'
 
+
+
+const USER_TYPING_TIMEOUT = 5000;   //timeout for the "User is typing" message (ms)
+
+
+
 const socket = io('http://localhost:3000');
 
 function App() {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
-  const [autoScroll, setAutoScroll] = useState(true); // track if auto-scroll is enabled
+  const [autoScroll, setAutoScroll] = useState(true); 
+  const [typing, setTyping] = useState(false); // track if someone is typing
 
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+
+
 
   const handleButtonClick = () => {
     if (inputText.trim() !== "") {
@@ -20,6 +31,9 @@ function App() {
       socket.emit('chat-message', inputText);
     }
   };
+
+
+
 
   useEffect(() => {
     console.log("Setting up socket listeners");
@@ -30,6 +44,10 @@ function App() {
       ]);
     });
 
+
+
+
+
     socket.on('chat-message', (result) => {
       if (result.data[0] !== socket.id) {
         setMessages((prevMessages) => [
@@ -39,18 +57,54 @@ function App() {
       }
     });
 
+
+
+    let Last_typing_user_id="";
+    // Typing event
+    socket.on('user-typing', (result) => {
+
+      if (result.data[0] !== socket.id) { //only if it is a different user typing
+        setTyping(true);
+        if (Last_typing_user_id == ""){ //if no last typing id stored 
+          Last_typing_user_id = String(socket.id);
+        }
+
+        // reset timeout each time typing event arrives
+        if (typingTimeoutRef.current) {
+          clearTimeout(typingTimeoutRef.current);
+        }
+        typingTimeoutRef.current = setTimeout(() => {
+          setTyping(false);
+          Last_typing_user_id = "";
+        }, USER_TYPING_TIMEOUT); 
+      }
+    });
+
+
+
+
     return () => {
       socket.off('connect');
       socket.off('chat-message');
+      socket.off('user-typing');
     };
   }, []);
 
-  // Auto scroll when new message arrives — only if autoScroll is true
+
+
+
+
+  // Auto scroll
   useEffect(() => {
     if (autoScroll && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, autoScroll]);
+  }, [messages, typing, autoScroll]); 
+  // include typing so the indicator triggers scroll too
+
+
+
+
 
   // Handle user scrolling
   const handleScroll = () => {
@@ -58,11 +112,14 @@ function App() {
     if (!container) return;
 
     const isAtBottom =
-      container.scrollHeight - container.scrollTop <= container.clientHeight + 5; 
-      // +5 px tolerance
+      container.scrollHeight - container.scrollTop <= container.clientHeight + 5;
 
     setAutoScroll(isAtBottom);
   };
+
+
+
+
 
   return (
     <>
@@ -91,6 +148,14 @@ function App() {
           {messages.map((msg, index) => (
             <div key={index}>{msg}</div>
           ))}
+
+          {/* Typing indicator */}
+          {typing && (
+            <div style={{ fontStyle: "italic", color: "#666", marginTop: "4px" }}>
+              User is typing...
+            </div>
+          )}
+
           <div ref={messagesEndRef} />
         </div>
 
@@ -99,7 +164,10 @@ function App() {
           <input
             type="text"
             value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            onChange={(e) => {
+              setInputText(e.target.value);
+              socket.emit('user-typing'); // send typing event
+            }}
             placeholder="Type a message..."
             style={{ flex: 1 }}
           />
