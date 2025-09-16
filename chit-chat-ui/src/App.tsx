@@ -3,23 +3,20 @@ import io from 'socket.io-client';
 import ChitChatLogo from './assets/chit_chat_logo.svg'
 import './App.css'
 
-
-
 const USER_TYPING_TIMEOUT = 5000;   //timeout for the "User is typing" message (ms)
-
-
-
 const socket = io('http://localhost:3000');
 
 function App() {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
   const [autoScroll, setAutoScroll] = useState(true); 
-  const [typing, setTyping] = useState(false); // track if someone is typing
+  const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
+
+
 
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const typingTimeoutsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
 
 
@@ -34,12 +31,12 @@ function App() {
 
 
 
-
   useEffect(() => {
     console.log("Setting up socket listeners");
+
     socket.on('connect', () => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
+      setMessages(prev => [
+        ...prev,
         `Connected to the server with Socket ID: ${socket.id}`
       ]);
     });
@@ -47,38 +44,40 @@ function App() {
 
 
 
-
     socket.on('chat-message', (result) => {
       if (result.data[0] !== socket.id) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          `${result.data[0]}: ${result.data[1]}`
-        ]);
+        setMessages(prev => [...prev, `${result.data[0]}: ${result.data[1]}`]);
       }
     });
 
 
 
-    let Last_typing_user_id="";
+
     // Typing event
     socket.on('user-typing', (result) => {
+      const userId = result.data[0];
+      if (userId === socket.id) return; // ignore self
 
-      if (result.data[0] !== socket.id) { //only if it is a different user typing
-        setTyping(true);
-        if (Last_typing_user_id == ""){ //if no last typing id stored 
-          Last_typing_user_id = String(socket.id);
-        }
+      // Add user to typingUsers set
+      setTypingUsers(prev => new Set(prev).add(userId));
 
-        // reset timeout each time typing event arrives
-        if (typingTimeoutRef.current) {
-          clearTimeout(typingTimeoutRef.current);
-        }
-        typingTimeoutRef.current = setTimeout(() => {
-          setTyping(false);
-          Last_typing_user_id = "";
-        }, USER_TYPING_TIMEOUT); 
+      // reset timeout for this user
+      if (typingTimeoutsRef.current.has(userId)) {
+        clearTimeout(typingTimeoutsRef.current.get(userId)!);
       }
+
+      const timeout = setTimeout(() => {
+        setTypingUsers(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(userId);
+          return newSet;
+        });
+        typingTimeoutsRef.current.delete(userId);
+      }, USER_TYPING_TIMEOUT);
+
+      typingTimeoutsRef.current.set(userId, timeout);
     });
+
 
 
 
@@ -99,8 +98,7 @@ function App() {
     if (autoScroll && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, typing, autoScroll]); 
-  // include typing so the indicator triggers scroll too
+  }, [messages, typingUsers, autoScroll]); // include typingUsers to scroll indicator
 
 
 
@@ -121,6 +119,7 @@ function App() {
 
 
 
+  
   return (
     <>
       <div>
@@ -150,9 +149,9 @@ function App() {
           ))}
 
           {/* Typing indicator */}
-          {typing && (
+          {typingUsers.size > 0 && (
             <div style={{ fontStyle: "italic", color: "#666", marginTop: "4px" }}>
-              User is typing...
+              {typingUsers.size === 1 ? "User is typing..." : "Users are typing..."}
             </div>
           )}
 
@@ -166,7 +165,7 @@ function App() {
             value={inputText}
             onChange={(e) => {
               setInputText(e.target.value);
-              socket.emit('user-typing'); // send typing event
+              socket.emit('user-typing', { data: [socket.id] });
             }}
             placeholder="Type a message..."
             style={{ flex: 1 }}
@@ -180,4 +179,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
