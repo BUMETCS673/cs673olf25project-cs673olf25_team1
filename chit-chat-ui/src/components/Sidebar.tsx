@@ -50,8 +50,8 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
           sx={{
             '&.Mui-selected': {
               backgroundColor: deepPurple[100],
-              color: deepPurple[900],
-              '& .MuiListItemIcon-root': { color: deepPurple[900] },
+              color: deepPurple[700],
+              '& .MuiListItemIcon-root': { color: deepPurple[700] },
             },
           }}
         >
@@ -69,8 +69,8 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
           sx={{
             '&.Mui-selected': {
               backgroundColor: deepPurple[100],
-              color: deepPurple[900],
-              '& .MuiListItemIcon-root': { color: deepPurple[900] },
+              color: deepPurple[700],
+              '& .MuiListItemIcon-root': { color: deepPurple[700] },
             },
           }}
         >
@@ -91,7 +91,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
           sx={{
             width: { md: `calc(100% - ${drawerWidth}px)` },
             ml: { md: `${drawerWidth}px` },
-            background: deepPurple[900],
+            background: deepPurple[700],
           }}
         >
           <Toolbar>
