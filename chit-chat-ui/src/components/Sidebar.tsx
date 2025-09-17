@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { type ReactNode } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import {
   Box,
   Drawer,
@@ -20,6 +19,9 @@ import {
   Home as HomeIcon,
 } from '@mui/icons-material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { deepPurple } from '@mui/material/colors';
+import { Link, useLocation } from 'react-router-dom';
+import ChitChatLogo from "../assets/chit_chat_logo.svg"
 
 // Drawer width constant
 const drawerWidth = 240;
@@ -32,15 +34,27 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(true);
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const drawerContent = (
-    <List>
+    <List sx={{ mt: { md: 2 } }}>
       <ListItem disablePadding>
-        <ListItemButton>
+        <ListItemButton
+          component={Link}
+          to="/community"
+          selected={location.pathname === '/community'}
+          sx={{
+            '&.Mui-selected': {
+              backgroundColor: deepPurple[100],
+              color: deepPurple[900],
+              '& .MuiListItemIcon-root': { color: deepPurple[900] },
+            },
+          }}
+        >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
@@ -48,7 +62,18 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton>
+        <ListItemButton
+          component={Link}
+          to="/ai"
+          selected={location.pathname === '/ai'}
+          sx={{
+            '&.Mui-selected': {
+              backgroundColor: deepPurple[100],
+              color: deepPurple[900],
+              '& .MuiListItemIcon-root': { color: deepPurple[900] },
+            },
+          }}
+        >
           <ListItemIcon>
             <AutoAwesomeIcon />
           </ListItemIcon>
@@ -60,32 +85,31 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {!isLargeScreen ?
-        <>
-          <AppBar
-            position="fixed"
-            sx={{
-              width: { md: `calc(100% - ${drawerWidth}px)` },
-              ml: { md: `${drawerWidth}px` },
-            }}
-          >
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { md: 'none' } }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                Chit Chat
-              </Typography>
-            </Toolbar>
-          </AppBar>
-        </>
-        : <></>}
+      {!isLargeScreen ? (
+        <AppBar
+          position="fixed"
+          sx={{
+            width: { md: `calc(100% - ${drawerWidth}px)` },
+            ml: { md: `${drawerWidth}px` },
+            background: deepPurple[900],
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { md: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Chit Chat
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      ) : null}
 
       {/* Side drawer navigation */}
       <Box
@@ -103,6 +127,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
+          <img src={ChitChatLogo} className="logo" alt="Chit Chat logo" />
           {drawerContent}
         </Drawer>
 
@@ -115,6 +140,11 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
           }}
           open
         >
+          <img
+            src={ChitChatLogo}
+            alt="Chit Chat logo"
+            style={{ width: '60%', height: 'auto' }}
+          />
           {drawerContent}
         </Drawer>
       </Box>
