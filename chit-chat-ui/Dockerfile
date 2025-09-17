@@ -6,15 +6,8 @@ WORKDIR /app
 
 COPY package*.json ./
 
-# Install dependencies depending on environment
-ARG NODE_ENV=production
-ENV NODE_ENV=$NODE_ENV
-
-RUN if [ "$NODE_ENV" = "production" ]; then \
-      npm ci --only=production; \
-    else \
-      npm install; \
-    fi
+# Install dependencies 
+RUN npm install
 
 # Builder
 FROM node:20-alpine AS builder
