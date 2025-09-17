@@ -1,15 +1,11 @@
 import '../App.css';
-import ChitChatLogo from '../assets/chit_chat_logo.svg';
 
 function Ai() {
  
   
   return (
     <>
-      <div>
-        <img src={ChitChatLogo} className="logo" alt="Chit Chat logo" />
-      </div>
-      <h1>Chit Chat App</h1>
+      <h1>Talk to AI</h1>
 
       <div className="card">
         {/* Scrollable messages container */}

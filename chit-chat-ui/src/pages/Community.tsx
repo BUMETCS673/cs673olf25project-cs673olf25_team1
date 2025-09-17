@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
-import ChitChatLogo from '../assets/chit_chat_logo.svg'
-import '../App.css'
-import socket from "../hooks/socket"
+import { useEffect, useRef, useState } from 'react';
+import '../App.css';
+import socket from "../hooks/socket";
 
 const USER_TYPING_TIMEOUT = 5000;   //timeout for the "User is typing" message (ms)
 
@@ -121,10 +120,7 @@ function Community() {
   
   return (
     <>
-      <div>
-        <img src={ChitChatLogo} className="logo" alt="Chit Chat logo" />
-      </div>
-      <h1>Chit Chat App</h1>
+      <h1>Talk to the Community</h1>
 
       <div className="card">
         {/* Scrollable messages container */}
