@@ -1,8 +1,16 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.app-container {
+  display: flex;
+}
+
+.content {
+  padding: 2rem;
+  flex: 1;
 }
 
 .logo {
@@ -12,9 +20,11 @@
   margin: 0 auto;
   max-width: 10rem;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -23,6 +33,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -36,6 +47,16 @@
 
 .card {
   padding: 2em;
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 0;
+  }
+
+  .card {
+    padding: 0;
+  }
 }
 
 .footer {
