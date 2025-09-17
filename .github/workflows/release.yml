@@ -2,7 +2,9 @@ name: Build and Push Docker Images to GHCR
 
 on:
   push:
-    branches: [ main ]   # Only run on merge to main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
