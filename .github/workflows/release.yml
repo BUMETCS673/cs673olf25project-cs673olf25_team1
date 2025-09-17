@@ -2,7 +2,7 @@ name: Build and Push Docker Images to GHCR
 
 on:
   push:
-    branches: [ jordyn/release ]   # Only run on merge to main
+    branches: [ main ]   # Only run on merge to main
   workflow_dispatch:
 
 jobs:
