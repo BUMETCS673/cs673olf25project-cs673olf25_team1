@@ -16,7 +16,7 @@ function App() {
 
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const typingTimeoutsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const typingTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
 
 
