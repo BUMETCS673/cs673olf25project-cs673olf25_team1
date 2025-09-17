@@ -28,7 +28,7 @@ docker-compose up
 
 The backend will be available at http://localhost:5000
 
-The frontend will be available at http://localhost:3000
+The frontend will be available at http://localhost:8000
 
 ### 3. Stop Application
 To stop and remove containers, networks, and related resources:

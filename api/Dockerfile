@@ -1,38 +1,45 @@
 # api/Dockerfile
 
-# Use a Node base image
-FROM node:18-alpine AS base
-
-# Set the working directory inside the container
-WORKDIR /app 
+# Deps
+FROM node:20-alpine AS deps
+WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
+ARG NODE_ENV=production
+RUN if [ "$NODE_ENV" = "production" ]; then npm ci --only=production; else npm install; fi
 
-# Distinguish environment (Development vs Production)
-ARG NODE_ENV=development
-ENV NODE_ENV=${NODE_ENV}
+# Builder
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
 
-# Install devDependencies in dev, only production deps in prod
-RUN if [ "$NODE_ENV" = "production" ]; then \
-        npm ci --only=production; \
-    else \
-        npm install; \
-    fi
+# Development
+FROM node:20-alpine AS development
+WORKDIR /app
 
-# Copy source code
+ENV NODE_ENV=development
+COPY package*.json ./
+RUN npm install
 COPY . .
 
-# Dev stage
-FROM base AS development
-RUN npm install --include=dev
 EXPOSE 3000
-CMD ["npx", "nodemon", "src/index.js"]
+CMD ["npx", "nodemon", "src/main.ts"]
 
-# Prod stage
-FROM base AS production
-# Create non-root user for security
+# Production
+FROM node:20-alpine AS production
+WORKDIR /app
+
+ENV NODE_ENV=production
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY --from=builder /app/dist ./dist
+
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
+
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["node", "dist/main.js"]
