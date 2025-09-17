@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
-import io from 'socket.io-client';
 import ChitChatLogo from '../assets/chit_chat_logo.svg'
 import '../App.css'
+import socket from "../hooks/socket"
 
 const USER_TYPING_TIMEOUT = 5000;   //timeout for the "User is typing" message (ms)
-const socket = io('http://localhost:3000');
 
 function Community() {
   const [messages, setMessages] = useState<string[]>([]);
