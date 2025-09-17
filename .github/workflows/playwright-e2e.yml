@@ -14,6 +14,8 @@ on:
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
+    env:
+      OWNER_LOWER: ${{ github.repository_owner }}
     services:
       backend:
         image: ghcr.io/${{ github.repository_owner }}/chat-backend:dev
@@ -37,6 +39,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set lowercase owner
+        id: owner
+        run: |
+          echo "OWNER_LOWER=$(echo $GITHUB_REPOSITORY_OWNER | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
