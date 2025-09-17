@@ -33,7 +33,6 @@ The frontend will be available at http://localhost:3000
 ### 3. Stop Application
 To stop and remove containers, networks, and related resources:
 
-
 ```bash
 docker-compose down
 ```
