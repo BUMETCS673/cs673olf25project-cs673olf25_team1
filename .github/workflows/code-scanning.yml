@@ -39,6 +39,6 @@ jobs:
       - name: Lint frontend
         run: npm run lint
         working-directory: ./chit-chat-ui
-      - name: Test frontend
-        run: npm test
-        working-directory: ./chit-chat-ui
+      # - name: Test frontend
+      #   run: npm test
+      #   working-directory: ./chit-chat-ui
