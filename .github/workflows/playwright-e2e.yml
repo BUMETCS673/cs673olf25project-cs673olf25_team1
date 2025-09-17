@@ -1,10 +1,16 @@
 name: Playwright E2E Tests
 
+# on:
+#   workflow_run:
+#     workflows: ["Code Scanning"]
+#     types: [completed]
+
 on:
-  workflow_run:
-    workflows: ["Code Scanning"]
-    types: [completed]
-    
+  pull_request:
+    branches: [ jordyn/githubactions ]
+  push:
+    branches: [ jordyn/githubactions ]
+
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
