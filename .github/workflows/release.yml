@@ -1,11 +1,10 @@
 name: Build and Push Docker Images to GHCR
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Code Scanning"]
+    types:
+      - completed
 
 jobs:
   build-and-push:

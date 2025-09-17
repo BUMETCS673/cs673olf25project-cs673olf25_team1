@@ -1,0 +1,48 @@
+name: Playwright E2E Tests
+
+on:
+  workflow_run:
+    workflows: ["Code Scanning"]
+    types:
+      - completed
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    services:
+      backend:
+        image: ghcr.io/${{ github.repository_owner }}/chat-backend:dev
+        ports:
+          - 5000:5000
+        options: >-
+          --health-cmd "curl -f http://localhost:5000/health || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      frontend:
+        image: ghcr.io/${{ github.repository_owner }}/chat-frontend:dev
+        ports:
+          - 80:80
+        options: >-
+          --health-cmd "curl -f http://localhost || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          npm install
+        working-directory: ./tests/e2e
+
+      - name: Wait for services
+        run: |
+          echo "Waiting 10 seconds for services to be healthy..."
+          sleep 10
+
+      - name: Run Playwright E2E tests
+        run: |
+          npx playwright test ./tests/e2e --config=./tests/e2e/playwright.config.ts --headless

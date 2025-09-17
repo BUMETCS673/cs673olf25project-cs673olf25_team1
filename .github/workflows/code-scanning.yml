@@ -1,0 +1,44 @@
+name: Code Scanning
+
+on:
+  pull_request:
+    branches: [ jordyn/githubactions ]
+  push:
+    branches: [ jordyn/githubactions ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: ./api
+      - name: Lint backend
+        run: npm run lint
+        working-directory: ./api
+      - name: Test backend
+        run: npm test
+        working-directory: ./api
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: ./chit-chat-ui
+      - name: Lint frontend
+        run: npm run lint
+        working-directory: ./chit-chat-ui
+      - name: Test frontend
+        run: npm test
+        working-directory: ./chit-chat-ui
