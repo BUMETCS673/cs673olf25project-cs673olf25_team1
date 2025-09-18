@@ -39,18 +39,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Optional: log in to GHCR if images are private
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+      # Install Playwright and system dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 20
 
       - name: Install Playwright dependencies
-        run: npm install
+        run: |
+          npm ci
+          npx playwright install --with-deps
         working-directory: ./tests/e2e
 
-      - name: Run Playwright E2E tests
-        run: npx playwright test --config=playwright.config.ts --headless
+      # Run Playwright tests
+      - name: Run E2E Tests
+        env:
+          BASE_URL: http://frontend
+          API_URL: http://backend:5000
+        run: npx playwright test --headless
         working-directory: ./tests/e2e
