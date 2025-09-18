@@ -19,9 +19,9 @@ jobs:
       backend:
         image: ghcr.io/bumetcs673/chat-backend:dev
         ports:
-          - 5000:5000
+          - 3000:3000
         options: >-
-          --health-cmd "curl -f http://localhost:5000/health || exit 1"
+          --health-cmd "curl -f http://localhost:3000/health || exit 1"
           --health-interval 5s
           --health-timeout 2s
           --health-retries 10
@@ -55,6 +55,6 @@ jobs:
       - name: Run E2E Tests
         env:
           BASE_URL: http://frontend
-          API_URL: http://backend:5000
+          API_URL: http://backend:3000
         run: npx playwright test --headless
         working-directory: ./tests/e2e
