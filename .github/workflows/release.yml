@@ -1,15 +1,9 @@
 name: Build and Push Docker Images to GHCR
 
-# on:
-#   workflow_run:
-#     workflows: ["Code Scanning"]
-#     types: [completed]
-
 on:
-  pull_request:
-    branches: [ jordyn/githubactions ]
-  push:
-    branches: [ jordyn/githubactions ]
+  workflow_run:
+    workflows: ["Code Scanning"]
+    types: [completed]
 
 jobs:
   build-and-push:

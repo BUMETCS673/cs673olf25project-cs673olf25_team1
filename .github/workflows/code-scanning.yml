@@ -2,9 +2,9 @@ name: Code Scanning
 
 on:
   pull_request:
-    branches: [ jordyn/githubactions ]
+    branches: [ main ]
   push:
-    branches: [ jordyn/githubactions ]
+    branches: [ main ]
 
 jobs:
   backend:
