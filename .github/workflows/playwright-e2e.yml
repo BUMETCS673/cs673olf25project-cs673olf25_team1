@@ -15,8 +15,8 @@ jobs:
   e2e-tests:
     runs-on: ubuntu-latest
     env:
-      BASE_URL: http://frontend:8000
-      API_URL: http://backend:3000
+      BASE_URL: http://localhost:8000
+      API_URL: http://localhost:3000
 
     steps:
       - uses: actions/checkout@v4
