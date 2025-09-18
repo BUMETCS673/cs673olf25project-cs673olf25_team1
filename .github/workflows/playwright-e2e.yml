@@ -29,9 +29,9 @@ jobs:
       frontend:
         image: ghcr.io/bumetcs673/chat-frontend:dev
         ports:
-          - 80:80
+          - 8000:8000
         options: >-
-          --health-cmd "curl -f http://localhost || exit 1"
+          --health-cmd "curl -f http://localhost:8000 || exit 1"
           --health-interval 5s
           --health-timeout 2s
           --health-retries 10

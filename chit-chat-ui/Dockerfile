@@ -24,4 +24,4 @@ RUN if [ "$NODE_ENV" = "production" ]; then \
     fi
 
 # CMD: dev uses Vite dev server, prod uses Nginx
-CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then nginx -g 'daemon off;'; else npm run dev -- --host 0.0.0.0 --port 3000; fi"]
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then nginx -g 'daemon off;'; else npm run dev -- --host 0.0.0.0 --port 8000; fi"]
