@@ -1,35 +1,27 @@
 # chit-chat-ui/Dockerfile
 
-# Deps
-FROM node:20-alpine AS deps
+# Base image
+FROM node:20-alpine AS base
 WORKDIR /app
 
-COPY package*.json ./
-
-# Install dependencies 
-RUN npm install
-
-# Builder
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-# Development
-FROM node:20-alpine AS development
-WORKDIR /app
-
-ENV NODE_ENV=development
+# Install dependencies
 COPY package*.json ./
 RUN npm install
+
+# Copy source
 COPY . .
 
-EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Expose port for dev
+EXPOSE 8000
 
-# Production
-FROM nginx:alpine AS production
-COPY --from=builder /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Use NODE_ENV to distinguish dev vs prod
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
+
+# Build for production
+RUN if [ "$NODE_ENV" = "production" ]; then \
+      npm run build; \
+    fi
+
+# CMD: dev uses Vite dev server, prod uses Nginx
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then nginx -g 'daemon off;'; else npm run dev -- --host 0.0.0.0 --port 3000; fi"]

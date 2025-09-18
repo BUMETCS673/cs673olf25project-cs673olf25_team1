@@ -36,6 +36,10 @@ jobs:
           --health-timeout 2s
           --health-retries 10
 
+    env:
+      BASE_URL: http://frontend
+      API_URL: http://backend:3000
+
     steps:
       - uses: actions/checkout@v4
 
@@ -53,8 +57,5 @@ jobs:
 
       # Run Playwright tests
       - name: Run E2E Tests
-        env:
-          BASE_URL: http://frontend
-          API_URL: http://backend:3000
         run: npx playwright test --headless
         working-directory: ./tests/e2e

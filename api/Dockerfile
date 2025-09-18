@@ -1,44 +1,28 @@
 # api/Dockerfile
 
-# Deps
-FROM node:20-alpine AS deps
+# Base image
+FROM node:20-alpine AS base
 WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Builder
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-# Development
-FROM node:20-alpine AS development
-WORKDIR /app
-
-ENV NODE_ENV=development
-COPY package*.json ./
-RUN npm install
+# Copy source
 COPY . .
 
+# Expose port
 EXPOSE 3000
-CMD ["npx", "nodemon", "src/main.ts"]
 
-# Production
-FROM node:20-alpine AS production
-WORKDIR /app
+# Use environment variable to choose dev vs prod
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 
-ENV NODE_ENV=production
-COPY package*.json ./
-RUN npm ci --only=production
+# Build for production if NODE_ENV=production
+RUN if [ "$NODE_ENV" = "production" ]; then \
+      npm run build; \
+    fi
 
-COPY --from=builder /app/dist ./dist
-
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
-
-EXPOSE 3000
-CMD ["node", "dist/main.js"]
+# Bind Nest to 0.0.0.0 for container-to-container access
+# Dev: run ts-node, Prod: run compiled JS
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then node dist/main.js; else npx ts-node src/main.ts; fi"]
