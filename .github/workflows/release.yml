@@ -1,11 +1,10 @@
 name: Build and Push Docker Images to GHCR
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
+  push:
+    branches: [ main ]
 
 jobs:
   build-and-push:
@@ -19,7 +18,6 @@ jobs:
         id: owner
         run: |
           echo "OWNER_LOWER=$(echo $GITHUB_REPOSITORY_OWNER | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
 
       - name: Log in to GHCR
         uses: docker/login-action@v3

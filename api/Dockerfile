@@ -1,38 +1,28 @@
 # api/Dockerfile
 
-# Use a Node base image
-FROM node:18-alpine AS base
-
-# Set the working directory inside the container
-WORKDIR /app 
+# Base image
+FROM node:20-alpine AS base
+WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
+RUN npm install
 
-# Distinguish environment (Development vs Production)
+# Copy source
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Use environment variable to choose dev vs prod
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 
-# Install devDependencies in dev, only production deps in prod
+# Build for production if NODE_ENV=production
 RUN if [ "$NODE_ENV" = "production" ]; then \
-        npm ci --only=production; \
-    else \
-        npm install; \
+      npm run build; \
     fi
 
-# Copy source code
-COPY . .
-
-# Dev stage
-FROM base AS development
-RUN npm install --include=dev
-EXPOSE 3000
-CMD ["npx", "nodemon", "src/index.js"]
-
-# Prod stage
-FROM base AS production
-# Create non-root user for security
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
-EXPOSE 3000
-CMD ["npm", "start"]
+# Bind Nest to 0.0.0.0 for container-to-container access
+# Dev: run ts-node, Prod: run compiled JS
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then node dist/main.js; else npx ts-node src/main.ts; fi"]
