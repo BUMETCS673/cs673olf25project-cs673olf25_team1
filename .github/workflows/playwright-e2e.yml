@@ -1,9 +1,10 @@
 name: Playwright E2E Tests
 
 on:
-  workflow_run:
-    workflows: ["Code Scanning"]
-    types: [completed]
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   e2e-tests:
