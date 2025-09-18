@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 // Use environment variables to determine service hostnames
 const BASE_URL = process.env.BASE_URL || 'http://frontend';
-const API_URL = process.env.API_URL || 'http://backend:5000';
+const API_URL = process.env.API_URL || 'http://backend:3000';
 
 test('app loads at base URL', async ({ page, context }) => {
   await page.goto(BASE_URL + '/');
