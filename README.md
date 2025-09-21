@@ -33,6 +33,7 @@ npm -v
 Navigate to each folder and run:
 ```bash
 npm install   # For UI and API folders
+npx playwright install # For Tests folder
 ```
 
 ### 2. Run the Servers
@@ -50,3 +51,19 @@ npm install   # For UI and API folders
 
 - Open your browser and go to:
     - [http://localhost:8000/](http://localhost:8000/) (or your configured port)
+
+
+### 4. Run the tests
+From the project root:
+
+- **UI mode** (opens Playwright Test UI):
+
+  ```bash
+  npm run test:ui
+  ```
+
+- **Headless mode** (runs Playwright tests without opening a browser window):
+
+  ```bash
+  npm run test:headless
+  ```
