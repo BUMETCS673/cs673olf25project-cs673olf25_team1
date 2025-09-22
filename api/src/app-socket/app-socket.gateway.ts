@@ -1,5 +1,4 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { log } from 'console';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
@@ -11,7 +10,7 @@ import { Server, Socket } from 'socket.io';
 export class AppSocketGateway {
   @WebSocketServer() server: Server;
 
-  handleConnection(socket: Socket, ...args: any[]) {
+  handleConnection(socket: Socket) {
     console.log(`Client connected: ${socket.id}`);
   }
 
