@@ -162,6 +162,14 @@ function Community() {
               setInputText(e.target.value);
               socket.emit('user-typing', { data: [socket.id] });
             }}
+
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault(); // prevent form submission if inside a form
+                handleButtonClick();
+              }
+            }}
+
             placeholder="Type a message..."
             style={{ flex: 1 }}
           />
