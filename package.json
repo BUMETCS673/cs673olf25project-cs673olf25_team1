@@ -10,6 +10,7 @@
     "dev:backend": "cross-env NODE_ENV=test npm --prefix ./api run start",
     "test:e2e": "playwright test -c tests/playwright.config.ts",
     "test:ui": "playwright test --ui -c tests/playwright.config.ts",
-    "codegen": "playwright codegen -c tests/playwright.config.ts"
+    "codegen": "playwright codegen -c tests/playwright.config.ts",
+    "test:headless": "playwright test -c tests/playwright.config.ts"
   }
 }
