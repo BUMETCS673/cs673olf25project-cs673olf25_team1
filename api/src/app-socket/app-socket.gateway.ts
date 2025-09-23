@@ -40,7 +40,6 @@ export class AppSocketGateway {
     @ConnectedSocket() client: Socket,
   ) {
     const answer = await this.appService.getLlmAnswer(data.message);
-    // Emit the answer back to the same client
     client.emit('ai_answer', { reply: answer });
   }
 
