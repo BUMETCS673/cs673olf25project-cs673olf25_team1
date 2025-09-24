@@ -32,8 +32,9 @@ describe('AppService', () => {
         // ESLint rule that forbids require-style imports in TypeScript tests.
         jest.isolateModules(() => {
             // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-            const { AppService: AppServiceRuntime } = require('./app.service');
-            appService = new AppServiceRuntime() as AppService;
+            const mod = require('./app.service') as unknown as { AppService: new () => AppService };
+            const AppServiceRuntime: new () => AppService = mod.AppService;
+            appService = new AppServiceRuntime();
         });
     });
 
