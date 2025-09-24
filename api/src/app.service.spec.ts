@@ -1,28 +1,37 @@
-import { AppService } from './app.service';
 import { basePrompt } from './ai.prompt';
+// Type-only import to avoid hoisting the module at runtime
+import type { AppService } from './app.service';
 
-// Prepare a variable to hold the mock instance
-var groqMockInstance: any;
+// Declare groqMockInstance in the correct scope
+let groqMockInstance: {
+    chat: {
+        completions: {
+            create: jest.Mock;
+        };
+    };
+} = {
+    chat: {
+        completions: {
+            create: jest.fn(),
+        },
+    },
+};
 
 // Mock groq-sdk
-jest.mock('groq-sdk', () => {
-    return jest.fn().mockImplementation(() => {
-        groqMockInstance = {
-            chat: {
-                completions: {
-                    create: jest.fn(),
-                },
-            },
-        };
-        return groqMockInstance;
-    });
+// Use doMock (non-hoisted) so the mock factory runs after our instance is initialized
+jest.doMock('groq-sdk', () => {
+    return jest.fn().mockImplementation(() => groqMockInstance);
 });
 
 describe('AppService', () => {
     let appService: AppService;
 
     beforeEach(() => {
-        appService = new AppService();
+        // Require AppService after mocking 'groq-sdk' to ensure the mock is used
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { AppService: AppServiceRuntime } = require('./app.service');
+    // Create runtime instance but keep the test variable typed as AppService
+    appService = new AppServiceRuntime() as AppService;
     });
 
     afterEach(() => {
