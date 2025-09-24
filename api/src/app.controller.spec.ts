@@ -1,11 +1,3 @@
-jest.mock('groq-sdk', () => {
-  class MockGroq {
-    constructor(_opts?: any) {}
-    chat = { completions: { create: jest.fn() } };
-  }
-  return MockGroq;
-});
-
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
