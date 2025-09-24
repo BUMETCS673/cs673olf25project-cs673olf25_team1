@@ -27,11 +27,14 @@ describe('AppService', () => {
     let appService: AppService;
 
     beforeEach(() => {
-        // Require AppService after mocking 'groq-sdk' to ensure the mock is used
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { AppService: AppServiceRuntime } = require('./app.service');
-    // Create runtime instance but keep the test variable typed as AppService
-    appService = new AppServiceRuntime() as AppService;
+        // Load the module in an isolated registry so our mock is picked up and
+        // we avoid hoisting/TDZ issues. Use require at runtime but suppress the
+        // ESLint rule that forbids require-style imports in TypeScript tests.
+        jest.isolateModules(() => {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+            const { AppService: AppServiceRuntime } = require('./app.service');
+            appService = new AppServiceRuntime() as AppService;
+        });
     });
 
     afterEach(() => {
