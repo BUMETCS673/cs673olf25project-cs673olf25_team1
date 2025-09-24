@@ -19,10 +19,12 @@ export class AppService {
         model: 'groq/compound-mini',
         messages: [
           { role: 'system', content: basePrompt },
-          { role: 'user', content: userMessage }
+          { role: 'user', content: userMessage },
         ],
       });
-      return completion.choices?.[0]?.message?.content ?? 'No response from AI.';
+      return (
+        completion.choices?.[0]?.message?.content ?? 'No response from AI.'
+      );
     } catch (error) {
       console.error('Groq API error:', error);
       return 'Sorry, there was an error contacting the AI service.';

@@ -1,4 +1,10 @@
-import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {
+  ConnectedSocket,
+  MessageBody,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { AppService } from '../app.service';
 
@@ -23,7 +29,7 @@ export class AppSocketGateway {
 
   @SubscribeMessage('chat-message')
   handleMessage(socket: Socket, payload: any) {
-    console.log("message received", payload)
+    console.log('message received', payload);
     this.server.emit('chat-message', { data: [socket.id, payload] });
   }
 
@@ -42,5 +48,4 @@ export class AppSocketGateway {
     const answer = await this.appService.getLlmAnswer(data.message);
     client.emit('ai_answer', { reply: answer });
   }
-
 }
