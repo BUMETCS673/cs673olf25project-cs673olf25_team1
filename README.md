@@ -11,7 +11,7 @@ Welcome to Chit Chat! This is a real-time chat application built with a React/Vi
 - Deasia: ~100% for Playwright configuration, ~25% for automated test implementation.
 - Robin: ~40% – mainly for generating return statements within components.
 - Ardit: No AI usage. Project skeleton was generated using standard CLI tools (vite init and nest new).
-- Jordyn: 
+- Jordyn: ~50% – primarily for docker and github action tests. 
 
 ---
 
