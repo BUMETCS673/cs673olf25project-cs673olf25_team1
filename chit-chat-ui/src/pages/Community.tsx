@@ -1,63 +1,64 @@
-import { useEffect, useRef, useState } from 'react';
-import '../App.css';
+import { useEffect, useRef, useState } from "react";
+import "../App.css";
 import socket from "../hooks/socket";
+import type { Message } from "../types/message.type";
 
-const USER_TYPING_TIMEOUT = 5000;   //timeout for the "User is typing" message (ms)
+const USER_TYPING_TIMEOUT = 5000; //timeout for the "User is typing" message (ms)
 
 function Community() {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
-  const [autoScroll, setAutoScroll] = useState(true); 
+  const [autoScroll, setAutoScroll] = useState(true);
   const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
-
-
 
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const typingTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
-
-
-
+  const typingTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(
+    new Map()
+  );
 
   const handleButtonClick = () => {
     if (inputText.trim() !== "") {
       setMessages([...messages, `You: ${inputText}`]);
       setInputText("");
-      socket.emit('chat-message', inputText);
+      socket.emit("send-chat-message", inputText);
     }
   };
-
-
 
   useEffect(() => {
     console.log("Setting up socket listeners");
 
-    socket.on('connect', () => {
-      setMessages(prev => [
+    socket.on("connect", () => {
+      setMessages((prev) => [
         ...prev,
-        `Connected to the server with Socket ID: ${socket.id}`
+        `Connected to the server with Socket ID: ${socket.id}`,
       ]);
     });
 
-
-
-
-    socket.on('chat-message', (result) => {
+    socket.on("recieve-chat-message", (result) => {
       if (result.data[0] !== socket.id) {
-        setMessages(prev => [...prev, `${result.data[0]}: ${result.data[1]}`]);
+        setMessages((prev) => [
+          ...prev,
+          `${result.data[0]}: ${result.data[1]}`,
+        ]);
       }
     });
 
-
-
+    socket.on("recieve-existing-messages", (result) => {
+      console.log("Existing messages received:", result.allMessages);
+      const formattedMessages = result.allMessages.map(
+        (msg: Message) => `${msg.message_owner}: ${msg.message_content}`
+      );
+      setMessages((prev) => [...prev, ...formattedMessages]);
+    });
 
     // Typing event
-    socket.on('user-typing', (result) => {
+    socket.on("user-typing", (result) => {
       const userId = result.data[0];
       if (userId === socket.id) return; // ignore self
 
       // Add user to typingUsers set
-      setTypingUsers(prev => new Set(prev).add(userId));
+      setTypingUsers((prev) => new Set(prev).add(userId));
 
       // reset timeout for this user
       if (typingTimeoutsRef.current.has(userId)) {
@@ -65,7 +66,7 @@ function Community() {
       }
 
       const timeout = setTimeout(() => {
-        setTypingUsers(prev => {
+        setTypingUsers((prev) => {
           const newSet = new Set(prev);
           newSet.delete(userId);
           return newSet;
@@ -76,20 +77,13 @@ function Community() {
       typingTimeoutsRef.current.set(userId, timeout);
     });
 
-
-
-
-
     return () => {
-      socket.off('connect');
-      socket.off('chat-message');
-      socket.off('user-typing');
+      socket.off("connect");
+      socket.off("recieve-chat-message");
+      socket.off("recieve-existing-messages");
+      socket.off("user-typing");
     };
   }, []);
-
-
-
-
 
   // Auto scroll
   useEffect(() => {
@@ -98,26 +92,18 @@ function Community() {
     }
   }, [messages, typingUsers, autoScroll]); // include typingUsers to scroll indicator
 
-
-
-
-
   // Handle user scrolling
   const handleScroll = () => {
     const container = messagesContainerRef.current;
     if (!container) return;
 
     const isAtBottom =
-      container.scrollHeight - container.scrollTop <= container.clientHeight + 5;
+      container.scrollHeight - container.scrollTop <=
+      container.clientHeight + 5;
 
     setAutoScroll(isAtBottom);
   };
 
-
-
-
-
-  
   return (
     <>
       <h1>Talk to the Community</h1>
@@ -145,8 +131,12 @@ function Community() {
 
           {/* Typing indicator */}
           {typingUsers.size > 0 && (
-            <div style={{ fontStyle: "italic", color: "#666", marginTop: "4px" }}>
-              {typingUsers.size === 1 ? "User is typing..." : "Users are typing..."}
+            <div
+              style={{ fontStyle: "italic", color: "#666", marginTop: "4px" }}
+            >
+              {typingUsers.size === 1
+                ? "User is typing..."
+                : "Users are typing..."}
             </div>
           )}
 
@@ -160,16 +150,14 @@ function Community() {
             value={inputText}
             onChange={(e) => {
               setInputText(e.target.value);
-              socket.emit('user-typing', { data: [socket.id] });
+              socket.emit("user-typing", { data: [socket.id] });
             }}
-
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault(); // prevent form submission if inside a form
                 handleButtonClick();
               }
             }}
-
             placeholder="Type a message..."
             style={{ flex: 1 }}
           />
@@ -179,7 +167,7 @@ function Community() {
 
       <p className="footer">This app is made by Team 1.</p>
     </>
-  )
+  );
 }
 
 export default Community;

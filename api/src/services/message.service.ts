@@ -16,6 +16,12 @@ export class MessageService {
         });
     }
 
+    async findMessagesByOwner(message_owner: string) {
+        return this.messageRepository.find({
+            where: { message_owner: message_owner },
+        });
+    }
+
     async insertMessage(message_owner: string, message_content: string) {
         const message = this.messageRepository.create({
             message_owner: message_owner,
