@@ -11,6 +11,7 @@ import { Account } from './entities/account.entity';
 import { Message } from './entities/message.entity';
 import { Reaction } from './entities/reactions.entity';
 import { UserMessagesReceived } from './entities/user_messages_recieved.entity';
+import { AiService } from './services/ai.service';
 
 @Module({
   imports: [
@@ -40,12 +41,14 @@ import { UserMessagesReceived } from './entities/user_messages_recieved.entity';
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
+    AiService
   ],
   exports: [
     AccountService,
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
+    AiService
   ],
 })
 export class AppModule { }
