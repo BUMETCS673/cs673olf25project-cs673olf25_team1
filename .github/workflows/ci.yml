@@ -49,7 +49,7 @@ jobs:
       run: ./count-loc.sh > loc-report.txt
 
     - name: Run Function Count Script
-      run: ./count-functions.sh > function-report.txt
+      run: npx ts-node --project tsconfig.scripts.json count-functions.ts > function-report.txt
 
     - name: Run ESLint Complexity Script
       run: ./eslint-report.sh > complexity-report.txt

@@ -6,5 +6,4 @@
 
 echo "Running TypeScript AST function count"
 
-# This will run using local ts-node, assuming it's installed
-npx ts-node --project tsconfig.json count-functions.ts
+npx ts-node --project tsconfig.scripts.json count-functions.ts
