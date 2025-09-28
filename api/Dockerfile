@@ -5,11 +5,11 @@ FROM node:20-alpine AS base
 WORKDIR /app
 
 # Install dependencies
-COPY package*.json ./
+COPY api/package*.json ./
 RUN npm install
 
 # Copy source
-COPY . .
+COPY api .
 
 # Expose port
 EXPOSE 3000
