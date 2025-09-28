@@ -1,10 +1,17 @@
+/*
+AI-generated-code: 15% (tool: Playwright, functions: atBottom, Used AI to help locate the elements on the app
+AI chat link: N/A this was generated before Iteration 1 submission)
+Human code: 85% (tool: Playwright, Tests: 1-4)
+Framework generated code: 0%
+*/
+
 import { test, expect } from '@playwright/test';
 
 // selectors used everywhere
 const input = (p:any) => p.getByPlaceholder('Type a message...');
-const send  = (p:any) => p.getByRole('button', { name: 'Send' });
 const list  = (p:any) => p.locator('.messages-container');
 const uniq  = (s:string) => `${s} ${Date.now()}`;
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
 
 // Helper function for scrolling
 async function atBottom(l:any) {
@@ -20,7 +27,7 @@ test('AT-01: Auto-scroll when viewer is at bottom', async ({ browser }) => {
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
   const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-  await Promise.all([a.goto('/'), b.goto('/')]);
+  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   // make sure user B is at bottom now
   await list(b).evaluate((el:HTMLElement) => el.scrollTop = el.scrollHeight);
@@ -43,7 +50,7 @@ test('AT-02: No jump when viewer scrolled up', async ({ browser }) => {
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
   const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-  await Promise.all([a.goto('/'), b.goto('/')]);
+  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   // seed some history so we can scroll
   for (let i = 0; i < 6; i++) {
@@ -73,7 +80,7 @@ test('AT-03: Auto-scroll resumes after viewer returns to bottom', async ({ brows
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
   const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-  await Promise.all([a.goto('/'), b.goto('/')]);
+  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   const listB = b.locator('.messages-container');
 
@@ -118,7 +125,7 @@ test('AT-03: Auto-scroll resumes after viewer returns to bottom', async ({ brows
 
 // AT-04: Sending your own message keeps you at bottom 
 test('AT-04: Sender stays at bottom after sending', async ({ page }) => {
-  await page.goto('/');
+  await page.goto(BASE_URL + '/');
   await list(page).evaluate((el:HTMLElement) => el.scrollTop = el.scrollHeight);
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
   expect(await atBottom(list(page))).toBeTruthy();

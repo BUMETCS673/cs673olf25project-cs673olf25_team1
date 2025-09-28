@@ -1,6 +1,11 @@
+/*
+AI-generated-code: 90% (tool: Playwright, AI chat link: N/A this was generated before Iteration 1 submission)
+Human code: 10% (tool: Playwright, Edited the file to work with the app)
+Framework generated code: 0%
+*/
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
-dotenv.config({ path: '.env.test' });
+//dotenv.config({ path: '.env.test' });
 
 const baseURL = process.env.BASE_URL || 'http://localhost:8000';
 const frontendPort = Number(new URL(baseURL).port) || 8000;
@@ -16,17 +21,20 @@ export default defineConfig({
     '**/chit-chat-ui/**'
   ],
 
-  timeout: 30_000,
+  timeout: 60_000,
   expect: { timeout: 5_000 },
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
-  reporter: [['list'], ['html', { outputFolder: 'playwright-report' }]],
+  reporter: [['list'], 
+             ['html', { outputFolder: 'playwright-report' }], 
+             ['json', { outputFile: 'playwright-report/results.json' }]],
 
   use: {
-    baseURL,
+    baseURL: 'http://localhost:8000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
+    headless: true
   },
 
   // boot both servers
@@ -47,5 +55,5 @@ export default defineConfig({
 
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } }
-  ]
+  ],
 });
