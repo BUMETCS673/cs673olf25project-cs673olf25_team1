@@ -25,4 +25,5 @@ RUN if [ "$NODE_ENV" = "production" ]; then \
 
 # Bind Nest to 0.0.0.0 for container-to-container access
 # Dev: run ts-node, Prod: run compiled JS
-CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then node dist/main.js; else npx ts-node src/main.ts; fi"]
+# CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then node dist/main.js; else npx ts-node src/main.ts; fi"]
+CMD if [ "$NODE_ENV" = "production" ]; then node dist/main.js; else npx ts-node src/main.ts; fi
