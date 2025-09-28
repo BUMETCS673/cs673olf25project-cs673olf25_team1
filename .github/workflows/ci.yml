@@ -6,7 +6,7 @@
 # to be included in this one file.)
 # Framework generated code: 0%
 
-name: CI: Metrics + Tests
+name: "CI: Metrics + Tests"
 
 on:
   push:
