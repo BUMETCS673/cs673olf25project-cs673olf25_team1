@@ -37,6 +37,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y jq cloc
         npm install -g eslint
+        npm install -D ts-node typescript
 
     - name: Set up GitHub CLI
       run: gh auth setup-git
