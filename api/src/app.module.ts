@@ -19,7 +19,7 @@ import { UserMessagesReceived } from './entities/user_messages_recieved.entity';
       host: 'chit-chat-db.cvw8iaemureu.us-east-2.rds.amazonaws.com',
       port: 5432,
       username: 'postgres',
-      password: '.]zP>X7jM?>-kw8OV(X?$#SkTm2d',
+      password: 'M6Lu7tB$fdyNKDi!E0ftA<KvjY27',
       database: 'chit-chat',
       synchronize: false,
       ssl: { rejectUnauthorized: false },
