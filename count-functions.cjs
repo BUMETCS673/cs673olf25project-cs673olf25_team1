@@ -4,10 +4,11 @@ AI chat link: https://chatgpt.com/share/68d8a0d5-09a4-8013-a871-052c83584c2a)
 Human code: 0% 
 Framework generated code: 0%
 */
-import { Project, SyntaxKind } from "ts-morph";
+
+const { Project, SyntaxKind } = require("ts-morph");
 
 const project = new Project({
-  tsConfigFilePath: "tsconfig.json", 
+  tsConfigFilePath: "tsconfig.scripts.json", // Use your scripts-specific config
 });
 
 const fileGlobs = [
