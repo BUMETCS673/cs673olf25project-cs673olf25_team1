@@ -8,7 +8,9 @@ $ npm install
 
 ```bash
 # development
+$ npx jest --clearCache
 $ npm test
+
 ```
 
 

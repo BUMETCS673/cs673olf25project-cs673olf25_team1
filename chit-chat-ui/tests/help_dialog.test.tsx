@@ -1,6 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Community from "../src/pages/Community";
 
+
+// tests/help_dialog.test.tsx
+beforeAll(() => {
+  // mock scrollIntoView for jsdom
+  Element.prototype.scrollIntoView = jest.fn();
+});
+
+
 // mock socket since we don’t want real socket connections
 jest.mock("../src/hooks/socket", () => ({
   on: jest.fn(),
