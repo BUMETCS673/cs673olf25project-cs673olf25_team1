@@ -7,7 +7,11 @@ Welcome to Chit Chat! This is a real-time chat application built with a React/Vi
 ## AI Usage vs Human Written Code for this iteration
 - AI Use for this iteration is approximately 50% on average (tools used: Copilot, Gemini, ChatGPT). Detailed breakdown of the exact portions generated with AI tools is not available for this iteration, as the requirement was announced after the submission deadline and team members were not informed in advance to track usage or retain chat links.
 
-- Masih: ~50% – primarily for frontend UI development.
+- Masih: ~90% – primarily for frontend UI development (The help dialog) and setting up the tests.
+links to the chat history with ChatGPT: 
+https://chatgpt.com/share/68d9f4f9-3ebc-800a-8adc-585f790aa352
+https://chatgpt.com/share/68d9f50a-7090-800a-b281-0a95246b84d3
+
 - Deasia: ~100% for Playwright configuration, ~25% for automated test implementation.
 - Robin: ~40% – mainly for generating return statements within components.
 - Ardit: No AI usage. Project skeleton was generated using standard CLI tools (vite init and nest new).
