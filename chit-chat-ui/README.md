@@ -4,6 +4,14 @@
 $ npm install
 ```
 
+## Run the unit tests
+
+```bash
+# development
+$ npm test
+```
+
+
 ## Compile and run the project
 
 ```bash
