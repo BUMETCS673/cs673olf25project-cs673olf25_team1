@@ -2,8 +2,8 @@
   "devDependencies": {
     "@playwright/test": "^1.55.0",
     "@types/node": "^24.4.0",
-    "cross-env": "^10.0.0",
-    "dotenv": "^17.2.2"
+    "@types/passport-local": "^1.0.38",
+    "cross-env": "^10.0.0"
   },
   "scripts": {
     "dev:frontend": "cross-env NODE_ENV=test npm --prefix ./chit-chat-ui run dev",
@@ -12,5 +12,11 @@
     "test:ui": "playwright test --ui -c tests/playwright.config.ts",
     "codegen": "playwright codegen -c tests/playwright.config.ts",
     "test:headless": "playwright test -c tests/playwright.config.ts"
+  },
+  "dependencies": {
+    "@nestjs/passport": "^11.0.5",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "dotenv": "^17.2.2"
   }
 }

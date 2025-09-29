@@ -11,18 +11,23 @@ import { Account } from './entities/account.entity';
 import { Message } from './entities/message.entity';
 import { Reaction } from './entities/reactions.entity';
 import { UserMessagesReceived } from './entities/user_messages_recieved.entity';
+import { AuthService } from './authentication/service';
+import { AuthController } from './authentication/controller';
+import { AuthModule } from './authentication/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'chit-chat-db.cvw8iaemureu.us-east-2.rds.amazonaws.com',
-      port: 5432,
-      username: 'postgres',
-      password: '.]zP>X7jM?>-kw8OV(X?$#SkTm2d',
-      database: 'chit-chat',
-      synchronize: false,
-      ssl: { rejectUnauthorized: false },
+      // host: 'chit-chat-db.cvw8iaemureu.us-east-2.rds.amazonaws.com',
+      host: process.env.POSTGRES_HOST || 'db',
+      port: Number(process.env.POSTGRES_PORT) || 5432,
+      username: process.env.POSTGRES_USER || 'postgres',
+      password: process.env.POSTGRES_PASSWORD || '.]zP>X7jM?>-kw8OV(X?$#SkTm2d',
+      database: process.env.POSTGRES_DB || 'chit-chat',
+      synchronize: true,
+      // ssl: { rejectUnauthorized: false },
+      ssl: false,
       entities: [Account, Message, Reaction, UserMessagesReceived],
     }),
     TypeOrmModule.forFeature([
@@ -31,8 +36,9 @@ import { UserMessagesReceived } from './entities/user_messages_recieved.entity';
       Reaction,
       UserMessagesReceived,
     ]),
+    AuthModule
   ],
-  controllers: [AppController],
+  controllers: [AppController, AuthController],
   providers: [
     AppService,
     AppSocketGateway,
@@ -40,12 +46,14 @@ import { UserMessagesReceived } from './entities/user_messages_recieved.entity';
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
+    AuthService
   ],
   exports: [
     AccountService,
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
+    AuthService
   ],
 })
 export class AppModule { }
