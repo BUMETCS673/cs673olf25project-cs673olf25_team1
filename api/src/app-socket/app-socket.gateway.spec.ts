@@ -89,7 +89,7 @@ describe('AppSocketGateway', () => {
     await gateway.handleGetExistingMessages(mockSocket);
 
     expect(mockSocket.emit).toHaveBeenCalledWith('recieve-existing-messages', {
-      allMessages: expect.any(Array),
+      allMessages: mockMessages,
     });
   });
 
