@@ -21,11 +21,11 @@ export default [
     },
     rules: {
       complexity: ['warn', 4],
+      '@typescript-eslint/no-explicit-any': 'off', // disables the "any" rule
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     },
     files: ['tests/e2e/**/*.{ts,tsx}'],
         rules: {
-            '@typescript-eslint/no-explicit-any': 'off',
-            '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
         }
   }
 ]
