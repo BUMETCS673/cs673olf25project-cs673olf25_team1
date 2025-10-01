@@ -21,12 +21,9 @@ export default [
     },
     rules: {
       complexity: ['warn', 4],
-      '@typescript-eslint/no-explicit-any': 'off', // disables the "any" rule
+      '@typescript-eslint/no-explicit-any': 'warn', // disables the "any" rule
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-unsafe-assignment': 'off'
+      '@typescript-eslint/no-unsafe-assignment': 'warn'
     },
-    files: ['tests/e2e/**/*.{ts,tsx}'],
-        rules: {
-        }
   }
 ]
