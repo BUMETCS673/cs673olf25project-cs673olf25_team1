@@ -13,17 +13,17 @@ export default [
   reactHooks.configs['recommended-latest'],
   reactRefresh.configs.vite,
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
       parser: tseslint.parser,
     },
     rules: {
-      complexity: ['warn', 4],
       '@typescript-eslint/no-explicit-any': 'warn', // disables the "any" rule
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-unsafe-assignment': 'warn'
+      '@typescript-eslint/no-unsafe-assignment': 'warn',
+      complexity: ['warn', 4]
     },
   }
 ]
