@@ -12,7 +12,7 @@ describe('AccountService', () => {
         TypeOrmModule.forRoot({
         type: 'postgres',
         // host: 'chit-chat-db.cvw8iaemureu.us-east-2.rds.amazonaws.com',
-        host: process.env.POSTGRES_HOST || 'db',
+        host: process.env.POSTGRES_HOST || 'localhost',
         port: Number(process.env.POSTGRES_PORT) || 5432,
         username: process.env.POSTGRES_USER || 'postgres',
         password: process.env.POSTGRES_PASSWORD || '.]zP>X7jM?>-kw8OV(X?$#SkTm2d',
