@@ -11,12 +11,6 @@ export class AuthController {
     private accountService: AccountService,
   ) {}
 
-  // @Post('register')
-  // async register(@Body() body: { username: string; password: string; fullname: string }) {
-  //   const user = await this.accountService.register(body.username, body.password, body.fullname);
-  //   return { message: 'User registered', user: { username: user.username, fullname: user.fullname } };
-  // }
-
   @Post('register')
   async register(@Body() body: { username: string; password: string; fullname: string }) {
     try {
@@ -27,14 +21,14 @@ export class AuthController {
       );
       return { message: 'User registered', user: { username: user.username, fullname: user.fullname } };
     } catch (err) {
-      console.error('Register error:', err); // <-- log full error
-      throw err; // or throw new BadRequestException(err.message)
+      console.error('Register error:', err);
+      throw err; 
     }
   }
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@Request() req) {
+  login(@Request() req) {
     return this.authService.login(req.user);
   }
 

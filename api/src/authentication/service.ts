@@ -1,5 +1,5 @@
 // authentication.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AccountService } from '../services/account.service';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
@@ -16,9 +16,10 @@ export class AuthService {
     return isValid ? user : null;
   }
 
-  async login(user: Account) {
+  login(user: Account) {
     const payload = { sub: user.username, fullname: user.fullname };
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const secret = process.env.JWT_SECRET!;
+    const accessToken = jwt.sign(payload, secret, { expiresIn: '1h' });
     return { accessToken, user: { username: user.username, fullname: user.fullname } };
   }
 }
