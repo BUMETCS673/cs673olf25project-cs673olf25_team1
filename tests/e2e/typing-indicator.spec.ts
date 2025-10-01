@@ -1,5 +1,12 @@
+/*
+AI-generated-code: 15% (tool: Playwright, functions: startTyping, indicatorIsVisible, Used AI to help locate the elements on the app
+AI chat link: N/A this was generated before Iteration 1 submission)
+Human code: 85% (tool: Playwright, Tests: 1-5)
+Framework generated code: 0%
+*/
 import { test, expect } from '@playwright/test';
 
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
 const S = {
   input: (p: any) => p.getByPlaceholder('Type a message...'),
   send:  (p: any) => p.getByRole('button', { name: 'Send' }),
@@ -24,7 +31,7 @@ async function indicatorIsVisible(page: any) {
 test('AT-1: hows typing indicator to other users when someone starts typing', async ({ browser }) => {
   const [ctxA, ctxB] = [await browser.newContext(), await browser.newContext()];
   const [a, b] = [await ctxA.newPage(), await ctxB.newPage()];
-  await Promise.all([a.goto('/'), b.goto('/')]);
+  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   await startTyping(a, 'hi there');
   await expect.poll(() => indicatorIsVisible(b), { timeout: 8000 }).toBeTruthy();
@@ -37,7 +44,7 @@ test('AT-2: Indicator disappears after stop typing or sending', async ({ browser
   const [ctxA, ctxB] = [await browser.newContext(), await browser.newContext()];
   const [a, b] = [await ctxA.newPage(), await ctxB.newPage()];
   const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-  await Promise.all([a.goto('/'), b.goto('/')]);
+  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   await startTyping(a, 'hello');
   await expect.poll(() => indicatorIsVisible(b), { timeout: 8000 }).toBeTruthy();
@@ -53,7 +60,7 @@ test('AT-2: Indicator disappears after stop typing or sending', async ({ browser
 test('AT-3: Shows "X users are typing" when two users type', async ({ browser }) => {
   const [ctxA, ctxB, ctxC] = [await browser.newContext(), await browser.newContext(), await browser.newContext()];
   const [a, b, c] = [await ctxA.newPage(), await ctxB.newPage(), await ctxC.newPage()];
-  await Promise.all([a.goto('/'), b.goto('/'), c.goto('/')]);
+  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/'), c.goto(BASE_URL + '/')]);
 
   await Promise.all([startTyping(b, 'hey'), startTyping(c, 'yo')]);
   await expect.poll(() => indicatorIsVisible(a), { timeout: 8000 }).toBeTruthy();
@@ -67,7 +74,7 @@ test('AT-3: Shows "X users are typing" when two users type', async ({ browser })
 
 // AT-4: Typist should not see their own indicator 
 test('AT-4: Typist does not see their own indicator', async ({ page }) => {
-  await page.goto('/');
+  await page.goto(BASE_URL + '/');
   await startTyping(page, 'self typing');
 
   // Indicator should not be shown to the typist
@@ -78,7 +85,7 @@ test('AT-4: Typist does not see their own indicator', async ({ page }) => {
 test('AT-5: Indicator does not persist after reload', async ({ browser }) => {
   const [ctxA, ctxB] = [await browser.newContext(), await browser.newContext()];
   const [a, b] = [await ctxA.newPage(), await ctxB.newPage()];
-  await Promise.all([a.goto('/'), b.goto('/')]);
+  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   await startTyping(a, 'before reload');
   await expect.poll(() => indicatorIsVisible(b), { timeout: 8000 }).toBeTruthy();

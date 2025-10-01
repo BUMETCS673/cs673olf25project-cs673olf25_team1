@@ -1,0 +1,132 @@
+
+# AI-generated-code: 60% (tool: Githib CI, AI chat link: https://chatgpt.com/share/68d8a0d5-09a4-8013-a871-052c83584c2a)
+# Human code: 40% (tool: gh CLI, Jordyn Lipsey is reponsible for creating the dockers and setting up the App.
+# Deasia Little is reponsible for setting up Playwright and the QA metrics to calculate lines of code, code
+# complexity, function count, and automate Github issue creation. The scripts to run the QA metrics were refactored
+# to be included in this one file.)
+# Framework generated code: 0%
+
+name: "CI: Metrics + Tests"
+
+#on:
+#  push:
+#    branches: [main]
+#  pull_request:
+#    branches: [main]
+
+jobs:
+  metrics-and-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: http://localhost:8000
+      API_URL: http://localhost:3000
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Setup
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install tools for metrics
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq cloc
+        npm install -g eslint
+        npm install -D ts-node typescript
+
+    - name: Set up GitHub CLI
+      run: gh auth setup-git
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Run Code Metrics
+    - name: Run LOC Script
+      run: ./count-loc.sh > loc-report.txt
+
+    - name: Run Function Count Script
+      run: ./count-functions.sh > function-report.txt
+
+    - name: Run ESLint Complexity Script
+      run: ./eslint-report.sh > complexity-report.txt
+
+    - name: Organize Metrics Output
+      run: |
+        mkdir -p metrics
+        mv *-report.txt metrics/
+
+    - name: Upload Code Metrics Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-metrics-report
+        path: metrics/
+
+
+    # Start App with Docker for Playwright
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Backend Image
+      run: |
+        docker build \
+          --build-arg NODE_ENV=development \
+          -t chat-backend:dev ./api
+
+    - name: Build Frontend Image
+      run: |
+        docker build \
+          --build-arg NODE_ENV=development \
+          -t chat-frontend:dev ./chit-chat-ui
+
+    - name: Start Containers
+      run: |
+        docker network create e2e-network || true
+        docker run -d --name backend --network e2e-network -p 3000:3000 chat-backend:dev
+        docker run -d --name frontend --network e2e-network -p 8000:8000 chat-frontend:dev
+
+    - name: Wait for Backend
+      run: |
+        until curl -s http://localhost:3000; do echo "Waiting for backend..."; sleep 2; done
+
+    - name: Wait for Frontend
+      run: |
+        until curl -s http://localhost:8000; do echo "Waiting for frontend..."; sleep 2; done
+
+
+    # Run Playwright Tests
+    - name: Install Playwright & Deps
+      run: |
+        npm ci
+        npx playwright install --with-deps
+      working-directory: ./tests/e2e
+
+    - name: Run Playwright E2E Tests
+      run: npx playwright test ./tests/e2e --config=tests/playwright.config.ts    
+      working-directory: ./tests/e2e
+
+    - name: Upload Playwright Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report
+        path: tests/e2e/playwright-report/
+
+    - name: Upload Playwright test artifacts (screenshots, videos, traces)
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-test-results
+        path: test-results/
+
+    - name: Create GitHub Issues from Failed Tests
+      if: failure() 
+      run: node .github/scripts/create-defects.cjs ${{ github.run_id }}
+
+    # Clean Up
+    - name: Stop Containers
+      run: |
+        docker stop frontend backend
+        docker rm frontend backend
+        docker network rm e2e-network || true
