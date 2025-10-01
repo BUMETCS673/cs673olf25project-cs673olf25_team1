@@ -19,16 +19,13 @@ import { AuthModule } from './authentication/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      // host: 'chit-chat-db.cvw8iaemureu.us-east-2.rds.amazonaws.com',
-      host: process.env.POSTGRES_HOST || 'db',
+      host: process.env.POSTGRES_HOST || 'chit-chat-db.cvw8iaemureu.us-east-2.rds.amazonaws.com',
       port: Number(process.env.POSTGRES_PORT) || 5432,
       username: process.env.POSTGRES_USER || 'postgres',
       password: process.env.POSTGRES_PASSWORD || 'M6Lu7tB$fdyNKDi!E0ftA<KvjY27',
       database: process.env.POSTGRES_DB || 'chit-chat',
-      synchronize: true,
-      // synchronize: false,
-      // ssl: { rejectUnauthorized: false },
-      ssl: false,
+      synchronize: false,
+      ssl: { rejectUnauthorized: false },
       entities: [Account, Message, Reaction, UserMessagesReceived],
     }),
     TypeOrmModule.forFeature([
