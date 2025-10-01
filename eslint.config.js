@@ -23,6 +23,7 @@ export default [
       complexity: ['warn', 4],
       '@typescript-eslint/no-explicit-any': 'off', // disables the "any" rule
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unsafe-assignment': 'off'
     },
     files: ['tests/e2e/**/*.{ts,tsx}'],
         rules: {
