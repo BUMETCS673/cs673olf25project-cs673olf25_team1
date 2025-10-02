@@ -15,8 +15,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - name: Install backend dependencies
-        run: npm install
+      - name: Install backend dependencies (with dev)
+        run: npm ci
         working-directory: ./api
       - name: Lint backend
         run: npm run lint
@@ -33,8 +33,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - name: Install frontend dependencies
-        run: npm install
+      - name: Install frontend dependencies (with dev)
+        run: npm ci
         working-directory: ./chit-chat-ui
       - name: Lint frontend
         run: npm run lint
