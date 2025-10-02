@@ -10,12 +10,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default [
-  { ignores: ['dist/', 'build/', 'node_modules/'] },
+  { ignores: ['dist/', 'build/', 'node_modules/', 'api/dist/**', 'chit-chat-ui/dist/**']
+   },
 
   // Backend (Node) TypeScript
   {
     files: ['api/**/*.ts'],
-    ignores: ['api/dist/**'],
+    ignores: ['dist/**', 'node_modules/**', 'api/dist/**', 'chit-chat-ui/dist/**'],
     languageOptions: {
       parser: tsParser, // ✅ import parser directly
       parserOptions: {
@@ -46,7 +47,7 @@ export default [
   // Frontend (React) TypeScript
   {
     files: ['chit-chat-ui/**/*.{ts,tsx}'],
-    ignores: ['chit-chat-ui/dist/**'],
+    ignores: ['dist/**', 'node_modules/**', 'api/dist/**', 'chit-chat-ui/dist/**'],
     languageOptions: {
       parser: tsParser, // ✅ import parser directly
       parserOptions: {
@@ -74,6 +75,33 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       complexity: ['warn', 4],
+    },
+  },
+
+  // Test files (TypeScript)
+  {
+    files: ['tests/e2e/**/*.ts', 'tests/e2e/**/*.tsx', '**/*.spec.ts', '**/*.test.ts'],
+    ignores: ['dist/**', 'node_modules/**'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: resolve(__dirname, './tsconfig.json'), // or separate test tsconfig if you have one
+        tsconfigRootDir: __dirname,
+        sourceType: 'module',
+      },
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        jest: 'readonly',
+      },
+    },
+    plugins: { '@typescript-eslint': tsPlugin },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     },
   },
 ];

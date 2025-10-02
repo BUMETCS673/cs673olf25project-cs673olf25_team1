@@ -5,8 +5,8 @@
     "@eslint/js": "^9.36.0",
     "@playwright/test": "^1.55.0",
     "@types/node": "^24.4.0",
-    "@typescript-eslint/eslint-plugin": "^8.44.1",
-    "@typescript-eslint/parser": "^8.44.1",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
     "complexity-report": "^2.0.0-alpha",
     "cross-env": "^10.0.0",
     "dotenv": "^17.2.2",
@@ -16,7 +16,7 @@
     "ts-morph": "^27.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.44.1",
+    "typescript-eslint": "^8.45.0",
     "wait-on": "^9.0.1"
   },
   "scripts": {
@@ -25,7 +25,8 @@
     "test:e2e": "playwright test -c tests/playwright.config.ts",
     "test:ui": "playwright test --ui -c tests/playwright.config.ts",
     "codegen": "playwright codegen -c tests/playwright.config.ts",
-    "test:headless": "playwright test -c tests/playwright.config.ts"
+    "test:headless": "playwright test -c tests/playwright.config.ts",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
   },
   "dependencies": {
     "@nestjs/passport": "^11.0.5",

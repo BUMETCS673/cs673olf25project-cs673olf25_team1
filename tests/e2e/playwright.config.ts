@@ -13,7 +13,7 @@ const apiPort = Number(process.env.API_PORT || 3000);
 
 export default defineConfig({
   // only look tests in ./e2e
-  testDir: './e2e',
+  testDir: '.',
   testMatch: /.*\.spec\.ts/,
   testIgnore: [
     '**/node_modules/**',
