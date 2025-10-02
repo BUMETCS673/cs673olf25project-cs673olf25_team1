@@ -42,13 +42,13 @@ export default defineConfig({
     {
       command: 'npm run dev:backend',
       port: apiPort,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120_000
     },
     {
       command: 'npm run dev:frontend',
       port: frontendPort,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120_000
     }
   ],

@@ -1,69 +1,79 @@
 // eslint.config.js at repo root
-import js from '@eslint/js';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 
-export default {
-  root: true,
-  ignorePatterns: ['dist/', 'build/', 'node_modules/', 'eslint.config.js'],
-  overrides: [
-    // Backend (Node)
-    {
-      files: ['api/**/*.ts'],
-      parser: '@typescript-eslint/parser',
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default [
+  { ignores: ['dist/', 'build/', 'node_modules/'] },
+
+  // Backend (Node) TypeScript
+  {
+    files: ['api/**/*.ts'],
+    ignores: ['api/dist/**'],
+    languageOptions: {
+      parser: tsParser, // ✅ import parser directly
       parserOptions: {
-        project: './api/tsconfig.json',
+        project: resolve(__dirname, './api/tsconfig.json'),
         tsconfigRootDir: __dirname,
         sourceType: 'module',
       },
-      env: {
-        node: true,
-        jest: true,
-      },
-      plugins: ['@typescript-eslint', 'prettier'],
-      extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'plugin:prettier/recommended',
-      ],
-      rules: {
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        complexity: ['warn', 4],
+      globals: {
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        global: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        jest: 'readonly',
       },
     },
-    // Frontend (React)
-    {
-      files: ['chit-chat-ui/**/*.{ts,tsx}'],
-      parser: '@typescript-eslint/parser',
+    plugins: { '@typescript-eslint': tsPlugin },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      complexity: ['warn', 4],
+    },
+  },
+
+  // Frontend (React) TypeScript
+  {
+    files: ['chit-chat-ui/**/*.{ts,tsx}'],
+    ignores: ['chit-chat-ui/dist/**'],
+    languageOptions: {
+      parser: tsParser, // ✅ import parser directly
       parserOptions: {
-        project: './chit-chat-ui/tsconfig.json',
+        project: resolve(__dirname, './chit-chat-ui/tsconfig.json'),
         tsconfigRootDir: __dirname,
         ecmaVersion: 2020,
         sourceType: 'module',
       },
-      env: {
-        browser: true,
-        jest: true,
-      },
-      plugins: ['@typescript-eslint', 'prettier', 'react-hooks', 'react-refresh'],
-      extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'plugin:prettier/recommended',
-        'plugin:react-hooks/recommended',
-        'plugin:react-refresh/recommended',
-      ],
-      rules: {
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-        complexity: ['warn', 4],
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        jest: 'readonly',
       },
     },
-  ],
-};
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+      'react-hooks': reactHooksPlugin,
+      'react-refresh': reactRefreshPlugin,
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      complexity: ['warn', 4],
+    },
+  },
+];
