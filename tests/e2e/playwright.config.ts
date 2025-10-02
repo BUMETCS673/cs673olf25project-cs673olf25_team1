@@ -24,7 +24,7 @@ export default defineConfig({
   timeout: 60_000,
   expect: { timeout: 5_000 },
   fullyParallel: true,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 0 : 0,
   reporter: [['list'], 
              ['html', { outputFolder: 'playwright-report', open: 'never' }], 
              ['json', { outputFile: 'playwright-report/results.json' }]],

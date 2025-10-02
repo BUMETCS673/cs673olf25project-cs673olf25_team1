@@ -1,24 +1,19 @@
-// eslint.config.js at repo root
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
-import tsParser from '@typescript-eslint/parser';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import reactRefreshPlugin from 'eslint-plugin-react-refresh';
+// eslint.config.cjs at repo root
+const { resolve } = require('path');
+const tsParser = require('@typescript-eslint/parser');
+const tsPlugin = require('@typescript-eslint/eslint-plugin');
+const reactHooksPlugin = require('eslint-plugin-react-hooks');
+const reactRefreshPlugin = require('eslint-plugin-react-refresh');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-export default [
-  { ignores: ['dist/', 'build/', 'node_modules/', 'api/dist/**', 'chit-chat-ui/dist/**']
-   },
+module.exports = [
+  { ignores: ['dist/', 'build/', 'node_modules/', 'api/dist/**', 'chit-chat-ui/dist/**'] },
 
   // Backend (Node) TypeScript
   {
     files: ['api/**/*.ts'],
     ignores: ['dist/**', 'node_modules/**', 'api/dist/**', 'chit-chat-ui/dist/**'],
     languageOptions: {
-      parser: tsParser, // ✅ import parser directly
+      parser: tsParser,
       parserOptions: {
         project: resolve(__dirname, './api/tsconfig.json'),
         tsconfigRootDir: __dirname,
@@ -49,7 +44,7 @@ export default [
     files: ['chit-chat-ui/**/*.{ts,tsx}'],
     ignores: ['dist/**', 'node_modules/**', 'api/dist/**', 'chit-chat-ui/dist/**'],
     languageOptions: {
-      parser: tsParser, // ✅ import parser directly
+      parser: tsParser,
       parserOptions: {
         project: resolve(__dirname, './chit-chat-ui/tsconfig.json'),
         tsconfigRootDir: __dirname,
@@ -85,7 +80,7 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: resolve(__dirname, './tsconfig.json'), // or separate test tsconfig if you have one
+        project: resolve(__dirname, './tsconfig.json'),
         tsconfigRootDir: __dirname,
         sourceType: 'module',
       },

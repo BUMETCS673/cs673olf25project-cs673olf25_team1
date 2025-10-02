@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AppSocketGateway } from './app-socket/app-socket.gateway';
-import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
+import { TypeOrmModule } from '@nestjs/typeorm/';
 import { AccountService } from './services/account.service';
 import { UserMessagesReceivedService } from './services/user_messages_recieved.service';
 import { MessageService } from './services/message.service';

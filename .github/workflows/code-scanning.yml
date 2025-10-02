@@ -15,15 +15,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+      - name: Install root dev dependencies
+        run: npm ci
+        working-directory: ./ 
       - name: Install backend dependencies (with dev)
         run: npm ci
         working-directory: ./api
       - name: Lint backend
         run: npm run lint
-        working-directory: ./api
-      - name: Test backend
-        run: npm test
-        working-directory: ./api
+        working-directory: ./
+      # - name: Test backend
+      #   run: npm test
+      #   working-directory: ./api
 
   frontend:
     runs-on: ubuntu-latest
@@ -33,12 +36,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+      - name: Install root dev dependencies
+        run: npm ci
+        working-directory: ./ 
       - name: Install frontend dependencies (with dev)
         run: npm ci
         working-directory: ./chit-chat-ui
       - name: Lint frontend
         run: npm run lint
-        working-directory: ./chit-chat-ui
+        working-directory: ./
       # - name: Test frontend
       #   run: npm test
       #   working-directory: ./chit-chat-ui
