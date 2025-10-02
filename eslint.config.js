@@ -20,9 +20,9 @@ export default [
       parser: tseslint.parser,
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'warn', // disables the "any" rule
+      '@typescript-eslint/no-explicit-any': 'off', // disables the "any" rule
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-unsafe-assignment': 'warn',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
       complexity: ['warn', 4]
     },
   }
