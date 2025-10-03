@@ -17,6 +17,10 @@ const S = {
 
 async function startTyping(page: any, text = 'hello') {
   const input = S.input(page);
+  
+  await input.waitFor({ state: 'visible', timeout: 10000 });
+  await input.waitFor({ state: 'editable', timeout: 10000 });
+
   await input.fill('');
   await input.type(text, { delay: 50 }); 
 }
