@@ -134,6 +134,8 @@ jobs:
 
     - name: Create GitHub Issues from Failed Tests
       if: failure() 
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: node .github/scripts/create-defects.cjs ${{ github.run_id }}
 
     # Clean Up

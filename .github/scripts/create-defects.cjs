@@ -68,7 +68,8 @@ data.suites.forEach((suite) => {
 
       console.log(`Creating issue: ${title}`);
       try {
-        execSync(`gh issue create --title "${title}" --label "automated-defect" -F -`, {
+        const safeTitle = title.replace(/"/g, '\\"');
+        execSync(`gh issue create --title "${safeTitle}" --label "automated-defect" -F -`, {
           input: body,
           stdio: ['pipe', 'inherit', 'inherit']
         });
