@@ -15,8 +15,18 @@ const S = {
   indicatorText: (p: any) => p.getByText(/is typing|users? are typing/i).first(),
 };
 
+test.beforeEach(async ({ page }) => {
+  await page.goto(BASE_URL + '/');
+  await page.waitForLoadState('networkidle');
+  await page.waitForSelector('.messages-container', { timeout: 20000 });
+});
+
 async function startTyping(page: any, text = 'hello') {
   const input = S.input(page);
+  
+  await input.waitFor({ state: 'visible', timeout: 10000 });
+  await input.waitFor({ state: 'editable', timeout: 10000 });
+
   await input.fill('');
   await input.type(text, { delay: 50 }); 
 }

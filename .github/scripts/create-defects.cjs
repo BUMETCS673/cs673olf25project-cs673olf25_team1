@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const reportPath = 'tests/playwright-report/results.json'; 
+const reportPath = 'playwright-report/results.json'; 
 
 if (!fs.existsSync(reportPath)) {
   console.error('Playwright JSON report not found.');
@@ -68,7 +68,8 @@ data.suites.forEach((suite) => {
 
       console.log(`Creating issue: ${title}`);
       try {
-        execSync(`gh issue create --title "${title}" --label "automated-defect" -F -`, {
+        const safeTitle = title.replace(/"/g, '\\"');
+        execSync(`gh issue create --title "${safeTitle}" --label "automated-defect" -F -`, {
           input: body,
           stdio: ['pipe', 'inherit', 'inherit']
         });

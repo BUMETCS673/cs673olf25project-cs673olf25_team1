@@ -13,7 +13,7 @@ const apiPort = Number(process.env.API_PORT || 3000);
 
 export default defineConfig({
   // only look tests in ./e2e
-  testDir: './e2e',
+  testDir: '.',
   testMatch: /.*\.spec\.ts/,
   testIgnore: [
     '**/node_modules/**',
@@ -24,10 +24,10 @@ export default defineConfig({
   timeout: 60_000,
   expect: { timeout: 5_000 },
   fullyParallel: true,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 0 : 0,
   reporter: [['list'], 
              ['html', { outputFolder: 'playwright-report', open: 'never' }], 
-             ['json', { outputFile: 'playwright-report/results.json' }]],
+             ['json', { outputFile: '../../playwright-report/results.json' }]],
 
   use: {
     baseURL: 'http://localhost:8000',
@@ -42,13 +42,13 @@ export default defineConfig({
     {
       command: 'npm run dev:backend',
       port: apiPort,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120_000
     },
     {
       command: 'npm run dev:frontend',
       port: frontendPort,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120_000
     }
   ],

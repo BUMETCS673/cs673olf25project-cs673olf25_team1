@@ -8,11 +8,11 @@
 
 name: "CI: Metrics + Tests"
 
-#on:
-#  push:
-#    branches: [main]
-#  pull_request:
-#    branches: [main]
+on:
+ push:
+   branches: [main]
+ pull_request:
+   branches: [main]
 
 jobs:
   metrics-and-tests:
@@ -92,10 +92,22 @@ jobs:
       run: |
         until curl -s http://localhost:3000; do echo "Waiting for backend..."; sleep 2; done
 
-    - name: Wait for Frontend
-      run: |
-        until curl -s http://localhost:8000; do echo "Waiting for frontend..."; sleep 2; done
+    # - name: Wait for Frontend
+    #   run: |
+    #     until curl -s http://localhost:8000; do echo "Waiting for frontend..."; sleep 2; done
 
+    - name: Wait for Frontend UI to Render
+      run: |
+        for i in {1..30}; do
+          if curl -s http://localhost:8000 | grep -q "<title>"; then
+            echo "Frontend loaded."
+            exit 0
+          fi
+          echo "Waiting for frontend UI..."
+          sleep 2
+        done
+        echo "Frontend did not load in time"
+        exit 1
 
     # Run Playwright Tests
     - name: Install Playwright & Deps
@@ -105,7 +117,7 @@ jobs:
       working-directory: ./tests/e2e
 
     - name: Run Playwright E2E Tests
-      run: npx playwright test ./tests/e2e --config=tests/playwright.config.ts    
+      run: npx playwright test --config=playwright.config.ts    
       working-directory: ./tests/e2e
 
     - name: Upload Playwright Report
@@ -122,6 +134,8 @@ jobs:
 
     - name: Create GitHub Issues from Failed Tests
       if: failure() 
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: node .github/scripts/create-defects.cjs ${{ github.run_id }}
 
     # Clean Up

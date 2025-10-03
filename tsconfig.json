@@ -12,5 +12,5 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true
   },
-  "include": ["api/src", "chit-chat-ui/src"]
+  "include": ["api/src", "chit-chat-ui/src", "tests/**/*", "api/test/**/*"]
 }
