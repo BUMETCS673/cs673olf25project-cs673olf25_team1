@@ -15,6 +15,12 @@ const S = {
   indicatorText: (p: any) => p.getByText(/is typing|users? are typing/i).first(),
 };
 
+test.beforeEach(async ({ page }) => {
+  await page.goto(BASE_URL + '/');
+  await page.waitForLoadState('networkidle');
+  await page.waitForSelector('.messages-container', { timeout: 20000 });
+});
+
 async function startTyping(page: any, text = 'hello') {
   const input = S.input(page);
   
