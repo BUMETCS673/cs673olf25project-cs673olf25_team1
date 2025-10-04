@@ -12,7 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\" --fix",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -29,8 +29,8 @@
     "@nestjs/websockets": "^11.1.6",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.2",
+    "groq-sdk": "^0.32.0",
     "jsonwebtoken": "^9.0.2",
-    "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pg": "^8.16.3",
@@ -45,14 +45,10 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
-    "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
-    "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^8.45.0",
-    "@typescript-eslint/parser": "^8.45.0",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
@@ -74,13 +70,8 @@
       "json",
       "ts"
     ],
-    "roots": [
-      "<rootDir>/test"
-    ],
-    "testMatch": [
-      "**/*.spec.ts",
-      "**/*.test.ts"
-    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
