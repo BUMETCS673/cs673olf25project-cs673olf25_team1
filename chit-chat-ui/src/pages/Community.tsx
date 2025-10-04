@@ -13,6 +13,7 @@ import {
   InputAdornment,
   Divider,
   CircularProgress,
+  Container,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
@@ -125,88 +126,137 @@ function Community() {
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap={2}
-      sx={{ p: { xs: 2, md: 4 } }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
     >
-      <Typography variant="h4" fontWeight={700} mb={2}>
-        Talk to the Community
-      </Typography>
-
-      {/* Chat Card */}
-      <Paper
-        elevation={4}
+      {/* Fixed Header */}
+      <Box
         sx={{
-          width: "100%",
-          maxWidth: 700,
-          display: "flex",
-          flexDirection: "column",
-          borderRadius: 3,
-          overflow: "hidden",
-          background: "linear-gradient(180deg, #fafafa 0%, #f5f7fb 100%)",
+          position: "fixed",
+          top: 0,
+          left: { xs: 0, md: 260 },
+          right: 0,
+          zIndex: 10,
+          px: { xs: 2, sm: 3, md: 6 },
+          py: { xs: 1, md: 2 },
+          backgroundColor: "#fff",
+          borderBottom: "1px solid #e0e0e0",
+          width: { xs: "100%", md: `calc(100% - 260px)` },
         }}
       >
-        {/* Messages container */}
-        <Box
-          ref={messagesContainerRef}
-          onScroll={handleScroll}
+        <Typography
+          variant="h6"
+          fontWeight={600}
           sx={{
-            flexGrow: 1,
-            height: 400,
-            overflowY: "auto",
-            px: 2,
-            py: 2,
-            "&::-webkit-scrollbar": { width: "6px" },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#ccc",
-              borderRadius: "4px",
-            },
+            fontSize: { xs: "1rem", sm: "1.25rem" },
           }}
         >
-          {messages.map((msg, index) => (
-            <Box
-              key={index}
-              display="flex"
-              justifyContent={msg.startsWith("You:") ? "flex-end" : "flex-start"}
-              mb={1.5}
+          Talk to the Community
+        </Typography>
+      </Box>
+
+      {/* Scrollable messages area */}
+      <Container
+        maxWidth="md"
+        ref={messagesContainerRef}
+        onScroll={handleScroll}
+        sx={{
+          flexGrow: 1,
+          mt: { xs: "10px", md: "0px" }, // space for header
+          mb: { xs: "25px", md: "20px" }, // space for input bar
+          overflowY: "auto",
+          py: 3,
+          px: { xs: 2, md: 3 },
+          "&::-webkit-scrollbar": { width: "6px" },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#c1c1c1",
+            borderRadius: "8px",
+          },
+        }}
+      >
+        {messages.map((msg, index) => (
+          <Box
+            key={index}
+            display="flex"
+            justifyContent={msg.startsWith("You:") ? "flex-end" : "flex-start"}
+            mb={1.5}
+          >
+            <Paper
+              elevation={0}
+              sx={{
+                p: { xs: 1, sm: 1.5 },
+                maxWidth: "80%",
+                borderRadius: msg.startsWith("You:")
+                  ? "18px 18px 0 18px"
+                  : "18px 18px 18px 0",
+                bgcolor: msg.startsWith("You:") ? "#6a5acd" : "#F5F6FA",
+                color: msg.startsWith("You:") ? "#fff" : "#000",
+                border: msg.startsWith("You:")
+                  ? "none"
+                  : "1px solid rgba(0,0,0,0.08)",
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
+              }}
             >
-              <Paper
-                elevation={1}
+              <Typography
+                variant="body2"
                 sx={{
-                  p: 1.5,
-                  maxWidth: "75%",
-                  borderRadius: msg.startsWith("You:")
-                    ? "16px 16px 0 16px"
-                    : "16px 16px 16px 0",
-                  bgcolor: msg.startsWith("You:") ? "#6a5acd" : "#e8e8ee",
-                  color: msg.startsWith("You:") ? "#fff" : "#000",
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-wrap",
                 }}
               >
-                <Typography variant="body1">{msg}</Typography>
-              </Paper>
-            </Box>
-          ))}
+                {msg}
+              </Typography>
+            </Paper>
+          </Box>
+        ))}
 
-          {/* Typing Indicator */}
-          {typingUsers.size > 0 && (
-            <Typography
-              variant="body2"
-              sx={{ fontStyle: "italic", color: "#666", mt: 1 }}
-            >
-              {typingUsers.size === 1
-                ? "User is typing..."
-                : "Users are typing..."}
-            </Typography>
-          )}
-          <div ref={messagesEndRef} />
-        </Box>
+        {/* Typing indicator */}
+        {typingUsers.size > 0 && (
+          <Typography
+            variant="body2"
+            sx={{
+              fontStyle: "italic",
+              color: "#666",
+              mt: 1,
+              ml: 1,
+            }}
+          >
+            {typingUsers.size === 1
+              ? "User is typing..."
+              : "Users are typing..."}
+          </Typography>
+        )}
+        <div ref={messagesEndRef} />
+      </Container>
 
-        <Divider />
-
-        {/* Input and Send Button */}
-        <Box display="flex" alignItems="center" p={1.5}>
+      {/* Fixed Input Bar */}
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: { xs: 0, md: 260 }, // ✅ responsive sidebar offset
+          right: 0,
+          zIndex: 10,
+          backgroundColor: "#fff",
+          borderTop: "1px solid #e0e0e0",
+          py: { xs: 1.2, md: 2 },
+          width: { xs: "100%", md: `calc(100% - 260px)` },
+        }}
+      >
+        <Container
+          maxWidth="md"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: { xs: 1, sm: 1.5 },
+          }}
+        >
           <TextField
             fullWidth
             placeholder="Type a message..."
@@ -223,30 +273,44 @@ function Community() {
                 handleButtonClick();
               }
             }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "10px",
+                backgroundColor: "#fafafa",
+                fontSize: { xs: "0.85rem", sm: "0.95rem" },
+              },
+            }}
           />
           <IconButton
             color="primary"
             onClick={handleButtonClick}
-            sx={{ ml: 1 }}
+            size="small"
+            sx={{
+              bgcolor: "#6a5acd",
+              color: "white",
+              p: { xs: 0.8, sm: 1 },
+              "&:hover": { bgcolor: "#5a49c4" },
+            }}
           >
-            <SendIcon />
+            <SendIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
           </IconButton>
-        </Box>
-      </Paper>
 
-      {/* Help Button */}
-      <Button
-        variant="outlined"
-        startIcon={<HelpOutlineIcon />}
-        onClick={() => setHelpOpen(true)}
-        sx={{ mt: 2 }}
-      >
-        Help
-      </Button>
-
-      <Typography variant="body2" color="text.secondary" mt={2}>
-        This app is made by Team 1.
-      </Typography>
+          {/* Hide Help button on very small screens */}
+          <Button
+            variant="outlined"
+            startIcon={<HelpOutlineIcon />}
+            onClick={() => setHelpOpen(true)}
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              borderRadius: "20px",
+              textTransform: "none",
+              fontSize: "0.85rem",
+            }}
+          >
+            Help
+          </Button>
+        </Container>
+      </Box>
 
       {/* Help Dialog */}
       <Dialog
@@ -291,6 +355,9 @@ function Community() {
       </Dialog>
     </Box>
   );
+
+
+
 }
 
 export default Community;

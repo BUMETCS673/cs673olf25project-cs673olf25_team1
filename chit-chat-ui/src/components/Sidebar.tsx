@@ -25,7 +25,7 @@ import {
 } from "@mui/icons-material";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { Link, useLocation } from "react-router-dom";
-import ChitChatLogo from "../assets/chit_chat_logo.svg";
+import ChitChatLogo from "../assets/chit_chat_logo_v2.png";
 
 const drawerWidth = 260;
 
@@ -54,17 +54,15 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
         flexDirection: "column",
         background: "#F5F6FA",
         color: "#F5F6FA",
+        pl: 2,
       }}
     >
-      <Box sx={{ pt: 3 }}>
+      <Box >
         <img
           src={ChitChatLogo}
           alt="Chit Chat Logo"
           style={{ width: 150 }}
         />
-        <Typography variant="h6" fontWeight={600}>
-          Chit Chat
-        </Typography>
       </Box>
 
       <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
@@ -74,7 +72,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton selected={location.pathname === item.path} component={Link} to={item.path} sx={{ borderRadius: 2 }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} sx={{ color: "#83858A" }} />
+                <ListItemText primary={item.text} sx={{ color: "black" }} />
               </ListItemButton>
             </ListItem>
 
@@ -146,7 +144,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
           ml: { md: `${drawerWidth}px` },
         }}
       >
-        <Box sx={theme.mixins.toolbar} /> {/* ✅ ensures space under AppBar */}
+        <Box sx={theme.mixins.toolbar} />
         {children}
       </Box>
     </Box>
