@@ -165,8 +165,8 @@ function Community() {
         onScroll={handleScroll}
         sx={{
           flexGrow: 1,
-          mt: { xs: "10px", md: "0px" }, // space for header
-          mb: { xs: "25px", md: "20px" }, // space for input bar
+          mt: { xs: "10px", md: "0px" },
+          mb: { xs: "25px", md: "20px" },
           overflowY: "auto",
           py: 3,
           px: { xs: 2, md: 3 },
