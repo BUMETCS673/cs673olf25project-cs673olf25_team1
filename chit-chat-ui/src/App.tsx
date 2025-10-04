@@ -6,9 +6,18 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 import ResponsiveSidebar from "./components/Sidebar";
+import "./index.css"
+import { ThemeProvider, THEME_ID, createTheme } from '@mui/material/styles';
 
 function App() {
   const [user, setUser] = useState<any>(null);
+
+  const theme = createTheme({
+    typography: {
+      fontFamily:
+        '"Inter", sans-serif',
+    },
+  });
 
   return (
     <Router>
@@ -21,15 +30,17 @@ function App() {
           path="/*"
           element={
             <ProtectedRoute user={user}>
-              <ResponsiveSidebar>
-                <main className="content">
-                  <Routes>
-                    <Route path="community" element={<Community />} />
-                    <Route path="ai" element={<Ai />} />
-                    <Route path="*" element={<Navigate to="/community" replace />} />
-                  </Routes>
-                </main>
-              </ResponsiveSidebar>
+              <ThemeProvider theme={theme}>
+                <ResponsiveSidebar>
+                  <main className="content">
+                    <Routes>
+                      <Route path="community" element={<Community />} />
+                      <Route path="ai" element={<Ai />} />
+                      <Route path="*" element={<Navigate to="/community" replace />} />
+                    </Routes>
+                  </main>
+                </ResponsiveSidebar>
+              </ThemeProvider>
             </ProtectedRoute>
           }
         />
