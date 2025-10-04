@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -8,6 +8,12 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Post('ai')
+  async chatWithAi(@Body() body: { message: string }) {
+    const reply = await this.appService.getLlmAnswer(body.message);
+    return { reply };
   }
 
   @Get('health')

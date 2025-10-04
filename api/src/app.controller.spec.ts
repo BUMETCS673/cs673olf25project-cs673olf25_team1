@@ -1,3 +1,11 @@
+// Mock groq-sdk before importing modules that instantiate it so tests don't
+// require a real GROQ_API_KEY environment variable.
+jest.mock('groq-sdk', () => {
+  return jest.fn().mockImplementation(() => ({
+    chat: { completions: { create: jest.fn() } },
+  }));
+});
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

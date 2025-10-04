@@ -1,11 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import "../App.css";
+import {
+  Box,
+  Typography,
+  Paper,
+  TextField,
+  IconButton,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  InputAdornment,
+  Divider,
+  CircularProgress,
+  Container,
+} from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import SearchIcon from "@mui/icons-material/Search";
 import socket from "../hooks/socket";
 import type { Message } from "../types/message.type";
 
 const USER_TYPING_TIMEOUT = 5000;
 
-// Example FAQ content
 const FAQS = [
   { question: "How do I send a message?", answer: "Type in the box and press Enter or click Send." },
   { question: "How do I know if others are typing?", answer: "A 'User is typing...' indicator will appear." },
@@ -17,16 +34,12 @@ function Community() {
   const [inputText, setInputText] = useState("");
   const [autoScroll, setAutoScroll] = useState(true);
   const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
-
-  // Help dialog state
   const [helpOpen, setHelpOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const typingTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(
-    new Map()
-  );
+  const typingTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
   const handleButtonClick = () => {
     if (inputText.trim() !== "") {
@@ -99,15 +112,12 @@ function Community() {
   const handleScroll = () => {
     const container = messagesContainerRef.current;
     if (!container) return;
-
     const isAtBottom =
       container.scrollHeight - container.scrollTop <=
       container.clientHeight + 5;
-
     setAutoScroll(isAtBottom);
   };
 
-  // Filtered FAQs
   const filteredFaqs = FAQS.filter(
     (faq) =>
       faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -115,48 +125,143 @@ function Community() {
   );
 
   return (
-    <>
-      <h1>Talk to the Community</h1>
-
-      <div className="card">
-        {/* Scrollable messages container */}
-        <div
-          className="messages-container"
-          ref={messagesContainerRef}
-          onScroll={handleScroll}
-          style={{
-            marginTop: "5px",
-            height: "300px",
-            overflowY: "auto",
-            border: "3px solid #ccc",
-            padding: "8px",
-            borderRadius: "8px",
-            background: "#d1e9f3ff",
-            textAlign: "left",
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
+    >
+      {/* Fixed Header */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: { xs: 0, md: 260 },
+          right: 0,
+          zIndex: 10,
+          px: { xs: 2, sm: 3, md: 6 },
+          py: { xs: 1, md: 2 },
+          backgroundColor: "#fff",
+          borderBottom: "1px solid #e0e0e0",
+          width: { xs: "100%", md: `calc(100% - 260px)` },
+        }}
+      >
+        <Typography
+          variant="h6"
+          fontWeight={600}
+          sx={{
+            fontSize: { xs: "1rem", sm: "1.25rem" },
           }}
         >
-          {messages.map((msg, index) => (
-            <div key={index}>{msg}</div>
-          ))}
+          Talk to the Community
+        </Typography>
+      </Box>
 
-          {/* Typing indicator */}
-          {typingUsers.size > 0 && (
-            <div
-              style={{ fontStyle: "italic", color: "#666", marginTop: "4px" }}
+      {/* Scrollable messages area */}
+      <Container
+        maxWidth="md"
+        ref={messagesContainerRef}
+        onScroll={handleScroll}
+        sx={{
+          flexGrow: 1,
+          mt: { xs: "10px", md: "0px" },
+          mb: { xs: "25px", md: "20px" },
+          overflowY: "auto",
+          py: 3,
+          px: { xs: 2, md: 3 },
+          "&::-webkit-scrollbar": { width: "6px" },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#c1c1c1",
+            borderRadius: "8px",
+          },
+        }}
+      >
+        {messages.map((msg, index) => (
+          <Box
+            key={index}
+            display="flex"
+            justifyContent={msg.startsWith("You:") ? "flex-end" : "flex-start"}
+            mb={1.5}
+          >
+            <Paper
+              elevation={0}
+              sx={{
+                p: { xs: 1, sm: 1.5 },
+                maxWidth: "80%",
+                borderRadius: msg.startsWith("You:")
+                  ? "18px 18px 0 18px"
+                  : "18px 18px 18px 0",
+                bgcolor: msg.startsWith("You:") ? "#6a5acd" : "#F5F6FA",
+                color: msg.startsWith("You:") ? "#fff" : "#000",
+                border: msg.startsWith("You:")
+                  ? "none"
+                  : "1px solid rgba(0,0,0,0.08)",
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
+              }}
             >
-              {typingUsers.size === 1
-                ? "User is typing..."
-                : "Users are typing..."}
-            </div>
-          )}
+              <Typography
+                variant="body2"
+                sx={{
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
+                {msg}
+              </Typography>
+            </Paper>
+          </Box>
+        ))}
 
-          <div ref={messagesEndRef} />
-        </div>
+        {/* Typing indicator */}
+        {typingUsers.size > 0 && (
+          <Typography
+            variant="body2"
+            sx={{
+              fontStyle: "italic",
+              color: "#666",
+              mt: 1,
+              ml: 1,
+            }}
+          >
+            {typingUsers.size === 1
+              ? "User is typing..."
+              : "Users are typing..."}
+          </Typography>
+        )}
+        <div ref={messagesEndRef} />
+      </Container>
 
-        {/* Input + send button BELOW */}
-        <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-          <input
-            type="text"
+      {/* Fixed Input Bar */}
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: { xs: 0, md: 260 }, // ✅ responsive sidebar offset
+          right: 0,
+          zIndex: 10,
+          backgroundColor: "#fff",
+          borderTop: "1px solid #e0e0e0",
+          py: { xs: 1.2, md: 2 },
+          width: { xs: "100%", md: `calc(100% - 260px)` },
+        }}
+      >
+        <Container
+          maxWidth="md"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: { xs: 1, sm: 1.5 },
+          }}
+        >
+          <TextField
+            fullWidth
+            placeholder="Type a message..."
+            variant="outlined"
+            size="small"
             value={inputText}
             onChange={(e) => {
               setInputText(e.target.value);
@@ -168,74 +273,91 @@ function Community() {
                 handleButtonClick();
               }
             }}
-            placeholder="Type a message..."
-            style={{ flex: 1 }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "10px",
+                backgroundColor: "#fafafa",
+                fontSize: { xs: "0.85rem", sm: "0.95rem" },
+              },
+            }}
           />
-          <button onClick={handleButtonClick}>Send</button>
-        </div>
-      </div>
+          <IconButton
+            color="primary"
+            onClick={handleButtonClick}
+            size="small"
+            sx={{
+              bgcolor: "#6a5acd",
+              color: "white",
+              p: { xs: 0.8, sm: 1 },
+              "&:hover": { bgcolor: "#5a49c4" },
+            }}
+          >
+            <SendIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
+          </IconButton>
 
-      {/* Help Button */}
-      <button
-        style={{ marginTop: "16px" }}
-        onClick={() => setHelpOpen(true)}
-      >
-        Help
-      </button>
-
-      <p className="footer">This app is made by Team 1.</p>
+          {/* Hide Help button on very small screens */}
+          <Button
+            variant="outlined"
+            startIcon={<HelpOutlineIcon />}
+            onClick={() => setHelpOpen(true)}
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              borderRadius: "20px",
+              textTransform: "none",
+              fontSize: "0.85rem",
+            }}
+          >
+            Help
+          </Button>
+        </Container>
+      </Box>
 
       {/* Help Dialog */}
-      {helpOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.4)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          onClick={() => setHelpOpen(false)}
-        >
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "8px",
-              padding: "20px",
-              width: "400px",
-              maxHeight: "80vh",
-              overflowY: "auto",
+      <Dialog
+        open={helpOpen}
+        onClose={() => setHelpOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>FAQ</DialogTitle>
+        <DialogContent dividers>
+          <TextField
+            placeholder="Search FAQs..."
+            variant="outlined"
+            fullWidth
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon color="action" />
+                </InputAdornment>
+              ),
             }}
-            onClick={(e) => e.stopPropagation()} // prevent modal close on inner click
-          >
-            <h2>FAQ</h2>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search FAQs..."
-              style={{ width: "100%", marginBottom: "12px" }}
-            />
-            {filteredFaqs.length > 0 ? (
-              filteredFaqs.map((faq, i) => (
-                <div key={i} style={{ marginBottom: "12px" }}>
-                  <strong>{faq.question}</strong>
-                  <p>{faq.answer}</p>
-                </div>
-              ))
-            ) : (
-              <p>No results found.</p>
-            )}
-            <button onClick={() => setHelpOpen(false)}>Close</button>
-          </div>
-        </div>
-      )}
-    </>
+            sx={{ mb: 2 }}
+          />
+          {filteredFaqs.length > 0 ? (
+            filteredFaqs.map((faq, i) => (
+              <Box key={i} mb={2}>
+                <Typography variant="subtitle1" fontWeight={600}>
+                  {faq.question}
+                </Typography>
+                <Typography variant="body2">{faq.answer}</Typography>
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body2">No results found.</Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setHelpOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
+
+
+
 }
 
 export default Community;
