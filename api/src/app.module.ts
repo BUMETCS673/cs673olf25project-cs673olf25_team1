@@ -11,6 +11,7 @@ import { Account } from './entities/account.entity';
 import { Message } from './entities/message.entity';
 import { Reaction } from './entities/reactions.entity';
 import { UserMessagesReceived } from './entities/user_messages_recieved.entity';
+import { AiService } from './services/ai.service';
 import { AuthService } from './authentication/service';
 import { AuthController } from './authentication/controller';
 import { AuthModule } from './authentication/auth.module';
@@ -44,6 +45,7 @@ import { AuthModule } from './authentication/auth.module';
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
+    AiService
     AuthService
   ],
   exports: [
@@ -51,6 +53,7 @@ import { AuthModule } from './authentication/auth.module';
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
+    AiService
     AuthService
   ],
 })
