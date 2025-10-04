@@ -45,7 +45,7 @@ import { AuthModule } from './authentication/auth.module';
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
-    AiService
+    AiService,
     AuthService
   ],
   exports: [
@@ -53,7 +53,7 @@ import { AuthModule } from './authentication/auth.module';
     MessageService,
     ReactionService,
     UserMessagesReceivedService,
-    AiService
+    AiService,
     AuthService
   ],
 })

@@ -1,31 +1,28 @@
-import React, { useState, type ReactNode } from "react";
 import {
-  Box,
-  Drawer,
+  Home as HomeIcon,
+  Menu as MenuIcon
+} from "@mui/icons-material";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import {
   AppBar,
-  Toolbar,
-  List,
-  Typography,
+  Box,
+  Divider,
+  Drawer,
   IconButton,
+  List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useTheme,
-  useMediaQuery,
-  Divider,
-  Avatar,
-  Tooltip,
   Stack,
-  ListItem
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
-import {
-  Menu as MenuIcon,
-  Home as HomeIcon,
-  Chat as ChatIcon,
-} from "@mui/icons-material";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import React, { useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import ChitChatLogo from "../assets/chit_chat_logo_v2.png";
+import ChitChatLogo from "../assets/chit_chat_logo_v2_blue.png";
 
 const drawerWidth = 260;
 

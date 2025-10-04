@@ -12,6 +12,7 @@ import {
   Link,
   Stack,
 } from "@mui/material";
+import ChitChatLogo from "../assets/chit_chat_logo_v2_white.png";
 
 type LoginProps = {
   onLogin: (username: string) => void;
@@ -80,15 +81,23 @@ export default function Auth({ onLogin }: LoginProps) {
       alignItems="center"
       minHeight="100vh"
     >
-      <Card sx={{ width: 400, p: 3, boxShadow: 4, borderRadius: 3 }}>
+      <Card sx={{ width: 400, p: 1, boxShadow: 4, borderRadius: 3 }}>
         <CardContent>
+          <Box display="flex" justifyContent="center" mb={1}>
+            <img
+              src={ChitChatLogo}
+              alt="Chit Chat Logo"
+              style={{ width: 200 }}
+            />
+          </Box>
           <Typography
             variant="h5"
             textAlign="center"
-            fontWeight="bold"
+            fontWeight={400}
             gutterBottom
+            sx={{ mb: 3 }}
           >
-            {isRegistering ? "Create Account" : "Welcome Back"}
+            {isRegistering ? "Create Account" : "Sign In"}
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit}>
