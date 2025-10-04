@@ -2,6 +2,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+  Link,
+  Stack,
+} from "@mui/material";
 
 type LoginProps = {
   onLogin: (username: string) => void;
@@ -61,41 +71,109 @@ export default function Auth({ onLogin }: LoginProps) {
     }
   };
 
+
+
   return (
-    <div className="auth-page">
-      <h2>{isRegistering ? "Register" : "Login"}</h2>
-      <form onSubmit={handleSubmit}>
-        {isRegistering && (
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-            required
-          />
-        )}
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {error && <p className="error">{error}</p>}
-        <button type="submit">{isRegistering ? "Register" : "Login"}</button>
-      </form>
-      <p onClick={toggleMode} style={{ cursor: "pointer", marginTop: "10px" }}>
-        {isRegistering
-          ? "Already have an account? Login here"
-          : "Don't have an account? Register here"}
-      </p>
-    </div>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+    >
+      <Card sx={{ width: 400, p: 3, boxShadow: 4, borderRadius: 3 }}>
+        <CardContent>
+          <Typography
+            variant="h5"
+            textAlign="center"
+            fontWeight="bold"
+            gutterBottom
+          >
+            {isRegistering ? "Create Account" : "Welcome Back"}
+          </Typography>
+
+          <Box component="form" onSubmit={handleSubmit}>
+            <Stack spacing={2}>
+              {isRegistering && (
+                <TextField
+                  label="Full Name"
+                  variant="outlined"
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                  required
+                  fullWidth
+                />
+              )}
+
+              <TextField
+                label="Username"
+                variant="outlined"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                fullWidth
+              />
+
+              <TextField
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                fullWidth
+              />
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{ mt: 1 }}
+              >
+                {isRegistering ? "Register" : "Login"}
+              </Button>
+            </Stack>
+          </Box>
+
+          {error && (
+            <Typography color="error" variant="body2" textAlign="center" pt={2}>
+              {error}
+            </Typography>
+          )}
+
+          <Typography
+            variant="body2"
+            textAlign="center"
+            mt={2}
+          >
+            {isRegistering ? (
+              <>
+                Already have an account?{" "}
+                <Link
+                  component="button"
+                  variant="body2"
+                  onClick={toggleMode}
+                  sx={{ fontWeight: 600 }}
+                >
+                  Login here
+                </Link>
+              </>
+            ) : (
+              <>
+                Don’t have an account?{" "}
+                <Link
+                  component="button"
+                  variant="body2"
+                  onClick={toggleMode}
+                  sx={{ fontWeight: 600 }}
+                >
+                  Register here
+                </Link>
+              </>
+            )}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
