@@ -5,6 +5,8 @@ Human code: 85% (tool: Playwright, Tests: 1-5)
 Framework generated code: 0%
 */
 import { test, expect, Page } from '@playwright/test';
+import { login } from './helpers';
+
 
 // Open sidebar if needed 
 async function openSidebar(page: Page) {
@@ -26,7 +28,8 @@ const aiLink = (page: Page) =>
 
 // AT-1: Sidebar shows the Community and AI tab
 test('AT-1: Sidebar shows Community and AI', async ({ page }) => {
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
   await openSidebar(page);
 
   await expect(communityLink(page)).toBeVisible();
@@ -35,7 +38,8 @@ test('AT-1: Sidebar shows Community and AI', async ({ page }) => {
 
 // AT-2: Clicking the AI tab goes to the AI page
 test('AT-2: Click AI goes to AI page', async ({ page }) => {
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
   await openSidebar(page);
 
   await aiLink(page).click();
@@ -44,6 +48,7 @@ test('AT-2: Click AI goes to AI page', async ({ page }) => {
 
 // AT-3: Clicking the Community tab goes to the Community page
 test('AT-3: Click Community goes back to Community page', async ({ page }) => {
+  await login(page);
   await page.goto(BASE_URL + '/community').catch(async () => { await page.goto(BASE_URL + '/'); });
   await openSidebar(page);
 
@@ -53,12 +58,14 @@ test('AT-3: Click Community goes back to Community page', async ({ page }) => {
 
 // AT-4: Directly go to /ai
 test('AT-4: Direct /ai shows AI content', async ({ page }) => {
+  await login(page);
   await page.goto(BASE_URL + '/ai').catch(async () => { await page.goto(BASE_URL + '/'); });
   await expect(page).toHaveURL(/\/ai(?:$|[?#])/);
 });
 
 // AT-5: Directly go to /community
 test('AT-5: Direct root shows Community content', async ({ page }) => {
+  await login(page);
   await page.goto(BASE_URL + '/');
   await expect(page).toHaveURL(/(?:\/community|\/$)/);
 });

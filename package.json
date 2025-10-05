@@ -22,10 +22,10 @@
   "scripts": {
     "dev:frontend": "cross-env NODE_ENV=test npm --prefix ./chit-chat-ui run dev",
     "dev:backend": "cross-env NODE_ENV=test npm --prefix ./api run start",
-    "test:e2e": "playwright test -c tests/playwright.config.ts",
-    "test:ui": "playwright test --ui -c tests/playwright.config.ts",
-    "codegen": "playwright codegen -c tests/playwright.config.ts",
-    "test:headless": "playwright test -c tests/playwright.config.ts",
+    "test:e2e": "playwright test -c tests/e2e/playwright.config.ts",
+    "test:ui": "playwright test --ui -c tests/e2e/playwright.config.ts",
+    "codegen": "playwright codegen -c tests/e2e/playwright.config.ts",
+    "test:headless": "playwright test -c tests/e2e/playwright.config.ts",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
   },
   "dependencies": {
