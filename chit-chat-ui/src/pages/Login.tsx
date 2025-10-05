@@ -13,6 +13,7 @@ import {
   Stack,
 } from "@mui/material";
 import ChitChatLogo from "../assets/chit_chat_logo_v2_white.png";
+import socket from "../hooks/socket";
 
 type LoginProps = {
   onLogin: (username: string) => void;
@@ -59,6 +60,8 @@ export default function Auth({ onLogin }: LoginProps) {
         localStorage.setItem("token", accessToken);
         onLogin(user);
         navigate("/community");
+        socket.emit("user-logged-in", { username: user.username });
+        socket.emit('recieve-existing-messages');
       }
     } catch (err: unknown) {
       console.error("Login/Register error:", err);
