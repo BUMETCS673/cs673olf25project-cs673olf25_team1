@@ -4,6 +4,7 @@ import { AccountService } from '../services/account.service';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { Account } from '../entities/account.entity';
+import 'dotenv/config';
 
 @Injectable()
 export class AuthService {
