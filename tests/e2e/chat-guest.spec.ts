@@ -5,6 +5,8 @@ Human code: 85% (tool: Playwright, Tests: 1-10)
 Framework generated code: 0%
 */
 import { test, expect } from '@playwright/test';
+import { login } from './helpers';
+
 
 const uniq = (m:string)=> `${m} ${Date.now()}`;
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
@@ -17,7 +19,8 @@ const selectors = {
 
 // AT-1: Guests can send a message
 test('AT-1: Guest sends a message', async ({ page }) => {
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
 
   const input = page.locator('input[type="text"], textarea').first();
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
@@ -39,10 +42,11 @@ test('AT-2: Real-time receive across two guests', async ({ browser }) => {
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
+  await login(a);
+  await login(b);
   const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
 
-
-  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
+  //await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   const ping = uniq('ping');
   await selectors.input(a).fill(ping);
@@ -61,9 +65,11 @@ test('AT-3: Messages preserve chronological order', async ({ browser }) => {
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
+  await login(a);
+  await login(b);
   const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
 
-  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
+  //await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   const m1 = uniq('msg1');
   const m2 = uniq('msg2');
@@ -92,9 +98,11 @@ test('AT-4: Delivery time under target', async ({ browser }) => {
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
+  await login(a);
+  await login(b);
   const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
 
-  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
+  //await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
   const payload = uniq('latency');
   const t0 = Date.now();
@@ -113,8 +121,8 @@ test('AT-4: Delivery time under target', async ({ browser }) => {
 
 // AT-5: Guest session persists after reload
 test('AT-5: Guest can continue chatting after reload', async ({ page }) => {
-  await page.goto(BASE_URL + '/');
-
+  //await page.goto(BASE_URL + '/');
+  await login(page);
   const before = uniq('before-reload');
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
 
@@ -133,7 +141,8 @@ test('AT-5: Guest can continue chatting after reload', async ({ page }) => {
 // AT-6: Empty message is blocked
 test('AT-6: Empty message is blocked', async ({ page }) => {
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
   await selectors.input(page).fill('');          
   await send.click();
 
@@ -147,7 +156,8 @@ test('AT-6: Empty message is blocked', async ({ page }) => {
 // AT-7: Whitespace is blocked
 test('AT-7: Whitespace-only message is blocked', async ({ page }) => {
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
   await selectors.input(page).fill('   ');
   await send.click();
   const marker = uniq('marker');
@@ -159,7 +169,8 @@ test('AT-7: Whitespace-only message is blocked', async ({ page }) => {
 // AT-8: Long word wraps
 test('AT-8: Long word wraps without breaking layout', async ({ page }) => {
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
   const long = 'a'.repeat(200);
   await selectors.input(page).fill(long);
   await send.click();
@@ -169,7 +180,8 @@ test('AT-8: Long word wraps without breaking layout', async ({ page }) => {
 // AT-9: Simple autoscroll behavior
 test('AT-9: Autoscroll to bottom on send', async ({ page }) => {
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
   // Scroll top first if container is scrollable
   const list = selectors.list(page);
   await list.evaluate((el:HTMLElement) => el.scrollTop = 0);
@@ -185,7 +197,8 @@ test('AT-9: Autoscroll to bottom on send', async ({ page }) => {
 // AT-10: Clear the input after sending
 test('AT-10: Clears input after sending', async ({ page }) => {
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
-  await page.goto(BASE_URL + '/');
+  await login(page);
+  //await page.goto(BASE_URL + '/');
   await selectors.input(page).fill('clear me');
   await send.click();
   await expect(selectors.input(page)).toHaveValue('');           
