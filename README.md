@@ -16,6 +16,7 @@ https://chatgpt.com/share/68d9f50a-7090-800a-b281-0a95246b84d3
 - Robin: ~40% – mainly for generating return statements within components.
 - Ardit: No AI usage. Project skeleton was generated using standard CLI tools (vite init and nest new).
          25% ~ Used Copilot to set up the first entity and the first service file so I could reference it for the other typeorm entities. 25% of the entities+services was done by AI.
+         Used copilot for most recent story: reactions on messages to help me with styling of the Group Avatars as I wanted to focus more on actual implementation than styling of the message bubbles, about 40% of the latest story.
 - Jordyn: ~50% – primarily for docker and github action tests. 
 
 ---
