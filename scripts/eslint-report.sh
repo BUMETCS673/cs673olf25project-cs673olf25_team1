@@ -4,6 +4,8 @@
 #AI chat link: https://chatgpt.com/share/68d8a0d5-09a4-8013-a871-052c83584c2a)
 #Human code: 0% 
 #Framework generated code: 0%
+cd "$(dirname "$0")/.."
+set -e
 
 echo "Running ESLint..."
 

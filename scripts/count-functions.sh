@@ -6,4 +6,4 @@
 
 echo "Running TypeScript AST function count"
 
-npx ts-node --project tsconfig.scripts.json count-functions.cjs
+npx ts-node --project tsconfig.scripts.json ./scripts/count-functions.cjs
