@@ -10,14 +10,15 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('ai')
-  async chatWithAi(@Body() body: { message: string }) {
-    const reply = await this.appService.getLlmAnswer(body.message);
-    return { reply };
-  }
+  // @Post('ai')
+  // async chatWithAi(@Body() body: { message: string }) {
+  //   const reply = await this.appService.getLlmAnswer(body.message);
+  //   return { reply };
+  // }
 
   @Get('health')
   getHealth() {
     return { status: 'ok' };
   }
+  
 }

@@ -13,7 +13,7 @@ import { MessageService } from '../services/message.service';
 import { ReactionService } from '../services/reaction.service';
 import { UserMessagesReceivedService } from '../services/user_messages_recieved.service';
 import { UserMessagesReceived } from 'src/entities/user_messages_recieved.entity';
-import { AiService } from 'src/services/ai.service';
+// import { AiService } from 'src/services/ai.service';
 
 @WebSocketGateway({
   cors: {
@@ -30,7 +30,7 @@ export class AppSocketGateway {
     private readonly messageService: MessageService,
     private readonly reactionService: ReactionService,
     private readonly userMessagesReceivedService: UserMessagesReceivedService,
-    private readonly aiService: AiService,
+    // private readonly aiService: AiService,
   ) { }
 
   handleConnection(socket: Socket) {
@@ -93,15 +93,15 @@ export class AppSocketGateway {
     });
   }
 
-  @SubscribeMessage('ask_ai')
-  async handleAskAi(
-    @ConnectedSocket() socket: Socket,
-    @MessageBody() payload: { message: string },
-  ) {
-    console.log("AI question received:", payload.message);
+  // @SubscribeMessage('ask_ai')
+  // async handleAskAi(
+  //   @ConnectedSocket() socket: Socket,
+  //   @MessageBody() payload: { message: string },
+  // ) {
+  //   console.log("AI question received:", payload.message);
 
-    const reply = await this.aiService.getLlmAnswer(payload.message);
+  //   // const reply = await this.aiService.getLlmAnswer(payload.message);
 
-    socket.emit('ai_answer', { reply });
-  }
+  //   socket.emit('ai_answer', { reply });
+  // }
 }

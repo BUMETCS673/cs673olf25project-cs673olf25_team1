@@ -24,6 +24,13 @@ export class AuthService {
     const payload = { sub: user.username, fullname: user.fullname };
     const secret = process.env.JWT_SECRET!;
     const accessToken = jwt.sign(payload, secret, { expiresIn: '1h' });
-    return { accessToken, user: { username: user.username, fullname: user.fullname } };
+    return {accessToken, 
+            user: { username: user.username, 
+                    fullname: user.fullname,
+                    displayName: user.displayName,
+                    avatar: user.avatar,
+                    themeColor: user.themeColor
+                  }
+            };
   }
 }
