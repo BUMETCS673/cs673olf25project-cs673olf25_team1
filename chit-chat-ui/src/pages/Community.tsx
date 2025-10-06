@@ -137,9 +137,9 @@ function Community() {
         prev.map((msg) =>
           msg.id === messageId
             ? {
-              ...msg,
-              reactions: reactions || [],
-            }
+                ...msg,
+                reactions: reactions || [],
+              }
             : msg
         )
       );
@@ -242,7 +242,6 @@ function Community() {
             onMouseLeave={() => setHoveredMsgId(null)}
             sx={{ position: "relative" }}
           >
-            {/* Message bubble */}
             <Paper
               elevation={0}
               sx={{
@@ -274,39 +273,53 @@ function Community() {
               >
                 {msg.message_owner}: {msg.message_content}
               </Typography>
-            </Paper>
-
-            {/* Emoji reactions and hover buttons (unchanged) */}
-            {hoveredMsgId === msg.id && (
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: "-36px",
-                  left: msg.message_owner === "You" ? "auto" : 0,
-                  right: msg.message_owner === "You" ? 0 : "auto",
-                  zIndex: 2,
-                  bgcolor: "#0f0101ff",
-                  borderRadius: "20px",
-                  px: 1,
-                  py: 0.5,
-                }}
-              >
-                <ToggleButtonGroup
-                  exclusive
-                  size="small"
-                  value={reactions[msg.id] || null}
-                  onChange={(_, emoji) =>
-                    emoji && handleReaction(msg.id, emoji)
-                  }
+              {msg.reactions && msg.reactions.length > 0 && (
+                <AvatarGroup
+                  max={5}
+                  spacing="medium"
+                  sx={{
+                    position: "absolute",
+                    left: msg.message_owner === "You" ? "auto" : 12,
+                    right: msg.message_owner === "You" ? 12 : "auto",
+                    bottom: -18,
+                    zIndex: 2,
+                    justifyContent: "flex-start",
+                  }}
+                  slotProps={{
+                    additionalAvatar: {
+                      sx: {
+                        width: 28,
+                        height: 28,
+                        fontSize: "1.2rem",
+                        bgcolor:
+                          msg.message_owner === "You" ? "#6a5acd" : "#F5F6FA",
+                        color: msg.message_owner === "You" ? "#fff" : "#222",
+                        border: "1px solid #eee",
+                        boxShadow: 1,
+                      },
+                    },
+                  }}
                 >
-                  {EMOJIS.map((emoji) => (
-                    <ToggleButton key={emoji} value={emoji}>
+                  {msg.reactions.map((emoji: string, idx: number) => (
+                    <Avatar
+                      key={idx}
+                      sx={{
+                        width: 28,
+                        height: 28,
+                        fontSize: "1.2rem",
+                        bgcolor:
+                          msg.message_owner === "You" ? "#6a5acd" : "#F5F6FA",
+                        color: msg.message_owner === "You" ? "#fff" : "#222",
+                        border: "1px solid #eee",
+                        boxShadow: 1,
+                      }}
+                    >
                       {emoji}
-                    </ToggleButton>
+                    </Avatar>
                   ))}
-                </ToggleButtonGroup>
-              </Box>
-            )}
+                </AvatarGroup>
+              )}
+            </Paper>
           </Box>
         ))}
 
@@ -377,7 +390,6 @@ function Community() {
               },
             }}
           />
-
           <IconButton
             color="primary"
             onClick={handleButtonClick}
@@ -411,13 +423,8 @@ function Community() {
       </Box>
 
       {/* Help Dialog */}
-      <Dialog
-        open={helpOpen}
-        onClose={() => setHelpOpen(false)}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle data-testid="faq-header">FAQ</DialogTitle> {/* ✅ */}
+      <Dialog open={helpOpen} onClose={() => setHelpOpen(false)} fullWidth maxWidth="sm">
+        <DialogTitle data-testid="faq-header">FAQ</DialogTitle>
         <DialogContent dividers>
           <TextField
             placeholder="Search FAQs..."
@@ -449,17 +456,13 @@ function Community() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => setHelpOpen(false)}
-            data-testid="faq-close"
-          >
+          <Button onClick={() => setHelpOpen(false)} data-testid="faq-close">
             Close
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-
 }
 
 export default Community;

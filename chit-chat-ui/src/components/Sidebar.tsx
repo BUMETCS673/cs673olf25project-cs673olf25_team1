@@ -55,7 +55,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
       }}
       data-testid="sidebar"
     >
-      <Box display="flex" justifyContent="center" py={2}>
+      <Box>
         <img
           src={ChitChatLogo}
           alt="Chit Chat Logo"
