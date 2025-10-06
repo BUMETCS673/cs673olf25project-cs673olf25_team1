@@ -137,9 +137,9 @@ function Community() {
         prev.map((msg) =>
           msg.id === messageId
             ? {
-                ...msg,
-                reactions: reactions || [],
-              }
+              ...msg,
+              reactions: reactions || [],
+            }
             : msg
         )
       );
@@ -260,7 +260,7 @@ function Community() {
                 overflowWrap: "break-word",
                 wordBreak: "break-word",
                 whiteSpace: "pre-wrap",
-                position: "relative",
+                position: "relative", // for absolute positioning of avatars
               }}
             >
               <Typography
@@ -273,6 +273,7 @@ function Community() {
               >
                 {msg.message_owner}: {msg.message_content}
               </Typography>
+              {/* Emoji Avatars peeking out at the bottom */}
               {msg.reactions && msg.reactions.length > 0 && (
                 <AvatarGroup
                   max={5}
@@ -320,6 +321,59 @@ function Community() {
                 </AvatarGroup>
               )}
             </Paper>
+            {/* Emoji reactions on hover */}
+            {hoveredMsgId === msg.id && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "-36px",
+                  left: msg.message_owner === "You" ? "auto" : 0,
+                  right: msg.message_owner === "You" ? 0 : "auto",
+                  zIndex: 2,
+                  bgcolor: "#0f0101ff",
+                  borderRadius: "20px",
+                  px: 1,
+                  py: 0.5,
+                }}
+              >
+                <ToggleButtonGroup
+                  exclusive
+                  size="small"
+                  value={reactions[msg.id] || null}
+                  onChange={(_, emoji) =>
+                    emoji && handleReaction(msg.id, emoji)
+                  }
+                >
+                  {EMOJIS.map((emoji) => (
+                    <ToggleButton
+                      key={emoji}
+                      value={emoji}
+                      sx={{
+                        minWidth: 24,
+                        height: 36,
+                        fontSize: "1rem",
+                        color: "#000000",
+                        backgroundColor: "transparent",
+                        opacity: 1,
+                        transition: "background 0.2s, color 0.2s",
+                        "&:hover": {
+                          backgroundColor: "#5a49c4",
+                          color: "#5a49c4",
+                          opacity: 1,
+                        },
+                        "&.Mui-selected": {
+                          backgroundColor: "#5a49c4",
+                          color: "#5a49c4",
+                          opacity: 1,
+                        },
+                      }}
+                    >
+                      {emoji}
+                    </ToggleButton>
+                  ))}
+                </ToggleButtonGroup>
+              </Box>
+            )}
           </Box>
         ))}
 
@@ -348,7 +402,7 @@ function Community() {
         sx={{
           position: "fixed",
           bottom: 0,
-          left: { xs: 0, md: 260 },
+          left: { xs: 0, md: 260 }, // ✅ responsive sidebar offset
           right: 0,
           zIndex: 10,
           backgroundColor: "#fff",
@@ -405,6 +459,7 @@ function Community() {
             <SendIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
           </IconButton>
 
+          {/* Hide Help button on very small screens */}
           <Button
             variant="outlined"
             startIcon={<HelpOutlineIcon />}
@@ -423,15 +478,20 @@ function Community() {
       </Box>
 
       {/* Help Dialog */}
-      <Dialog open={helpOpen} onClose={() => setHelpOpen(false)} fullWidth maxWidth="sm">
+      <Dialog
+        open={helpOpen}
+        onClose={() => setHelpOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogTitle data-testid="faq-header">FAQ</DialogTitle>
         <DialogContent dividers>
           <TextField
             placeholder="Search FAQs..."
             variant="outlined"
             fullWidth
-            value={searchTerm}
             data-testid="faq-search"
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
               startAdornment: (
@@ -456,9 +516,7 @@ function Community() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setHelpOpen(false)} data-testid="faq-close">
-            Close
-          </Button>
+          <Button onClick={() => setHelpOpen(false)} data-testid="faq-close">Close</Button>
         </DialogActions>
       </Dialog>
     </Box>
