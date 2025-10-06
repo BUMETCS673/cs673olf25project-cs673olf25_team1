@@ -52,6 +52,8 @@ export default function Login({ onLogin }: LoginProps) {
 
       onLogin({ user, token }); // update App state
       navigate("/community"); // redirect after login
+      socket.emit("user-logged-in", { username: user.username });
+      socket.emit("recieve-existing-messages");
     } catch (err: unknown) {
       console.error("Login error:", err);
       if (axios.isAxiosError(err)) {
@@ -65,11 +67,20 @@ export default function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+    >
       <Card sx={{ width: 400, p: 1, boxShadow: 4, borderRadius: 3 }}>
         <CardContent>
           <Box display="flex" justifyContent="center" mb={1}>
-            <img src={ChitChatLogo} alt="Chit Chat Logo" style={{ width: 200 }} />
+            <img
+              src={ChitChatLogo}
+              alt="Chit Chat Logo"
+              style={{ width: 200 }}
+            />
           </Box>
 
           <Typography variant="h5" textAlign="center" gutterBottom>
@@ -109,7 +120,11 @@ export default function Login({ onLogin }: LoginProps) {
 
           <Typography variant="body2" textAlign="center" mt={2}>
             Don’t have an account?{" "}
-            <Link component="button" variant="body2" onClick={() => navigate("/register")}>
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => navigate("/register")}
+            >
               Register here
             </Link>
           </Typography>

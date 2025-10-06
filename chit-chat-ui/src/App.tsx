@@ -1,4 +1,9 @@
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
 import Community from "./pages/Community";
 import Ai from "./pages/Ai";
@@ -8,9 +13,11 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 import ResponsiveSidebar from "./components/Sidebar";
-import "./index.css"
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import "./index.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import axios from "axios";
+import socket from "./hooks/socket";
+
 
 function App() {
   const [user, setUser] = useState<any>(null);
@@ -45,7 +52,10 @@ function App() {
         });
 
         setUser(data);
-        sessionStorage.setItem("user", JSON.stringify(data));
+        //sessionStorage.setItem("user", JSON.stringify(data));
+        const user = JSON.parse(sessionStorage.getItem("user") || "{}");
+        socket.emit("user-logged-in", { username: user.username });
+        socket.emit("recieve-existing-messages");
       } catch (err) {
         console.error("Failed to fetch profile", err);
         setUser(null);
@@ -58,6 +68,7 @@ function App() {
   }, []);
 
   const handleLogin = ({ user, token }: { user: any; token: string }) => {
+    console.log("Handling login for user:", user);
     sessionStorage.setItem("user", JSON.stringify(user));
     sessionStorage.setItem("token", token);
     setUser(user);
@@ -79,7 +90,13 @@ function App() {
         {/* Public route: Login */}
         <Route
           path="/login"
-          element={user ? <Navigate to="/community" /> : <Login onLogin={handleLogin} />}
+          element={
+            user ? (
+              <Navigate to="/community" />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
+          }
         />
         <Route
           path="/register"
@@ -92,7 +109,10 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <ThemeProvider theme={theme}>
-                <div style={{ backgroundColor: themeColor }} className="min-h-screen">
+                <div
+                  style={{ backgroundColor: themeColor }}
+                  className="min-h-screen"
+                >
                   <ResponsiveSidebar onLogout={handleLogout}>
                     <main className="content">
                       <Routes>
@@ -102,12 +122,17 @@ function App() {
                           path="profile"
                           element={
                             <Profile
-                              user={user}  // the current logged-in user
-                              onUpdateUser={(updatedUser) => setUser(updatedUser)}  // updates app state
+                              user={user} // the current logged-in user
+                              onUpdateUser={(updatedUser) =>
+                                setUser(updatedUser)
+                              } // updates app state
                             />
                           }
                         />
-                        <Route path="*" element={<Navigate to="/community" replace />} />
+                        <Route
+                          path="*"
+                          element={<Navigate to="/community" replace />}
+                        />
                       </Routes>
                     </main>
                   </ResponsiveSidebar>
