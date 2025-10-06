@@ -75,8 +75,6 @@ export default function Auth({ onLogin }: LoginProps) {
     }
   };
 
-
-
   return (
     <Box
       display="flex"
@@ -93,6 +91,7 @@ export default function Auth({ onLogin }: LoginProps) {
               style={{ width: 200 }}
             />
           </Box>
+
           <Typography
             variant="h5"
             textAlign="center"
@@ -113,6 +112,7 @@ export default function Auth({ onLogin }: LoginProps) {
                   onChange={(e) => setFullname(e.target.value)}
                   required
                   fullWidth
+                  data-testid="register-fullname" // ✅
                 />
               )}
 
@@ -123,6 +123,7 @@ export default function Auth({ onLogin }: LoginProps) {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 fullWidth
+                data-testid="login-username" // ✅
               />
 
               <TextField
@@ -133,6 +134,7 @@ export default function Auth({ onLogin }: LoginProps) {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 fullWidth
+                data-testid="login-password" // ✅
               />
 
               <Button
@@ -141,6 +143,7 @@ export default function Auth({ onLogin }: LoginProps) {
                 color="primary"
                 fullWidth
                 sx={{ mt: 1 }}
+                data-testid={isRegistering ? "register-button" : "login-button"} // ✅
               >
                 {isRegistering ? "Register" : "Login"}
               </Button>
@@ -148,16 +151,18 @@ export default function Auth({ onLogin }: LoginProps) {
           </Box>
 
           {error && (
-            <Typography color="error" variant="body2" textAlign="center" pt={2}>
+            <Typography
+              color="error"
+              variant="body2"
+              textAlign="center"
+              pt={2}
+              data-testid="auth-error" // ✅
+            >
               {error}
             </Typography>
           )}
 
-          <Typography
-            variant="body2"
-            textAlign="center"
-            mt={2}
-          >
+          <Typography variant="body2" textAlign="center" mt={2}>
             {isRegistering ? (
               <>
                 Already have an account?{" "}
@@ -188,4 +193,5 @@ export default function Auth({ onLogin }: LoginProps) {
       </Card>
     </Box>
   );
+
 }
