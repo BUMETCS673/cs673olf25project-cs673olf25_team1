@@ -1,0 +1,3 @@
+Running ESLint...
+
+ESLint complete. Report saved to: eslint-report.txt

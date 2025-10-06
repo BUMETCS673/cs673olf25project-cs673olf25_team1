@@ -26,7 +26,7 @@ export default defineConfig({
   fullyParallel: true,
   retries: process.env.CI ? 0 : 0,
   reporter: [['list'], 
-             ['html', { outputFolder: 'playwright-report', open: 'never' }], 
+             ['html', { outputFolder: '../../playwright-report', open: 'never' }], 
              ['json', { outputFile: '../../playwright-report/results.json' }]],
 
   use: {
