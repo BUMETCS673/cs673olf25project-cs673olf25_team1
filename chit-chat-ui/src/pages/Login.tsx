@@ -13,6 +13,7 @@ import {
   Link,
 } from "@mui/material";
 import ChitChatLogo from "../assets/chit_chat_logo_v2_white.png";
+import socket from "../hooks/socket";
 
 type LoginProps = {
   onLogin: (user: any) => void; // pass the user object to App
