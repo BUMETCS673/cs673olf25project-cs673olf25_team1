@@ -1,3 +1,4 @@
+// account.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -41,4 +42,17 @@ export class AccountService {
     return this.accountRepository.save(account);
   }
 
+  async updateProfile(username: string, updateData: Partial<Account>) {
+    const user = await this.accountRepository.findOne({ where: { username } });
+    if (!user) throw new Error('User not found');
+
+    // Only update the fields that exist in updateData
+    user.displayName = updateData.displayName ?? user.displayName;
+    user.avatar = updateData.avatar ?? user.avatar;
+    user.themeColor = updateData.themeColor ?? user.themeColor;
+
+    return this.accountRepository.save(user);
+  }
+
 }
+

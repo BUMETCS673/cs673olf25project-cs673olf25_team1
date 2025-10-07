@@ -1,4 +1,8 @@
 // authentication/local.strategy.ts
+
+// AI-generated-code: 100% (AI chat link: https://chatgpt.com/s/t_68d833b25f508191b0a9210a3c28a559)
+// Human code: 0% 
+
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';

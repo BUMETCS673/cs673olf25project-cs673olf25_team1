@@ -84,7 +84,6 @@ function Community() {
     });
 
     socket.on("recieve-chat-message", (result) => {
-      console.log("Received message:", result);
       if (result.data[0] !== socket.id) {
         setMessages((prev) => [
           ...prev,
