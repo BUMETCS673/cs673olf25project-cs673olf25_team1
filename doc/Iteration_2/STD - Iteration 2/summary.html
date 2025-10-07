@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Playwright Test Summary</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #fafafa; color: #222; margin: 40px; }
+  h1, h2, h3 { color: #333; }
+  table { border-collapse: collapse; width: 50%; margin-bottom: 20px; }
+  th, td { border: 1px solid #ccc; padding: 6px 12px; text-align: left; }
+  tr:nth-child(even) { background: #f2f2f2; }
+  details { margin-bottom: 12px; background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 6px; }
+  summary { font-weight: bold; cursor: pointer; }
+  code { background: #eee; padding: 2px 6px; border-radius: 4px; display: block; white-space: pre-wrap; margin-top: 4px; }
+  .passed { color: green; }
+  .failed { color: red; }
+  .skipped { color: orange; }
+</style>
+</head>
+<body>
+<h1>Playwright Test Report Summary</h1>
+<p><strong>Generated:</strong> 10/5/2025, 1:31:27 PM</p>
+<table>
+  <tr><th>Status</th><th>Count</th></tr>
+  <tr><td class="passed">Passed</td><td>2</td></tr>
+  <tr><td class="failed">Failed</td><td>54</td></tr>
+  <tr><td class="skipped">Skipped</td><td>0</td></tr>
+</table>
+<h2>auth-login.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 9</span> | <span class="skipped">Skipped: 0</span></p><h3>Failed Tests</h3><details><summary>1. undefined</summary><code>Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/\/register$/[39m
+Received string:  [31m"http://localhost:8000/login"[39m
+Timeout: 5000ms
+
+Call log:
+[2m  - Expect "toHaveURL" with timeout 5000ms[22m
+[2m    9 × unexpected value "http://localhost:8000/login"[22m</code><ul><li><a href="../../../test-results/auth-login-AT-9-Navigation-ab56b-in-and-register-pages-works-chromium/test-failed-1.png" target="_blank">screenshot</a></li><li><a href="../../../test-results/auth-login-AT-9-Navigation-ab56b-in-and-register-pages-works-chromium/video.webm" target="_blank">video</a></li><li><a href="../../../test-results/auth-login-AT-9-Navigation-ab56b-in-and-register-pages-works-chromium/error-context.md" target="_blank">error-context</a></li></ul></details><h2>autoscroll.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 4</span> | <span class="skipped">Skipped: 0</span></p><h2>chat-guest.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 10</span> | <span class="skipped">Skipped: 0</span></p><h2>chat-history.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 10</span> | <span class="skipped">Skipped: 0</span></p><h2>enter-key.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 11</span> | <span class="skipped">Skipped: 0</span></p><h2>hello.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 1</span> | <span class="failed">Failed: 0</span> | <span class="skipped">Skipped: 0</span></p><h2>help-community.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 0</span> | <span class="skipped">Skipped: 0</span></p><h2>sidebar.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 5</span> | <span class="skipped">Skipped: 0</span></p><h2>smoke.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 1</span> | <span class="failed">Failed: 0</span> | <span class="skipped">Skipped: 0</span></p><h2>typing-indicator.spec.ts</h2><p><strong>Summary:</strong> <span class="passed">Passed: 0</span> | <span class="failed">Failed: 5</span> | <span class="skipped">Skipped: 0</span></p>
+</body>
+</html>
