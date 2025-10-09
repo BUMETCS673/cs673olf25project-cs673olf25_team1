@@ -1,5 +1,5 @@
 // account.service.ts
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Account } from '../entities/account.entity';
@@ -29,6 +29,13 @@ export class AccountService {
     const existing = await this.findByUsername(username);
     if (existing) {
       throw new ConflictException('Username already exists');
+    }
+
+    const complexityRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!complexityRegex.test(password)) {
+      throw new BadRequestException(
+        'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character (@ $ ! % * ? &).'
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
