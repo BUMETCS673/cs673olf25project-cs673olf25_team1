@@ -1,4 +1,8 @@
-// authentication.controller.ts
+// authentication/controller.ts
+
+// AI-generated-code: 100% (AI chat link: https://chatgpt.com/s/t_68d833b25f508191b0a9210a3c28a559)
+// Human code: 0% 
+
 import { Controller, Post, UseGuards, Request, Body, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './service';

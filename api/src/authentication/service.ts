@@ -1,4 +1,8 @@
-// authentication.service.ts
+// authentication/service.ts
+
+// AI-generated-code: 90% (AI chat link: https://chatgpt.com/s/t_68d833b25f508191b0a9210a3c28a559)
+// Human code: 10% 
+
 import { Injectable } from '@nestjs/common';
 import { AccountService } from '../services/account.service';
 import * as bcrypt from 'bcryptjs';
@@ -20,6 +24,13 @@ export class AuthService {
     const payload = { sub: user.username, fullname: user.fullname };
     const secret = process.env.JWT_SECRET!;
     const accessToken = jwt.sign(payload, secret, { expiresIn: '1h' });
-    return { accessToken, user: { username: user.username, fullname: user.fullname } };
+    return {accessToken, 
+            user: { username: user.username, 
+                    fullname: user.fullname,
+                    displayName: user.displayName,
+                    avatar: user.avatar,
+                    themeColor: user.themeColor
+                  }
+            };
   }
 }
