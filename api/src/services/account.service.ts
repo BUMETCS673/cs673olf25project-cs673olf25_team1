@@ -34,7 +34,7 @@ export class AccountService {
     const complexityRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!complexityRegex.test(password)) {
       throw new BadRequestException(
-        'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.'
+        'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character (@ $ ! % * ? &).'
       );
     }
 
