@@ -1,5 +1,5 @@
 // account.service.ts
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Account } from '../entities/account.entity';
@@ -28,7 +28,7 @@ export class AccountService {
   async register(username: string, password: string, fullname: string): Promise<Account> {
     const existing = await this.findByUsername(username);
     if (existing) {
-      throw new Error('Username already exists');
+      throw new ConflictException('Username already exists');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
