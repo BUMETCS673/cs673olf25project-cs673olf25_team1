@@ -82,8 +82,11 @@ function Ai() {
   };
 
 
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') sendMessage();
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
 
@@ -232,23 +235,31 @@ function Ai() {
             gap: { xs: 1, sm: 1.5 },
           }}
         >
-          <TextField
-            fullWidth
-            placeholder="Type a message..."
-            variant="outlined"
-            size="small"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-                backgroundColor: "#fafafa",
-                fontSize: { xs: "0.85rem", sm: "0.95rem" },
-              },
-            }}
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={handleInputKeyDown}
-            disabled={loading}
-          />
+         
+
+        <TextField
+          fullWidth
+          multiline
+          minRows={1}
+          maxRows={5}
+          placeholder="Type a message..."
+          variant="outlined"
+          size="small"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "10px",
+              backgroundColor: "#fafafa",
+              fontSize: { xs: "0.85rem", sm: "0.95rem" },
+            },
+          }}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleInputKeyDown}
+          disabled={loading}
+        />
+
+
+
           <IconButton
             color="primary"
             size="small"
