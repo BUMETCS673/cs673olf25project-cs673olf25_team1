@@ -134,6 +134,7 @@ function Ai() {
       {/* Scrollable messages container */}
       <Container
         maxWidth="md"
+        data-testid="message-list"
         sx={{
           flexGrow: 1,
           mt: { xs: "10px", md: "0px" },
@@ -148,7 +149,7 @@ function Ai() {
           },
         }}
       >
-        {/* Message bubbles (placeholder for now) */}
+        {/* Initial AI message */}
         <Box display="flex" justifyContent="flex-start" mb={1.5}>
           <Paper
             elevation={0}
@@ -169,39 +170,41 @@ function Ai() {
             </Typography>
           </Paper>
         </Box>
+
+        {/* Dynamic messages */}
         {messages.map((msg, index) => (
           <Box
             key={index}
             display="flex"
-            justifyContent={msg.from === 'user' ? 'flex-end' : 'flex-start'}
+            justifyContent={msg.from === "user" ? "flex-end" : "flex-start"}
             mb={1.5}
           >
             <Paper
               elevation={0}
               sx={{
                 p: { xs: 1, sm: 1.5 },
-                maxWidth: '80%',
+                maxWidth: "80%",
                 borderRadius:
-                  msg.from === 'user'
-                    ? '18px 18px 0 18px'
-                    : '18px 18px 18px 0',
-                bgcolor: msg.from === 'user' ? '#6a5acd' : '#F5F6FA',
-                color: msg.from === 'user' ? '#fff' : '#000',
+                  msg.from === "user"
+                    ? "18px 18px 0 18px"
+                    : "18px 18px 18px 0",
+                bgcolor: msg.from === "user" ? "#6a5acd" : "#F5F6FA",
+                color: msg.from === "user" ? "#fff" : "#000",
                 border:
-                  msg.from === 'user'
-                    ? 'none'
-                    : '1px solid rgba(0,0,0,0.08)',
-                overflowWrap: 'break-word',
-                wordBreak: 'break-word',
-                whiteSpace: 'pre-wrap',
+                  msg.from === "user"
+                    ? "none"
+                    : "1px solid rgba(0,0,0,0.08)",
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
               }}
             >
               <Typography
                 variant="body2"
                 sx={{
-                  overflowWrap: 'break-word',
-                  wordBreak: 'break-word',
-                  whiteSpace: 'pre-wrap',
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-wrap",
                 }}
               >
                 {msg.text}
@@ -210,7 +213,6 @@ function Ai() {
             <div ref={messagesEndRef} />
           </Box>
         ))}
-
       </Container>
 
       {/* Fixed Input Bar */}
@@ -235,41 +237,37 @@ function Ai() {
             gap: { xs: 1, sm: 1.5 },
           }}
         >
-         
-
-        <TextField
-          fullWidth
-          multiline
-          minRows={1}
-          maxRows={5}
-          placeholder="Type a message..."
-          variant="outlined"
-          size="small"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "10px",
-              backgroundColor: "#fafafa",
-              fontSize: { xs: "0.85rem", sm: "0.95rem" },
-            },
-          }}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleInputKeyDown}
-          disabled={loading}
-        />
-
-
+          <TextField
+            fullWidth
+            placeholder="Type a message..."
+            variant="outlined"
+            size="small"
+            data-testid="chat-input"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "10px",
+                backgroundColor: "#fafafa",
+                fontSize: { xs: "0.85rem", sm: "0.95rem" },
+              },
+            }}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleInputKeyDown}
+            disabled={loading}
+          />
 
           <IconButton
             color="primary"
             size="small"
+            data-testid="send-button"
             sx={{
               bgcolor: "#6a5acd",
               color: "white",
               p: { xs: 0.8, sm: 1 },
               "&:hover": { bgcolor: "#5a49c4" },
             }}
-            onClick={sendMessage} disabled={loading || !input.trim()}
+            onClick={sendMessage}
+            disabled={loading || !input.trim()}
           >
             <SendIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
           </IconButton>
@@ -279,6 +277,7 @@ function Ai() {
             variant="outlined"
             startIcon={<HelpOutlineIcon />}
             onClick={() => setHelpOpen(true)}
+            data-testid="help-button"
             sx={{
               display: { xs: "none", sm: "flex" },
               borderRadius: "20px",
@@ -298,7 +297,7 @@ function Ai() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>FAQ</DialogTitle>
+        <DialogTitle data-testid="faq-header">FAQ</DialogTitle>
         <DialogContent dividers>
           <TextField
             placeholder="Search FAQs..."
@@ -306,6 +305,7 @@ function Ai() {
             fullWidth
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            data-testid="faq-search"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -329,11 +329,17 @@ function Ai() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setHelpOpen(false)}>Close</Button>
+          <Button
+            onClick={() => setHelpOpen(false)}
+            data-testid="faq-close"
+          >
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
+
 }
 
 export default Ai;
