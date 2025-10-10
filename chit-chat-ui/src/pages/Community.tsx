@@ -136,9 +136,9 @@ function Community() {
         prev.map((msg) =>
           msg.id === messageId
             ? {
-              ...msg,
-              reactions: reactions || [],
-            }
+                ...msg,
+                reactions: reactions || [],
+              }
             : msg
         )
       );
@@ -214,7 +214,6 @@ function Community() {
         maxWidth="md"
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        data-testid="message-list"
         sx={{
           flexGrow: 1,
           mt: { xs: "10px", md: "0px" },
@@ -380,7 +379,6 @@ function Community() {
         {typingUsers.size > 0 && (
           <Typography
             variant="body2"
-            data-testid="typing-indicator"
             sx={{
               fontStyle: "italic",
               color: "#666",
@@ -427,7 +425,6 @@ function Community() {
             variant="outlined"
             size="small"
             value={inputText}
-            data-testid="chat-input"
             onChange={(e) => {
               setInputText(e.target.value);
               socket.emit("user-typing", { data: [socket.id] });
@@ -450,7 +447,6 @@ function Community() {
             color="primary"
             onClick={handleButtonClick}
             size="small"
-            data-testid="send-button"
             sx={{
               bgcolor: "#6a5acd",
               color: "white",
@@ -466,7 +462,6 @@ function Community() {
             variant="outlined"
             startIcon={<HelpOutlineIcon />}
             onClick={() => setHelpOpen(true)}
-            data-testid="help-button"
             sx={{
               display: { xs: "none", sm: "flex" },
               borderRadius: "20px",
@@ -486,13 +481,12 @@ function Community() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle data-testid="faq-header">FAQ</DialogTitle>
+        <DialogTitle>FAQ</DialogTitle>
         <DialogContent dividers>
           <TextField
             placeholder="Search FAQs..."
             variant="outlined"
             fullWidth
-            data-testid="faq-search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
@@ -518,7 +512,7 @@ function Community() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setHelpOpen(false)} data-testid="faq-close">Close</Button>
+          <Button onClick={() => setHelpOpen(false)}>Close</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -58,9 +58,8 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
         color: "#F5F6FA",
         pl: 2,
       }}
-      data-testid="sidebar"
     >
-      <Box>
+      <Box >
         <img
           src={ChitChatLogo}
           alt="Chit Chat Logo"
@@ -69,20 +68,20 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
       </Box>
 
       <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
-
-      <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
+      <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
         <List dense>
           {navItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                selected={location.pathname === item.path}
-                component={Link}
-                to={item.path}
-                sx={{ borderRadius: 2 }}
-                data-testid={
-                  item.text === "Community" ? "nav-community" : "nav-ai"
-                }
-              >
+            <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
+              {item.text === "Logout" ? (
+                <ListItemButton
+                    onClick={onLogout}
+                    sx={{ borderRadius: 2 }}
+                  >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} sx={{ color: "black" }} />
+                </ListItemButton>
+              ) : (
+              <ListItemButton selected={location.pathname === item.path} component={Link} to={item.path} sx={{ borderRadius: 2 }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} sx={{ color: "black" }} />
               </ListItemButton>
@@ -96,7 +95,6 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* Mobile App Bar */}
       {!isLargeScreen && (
         <AppBar
           position="fixed"
@@ -106,12 +104,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
           }}
         >
           <Toolbar>
-            <IconButton
-              color="inherit"
-              edge="start"
-              onClick={handleDrawerToggle}
-              data-testid="sidebar-toggle"
-            >
+            <IconButton color="inherit" edge="start" onClick={handleDrawerToggle}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ ml: 2 }}>
@@ -133,7 +126,6 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
             width: drawerWidth,
           },
         }}
-        data-testid="sidebar"
       >
         {drawer}
       </Drawer>
@@ -148,7 +140,6 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
           },
         }}
         open
-        data-testid="sidebar"
       >
         {drawer}
       </Drawer>

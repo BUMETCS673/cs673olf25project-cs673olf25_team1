@@ -83,30 +83,12 @@ export default function Login({ onLogin }: LoginProps) {
             />
           </Box>
 
-          <Typography
-            variant="h5"
-            textAlign="center"
-            fontWeight={400}
-            gutterBottom
-            sx={{ mb: 3 }}
-          >
-            {isRegistering ? "Create Account" : "Sign In"}
+          <Typography variant="h5" textAlign="center" gutterBottom>
+            Sign In
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit}>
             <Stack spacing={2}>
-              {isRegistering && (
-                <TextField
-                  label="Full Name"
-                  variant="outlined"
-                  value={fullname}
-                  onChange={(e) => setFullname(e.target.value)}
-                  required
-                  fullWidth
-                  data-testid="register-fullname" // ✅
-                />
-              )}
-
               <TextField
                 label="Username"
                 variant="outlined"
@@ -114,7 +96,6 @@ export default function Login({ onLogin }: LoginProps) {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 fullWidth
-                data-testid="login-username" // ✅
               />
               <TextField
                 label="Password"
@@ -124,64 +105,31 @@ export default function Login({ onLogin }: LoginProps) {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 fullWidth
-                data-testid="login-password" // ✅
               />
-
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ mt: 1 }}
-                data-testid={isRegistering ? "register-button" : "login-button"} // ✅
-              >
-                {isRegistering ? "Register" : "Login"}
+              <Button type="submit" variant="contained" fullWidth>
+                Login
               </Button>
             </Stack>
           </Box>
 
           {error && (
-            <Typography
-              color="error"
-              variant="body2"
-              textAlign="center"
-              pt={2}
-              data-testid="auth-error" // ✅
-            >
+            <Typography color="error" textAlign="center" pt={2}>
               {error}
             </Typography>
           )}
 
           <Typography variant="body2" textAlign="center" mt={2}>
-            {isRegistering ? (
-              <>
-                Already have an account?{" "}
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={toggleMode}
-                  sx={{ fontWeight: 600 }}
-                >
-                  Login here
-                </Link>
-              </>
-            ) : (
-              <>
-                Don’t have an account?{" "}
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={toggleMode}
-                  sx={{ fontWeight: 600 }}
-                >
-                  Register here
-                </Link>
-              </>
-            )}
+            Don’t have an account?{" "}
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => navigate("/register")}
+            >
+              Register here
+            </Link>
           </Typography>
         </CardContent>
       </Card>
     </Box>
   );
-
 }
