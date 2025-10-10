@@ -136,9 +136,9 @@ function Community() {
         prev.map((msg) =>
           msg.id === messageId
             ? {
-              ...msg,
-              reactions: reactions || [],
-            }
+                ...msg,
+                reactions: reactions || [],
+              }
             : msg
         )
       );
@@ -214,7 +214,6 @@ function Community() {
         maxWidth="md"
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        data-testid="message-list"
         sx={{
           flexGrow: 1,
           mt: { xs: "10px", md: "0px" },
@@ -228,6 +227,7 @@ function Community() {
             borderRadius: "8px",
           },
         }}
+         data-testid="message-list"
       >
         {messages.map((msg, index) => (
           <Box
@@ -380,13 +380,13 @@ function Community() {
         {typingUsers.size > 0 && (
           <Typography
             variant="body2"
-            data-testid="typing-indicator"
             sx={{
               fontStyle: "italic",
               color: "#666",
               mt: 1,
               ml: 1,
             }}
+            data-testid="typing-indicator"
           >
             {typingUsers.size === 1
               ? "User is typing..."
@@ -427,11 +427,11 @@ function Community() {
             variant="outlined"
             size="small"
             value={inputText}
-            data-testid="chat-input"
             onChange={(e) => {
               setInputText(e.target.value);
               socket.emit("user-typing", { data: [socket.id] });
             }}
+            data-testid="chat-input"
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
@@ -466,13 +466,13 @@ function Community() {
             variant="outlined"
             startIcon={<HelpOutlineIcon />}
             onClick={() => setHelpOpen(true)}
-            data-testid="help-button"
             sx={{
               display: { xs: "none", sm: "flex" },
               borderRadius: "20px",
               textTransform: "none",
               fontSize: "0.85rem",
             }}
+            data-testid="help-button"
           >
             Help
           </Button>

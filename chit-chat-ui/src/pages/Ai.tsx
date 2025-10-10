@@ -82,12 +82,13 @@ function Ai() {
   };
 
 
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   };
+
 
 
   // Filtered FAQs
@@ -134,7 +135,6 @@ function Ai() {
       {/* Scrollable messages container */}
       <Container
         maxWidth="md"
-        data-testid="message-list"
         sx={{
           flexGrow: 1,
           mt: { xs: "10px", md: "0px" },
@@ -148,8 +148,9 @@ function Ai() {
             borderRadius: "8px",
           },
         }}
+        data-testid="message-list"
       >
-        {/* Initial AI message */}
+        {/* Message bubbles (placeholder for now) */}
         <Box display="flex" justifyContent="flex-start" mb={1.5}>
           <Paper
             elevation={0}
@@ -170,41 +171,39 @@ function Ai() {
             </Typography>
           </Paper>
         </Box>
-
-        {/* Dynamic messages */}
         {messages.map((msg, index) => (
           <Box
             key={index}
             display="flex"
-            justifyContent={msg.from === "user" ? "flex-end" : "flex-start"}
+            justifyContent={msg.from === 'user' ? 'flex-end' : 'flex-start'}
             mb={1.5}
           >
             <Paper
               elevation={0}
               sx={{
                 p: { xs: 1, sm: 1.5 },
-                maxWidth: "80%",
+                maxWidth: '80%',
                 borderRadius:
-                  msg.from === "user"
-                    ? "18px 18px 0 18px"
-                    : "18px 18px 18px 0",
-                bgcolor: msg.from === "user" ? "#6a5acd" : "#F5F6FA",
-                color: msg.from === "user" ? "#fff" : "#000",
+                  msg.from === 'user'
+                    ? '18px 18px 0 18px'
+                    : '18px 18px 18px 0',
+                bgcolor: msg.from === 'user' ? '#6a5acd' : '#F5F6FA',
+                color: msg.from === 'user' ? '#fff' : '#000',
                 border:
-                  msg.from === "user"
-                    ? "none"
-                    : "1px solid rgba(0,0,0,0.08)",
-                overflowWrap: "break-word",
-                wordBreak: "break-word",
-                whiteSpace: "pre-wrap",
+                  msg.from === 'user'
+                    ? 'none'
+                    : '1px solid rgba(0,0,0,0.08)',
+                overflowWrap: 'break-word',
+                wordBreak: 'break-word',
+                whiteSpace: 'pre-wrap',
               }}
             >
               <Typography
                 variant="body2"
                 sx={{
-                  overflowWrap: "break-word",
-                  wordBreak: "break-word",
-                  whiteSpace: "pre-wrap",
+                  overflowWrap: 'break-word',
+                  wordBreak: 'break-word',
+                  whiteSpace: 'pre-wrap',
                 }}
               >
                 {msg.text}
@@ -213,6 +212,7 @@ function Ai() {
             <div ref={messagesEndRef} />
           </Box>
         ))}
+
       </Container>
 
       {/* Fixed Input Bar */}
@@ -237,12 +237,16 @@ function Ai() {
             gap: { xs: 1, sm: 1.5 },
           }}
         >
+
+
           <TextField
             fullWidth
+            multiline
+            minRows={1}
+            maxRows={5}
             placeholder="Type a message..."
             variant="outlined"
             size="small"
-            data-testid="chat-input"
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: "10px",
@@ -254,20 +258,22 @@ function Ai() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleInputKeyDown}
             disabled={loading}
+            data-testid="chat-input"
           />
+
+
 
           <IconButton
             color="primary"
             size="small"
-            data-testid="send-button"
             sx={{
               bgcolor: "#6a5acd",
               color: "white",
               p: { xs: 0.8, sm: 1 },
               "&:hover": { bgcolor: "#5a49c4" },
             }}
-            onClick={sendMessage}
-            disabled={loading || !input.trim()}
+            onClick={sendMessage} disabled={loading || !input.trim()}
+            data-testid="send-button"
           >
             <SendIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
           </IconButton>
@@ -277,13 +283,13 @@ function Ai() {
             variant="outlined"
             startIcon={<HelpOutlineIcon />}
             onClick={() => setHelpOpen(true)}
-            data-testid="help-button"
             sx={{
               display: { xs: "none", sm: "flex" },
               borderRadius: "20px",
               textTransform: "none",
               fontSize: "0.85rem",
             }}
+            data-testid="help-button"
           >
             Help
           </Button>
@@ -305,7 +311,6 @@ function Ai() {
             fullWidth
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            data-testid="faq-search"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -313,6 +318,7 @@ function Ai() {
                 </InputAdornment>
               ),
             }}
+            data-testid="faq-search"
             sx={{ mb: 2 }}
           />
           {filteredFaqs.length > 0 ? (
@@ -329,17 +335,11 @@ function Ai() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => setHelpOpen(false)}
-            data-testid="faq-close"
-          >
-            Close
-          </Button>
+          <Button onClick={() => setHelpOpen(false)} data-testid="faq-close">Close</Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-
 }
 
 export default Ai;

@@ -43,7 +43,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
 
   const navItems = [
     { text: "Community", icon: <HomeIcon />, path: "/community" },
-    { text: "AI Chat", icon: <AutoAwesomeIcon />, path: "/ai" },  
+    { text: "AI Chat", icon: <AutoAwesomeIcon />, path: "/ai" },
     { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
     { text: "Logout", icon: <LogoutIcon />, path: "/logout" }
   ];
@@ -60,7 +60,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
       }}
       data-testid="sidebar"
     >
-      <Box>
+      <Box >
         <img
           src={ChitChatLogo}
           alt="Chit Chat Logo"
@@ -69,23 +69,25 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
       </Box>
 
       <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
-
-      <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
+      <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
         <List dense>
           {navItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                selected={location.pathname === item.path}
-                component={Link}
-                to={item.path}
-                sx={{ borderRadius: 2 }}
-                data-testid={
+            <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
+              {item.text === "Logout" ? (
+                <ListItemButton
+                  onClick={onLogout}
+                  sx={{ borderRadius: 2 }}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} sx={{ color: "black" }} />
+                </ListItemButton>
+              ) : (
+                <ListItemButton selected={location.pathname === item.path} component={Link} to={item.path} sx={{ borderRadius: 2 }} data-testid={
                   item.text === "Community" ? "nav-community" : "nav-ai"
-                }
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} sx={{ color: "black" }} />
-              </ListItemButton>
+                }>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} sx={{ color: "black" }} />
+                </ListItemButton>
               )}
             </ListItem>
           ))}
@@ -96,7 +98,6 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* Mobile App Bar */}
       {!isLargeScreen && (
         <AppBar
           position="fixed"
@@ -106,12 +107,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
           }}
         >
           <Toolbar>
-            <IconButton
-              color="inherit"
-              edge="start"
-              onClick={handleDrawerToggle}
-              data-testid="sidebar-toggle"
-            >
+            <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} data-testid="sidebar-toggle">
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ ml: 2 }}>
