@@ -82,12 +82,13 @@ function Ai() {
   };
 
 
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   };
+
 
 
   // Filtered FAQs
@@ -147,6 +148,7 @@ function Ai() {
             borderRadius: "8px",
           },
         }}
+        data-testid="message-list"
       >
         {/* Message bubbles (placeholder for now) */}
         <Box display="flex" justifyContent="flex-start" mb={1.5}>
@@ -235,28 +237,29 @@ function Ai() {
             gap: { xs: 1, sm: 1.5 },
           }}
         >
-         
 
-        <TextField
-          fullWidth
-          multiline
-          minRows={1}
-          maxRows={5}
-          placeholder="Type a message..."
-          variant="outlined"
-          size="small"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "10px",
-              backgroundColor: "#fafafa",
-              fontSize: { xs: "0.85rem", sm: "0.95rem" },
-            },
-          }}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleInputKeyDown}
-          disabled={loading}
-        />
+
+          <TextField
+            fullWidth
+            multiline
+            minRows={1}
+            maxRows={5}
+            placeholder="Type a message..."
+            variant="outlined"
+            size="small"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "10px",
+                backgroundColor: "#fafafa",
+                fontSize: { xs: "0.85rem", sm: "0.95rem" },
+              },
+            }}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleInputKeyDown}
+            disabled={loading}
+            data-testid="chat-input"
+          />
 
 
 
@@ -270,6 +273,7 @@ function Ai() {
               "&:hover": { bgcolor: "#5a49c4" },
             }}
             onClick={sendMessage} disabled={loading || !input.trim()}
+            data-testid="send-button"
           >
             <SendIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
           </IconButton>
@@ -285,6 +289,7 @@ function Ai() {
               textTransform: "none",
               fontSize: "0.85rem",
             }}
+            data-testid="help-button"
           >
             Help
           </Button>
@@ -298,7 +303,7 @@ function Ai() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>FAQ</DialogTitle>
+        <DialogTitle data-testid="faq-header">FAQ</DialogTitle>
         <DialogContent dividers>
           <TextField
             placeholder="Search FAQs..."
@@ -313,6 +318,7 @@ function Ai() {
                 </InputAdornment>
               ),
             }}
+            data-testid="faq-search"
             sx={{ mb: 2 }}
           />
           {filteredFaqs.length > 0 ? (
@@ -329,7 +335,7 @@ function Ai() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setHelpOpen(false)}>Close</Button>
+          <Button onClick={() => setHelpOpen(false)} data-testid="faq-close">Close</Button>
         </DialogActions>
       </Dialog>
     </Box>

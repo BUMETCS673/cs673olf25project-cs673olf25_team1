@@ -227,6 +227,7 @@ function Community() {
             borderRadius: "8px",
           },
         }}
+         data-testid="message-list"
       >
         {messages.map((msg, index) => (
           <Box
@@ -385,6 +386,7 @@ function Community() {
               mt: 1,
               ml: 1,
             }}
+            data-testid="typing-indicator"
           >
             {typingUsers.size === 1
               ? "User is typing..."
@@ -429,6 +431,7 @@ function Community() {
               setInputText(e.target.value);
               socket.emit("user-typing", { data: [socket.id] });
             }}
+            data-testid="chat-input"
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
@@ -447,6 +450,7 @@ function Community() {
             color="primary"
             onClick={handleButtonClick}
             size="small"
+            data-testid="send-button"
             sx={{
               bgcolor: "#6a5acd",
               color: "white",
@@ -468,6 +472,7 @@ function Community() {
               textTransform: "none",
               fontSize: "0.85rem",
             }}
+            data-testid="help-button"
           >
             Help
           </Button>
@@ -481,12 +486,13 @@ function Community() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>FAQ</DialogTitle>
+        <DialogTitle data-testid="faq-header">FAQ</DialogTitle>
         <DialogContent dividers>
           <TextField
             placeholder="Search FAQs..."
             variant="outlined"
             fullWidth
+            data-testid="faq-search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
@@ -512,7 +518,7 @@ function Community() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setHelpOpen(false)}>Close</Button>
+          <Button onClick={() => setHelpOpen(false)} data-testid="faq-close">Close</Button>
         </DialogActions>
       </Dialog>
     </Box>

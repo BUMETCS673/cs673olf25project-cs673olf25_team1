@@ -96,6 +96,7 @@ export default function Login({ onLogin }: LoginProps) {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 fullWidth
+                data-testid="login-username"
               />
               <TextField
                 label="Password"
@@ -105,15 +106,16 @@ export default function Login({ onLogin }: LoginProps) {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 fullWidth
+                data-testid="login-password"
               />
-              <Button type="submit" variant="contained" fullWidth>
+              <Button type="submit" variant="contained" fullWidth data-testid="login-button">
                 Login
               </Button>
             </Stack>
           </Box>
 
           {error && (
-            <Typography color="error" textAlign="center" pt={2}>
+            <Typography color="error" textAlign="center" pt={2} data-testid="auth-error">
               {error}
             </Typography>
           )}

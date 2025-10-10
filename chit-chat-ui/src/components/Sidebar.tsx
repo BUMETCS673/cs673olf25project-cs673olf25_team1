@@ -43,7 +43,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
 
   const navItems = [
     { text: "Community", icon: <HomeIcon />, path: "/community" },
-    { text: "AI Chat", icon: <AutoAwesomeIcon />, path: "/ai" },  
+    { text: "AI Chat", icon: <AutoAwesomeIcon />, path: "/ai" },
     { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
     { text: "Logout", icon: <LogoutIcon />, path: "/logout" }
   ];
@@ -58,6 +58,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
         color: "#F5F6FA",
         pl: 2,
       }}
+      data-testid="sidebar"
     >
       <Box >
         <img
@@ -74,17 +75,19 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
               {item.text === "Logout" ? (
                 <ListItemButton
-                    onClick={onLogout}
-                    sx={{ borderRadius: 2 }}
-                  >
+                  onClick={onLogout}
+                  sx={{ borderRadius: 2 }}
+                >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.text} sx={{ color: "black" }} />
                 </ListItemButton>
               ) : (
-              <ListItemButton selected={location.pathname === item.path} component={Link} to={item.path} sx={{ borderRadius: 2 }}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} sx={{ color: "black" }} />
-              </ListItemButton>
+                <ListItemButton selected={location.pathname === item.path} component={Link} to={item.path} sx={{ borderRadius: 2 }} data-testid={
+                  item.text === "Community" ? "nav-community" : "nav-ai"
+                }>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} sx={{ color: "black" }} />
+                </ListItemButton>
               )}
             </ListItem>
           ))}
@@ -104,7 +107,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
           }}
         >
           <Toolbar>
-            <IconButton color="inherit" edge="start" onClick={handleDrawerToggle}>
+            <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} data-testid="sidebar-toggle">
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ ml: 2 }}>
@@ -126,6 +129,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
             width: drawerWidth,
           },
         }}
+        data-testid="sidebar"
       >
         {drawer}
       </Drawer>
@@ -140,6 +144,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
           },
         }}
         open
+        data-testid="sidebar"
       >
         {drawer}
       </Drawer>
