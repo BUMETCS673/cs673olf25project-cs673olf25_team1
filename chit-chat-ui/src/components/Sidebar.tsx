@@ -1,8 +1,10 @@
 import {
   Home as HomeIcon,
-  Menu as MenuIcon
+  Menu as MenuIcon,
+  Logout as LogoutIcon
 } from "@mui/icons-material";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   AppBar,
   Box,
@@ -28,9 +30,10 @@ const drawerWidth = 260;
 
 interface ResponsiveSidebarProps {
   children: ReactNode;
+  onLogout: () => void;
 }
 
-const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
+const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogout }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
@@ -40,7 +43,9 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
 
   const navItems = [
     { text: "Community", icon: <HomeIcon />, path: "/community" },
-    { text: "AI Chat", icon: <AutoAwesomeIcon />, path: "/ai" },
+    { text: "AI Chat", icon: <AutoAwesomeIcon />, path: "/ai" },  
+    { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
+    { text: "Logout", icon: <LogoutIcon />, path: "/logout" }
   ];
 
   const drawer = (
@@ -81,6 +86,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children }) => {
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} sx={{ color: "black" }} />
               </ListItemButton>
+              )}
             </ListItem>
           ))}
         </List>

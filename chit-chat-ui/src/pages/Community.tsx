@@ -84,7 +84,6 @@ function Community() {
     });
 
     socket.on("recieve-chat-message", (result) => {
-      console.log("Received message:", result);
       if (result.data[0] !== socket.id) {
         setMessages((prev) => [
           ...prev,
@@ -421,6 +420,9 @@ function Community() {
         >
           <TextField
             fullWidth
+            multiline
+            minRows={1}
+            maxRows={5}
             placeholder="Type a message..."
             variant="outlined"
             size="small"
@@ -431,7 +433,7 @@ function Community() {
               socket.emit("user-typing", { data: [socket.id] });
             }}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 handleButtonClick();
               }

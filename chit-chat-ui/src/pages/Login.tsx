@@ -9,62 +9,53 @@ import {
   CardContent,
   TextField,
   Typography,
-  Link,
   Stack,
+  Link,
 } from "@mui/material";
 import ChitChatLogo from "../assets/chit_chat_logo_v2_white.png";
 import socket from "../hooks/socket";
 
 type LoginProps = {
-  onLogin: (username: string) => void;
+  onLogin: (user: any) => void; // pass the user object to App
 };
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
-export default function Auth({ onLogin }: LoginProps) {
-  const [isRegistering, setIsRegistering] = useState(false);
+export default function Login({ onLogin }: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [fullname, setFullname] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const toggleMode = () => {
-    setError("");
-    setIsRegistering(!isRegistering);
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
     try {
-      const url = `${BACKEND_URL}/authentication/${isRegistering ? "register" : "login"}`;
-      const payload = isRegistering
-        ? { username, password, fullname }
-        : { username, password };
+      const res = await axios.post(
+        `${BACKEND_URL}/authentication/login`,
+        { username, password },
+        { withCredentials: true }
+      );
 
-      console.log("Sending request to:", url, "payload:", payload);
+      const token = res.data.accessToken || res.data.access_token;
+      const user = res.data.user;
 
-      const res = await axios.post(url, payload, { withCredentials: true });
-      console.log("Response:", res.data);
-
-      if (isRegistering) {
-        alert("Account created successfully! You can now login.");
-        setIsRegistering(false);
-        setUsername("");
-        setPassword("");
-        setFullname("");
-      } else {
-        const { accessToken, user } = res.data;
-        localStorage.setItem("token", accessToken);
-        onLogin(user);
-        navigate("/community");
-        socket.emit("user-logged-in", { username: user.username });
-        socket.emit('recieve-existing-messages');
+      if (!token) {
+        console.error("No token found in response:", res.data);
+        setError("Login failed: token missing.");
+        return;
       }
+
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("user", JSON.stringify(user));
+
+      onLogin({ user, token }); // update App state
+      navigate("/community"); // redirect after login
+      socket.emit("user-logged-in", { username: user.username });
+      socket.emit("recieve-existing-messages");
     } catch (err: unknown) {
-      console.error("Login/Register error:", err);
+      console.error("Login error:", err);
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.message || "Something went wrong");
       } else if (err instanceof Error) {
@@ -125,7 +116,6 @@ export default function Auth({ onLogin }: LoginProps) {
                 fullWidth
                 data-testid="login-username" // ✅
               />
-
               <TextField
                 label="Password"
                 variant="outlined"
