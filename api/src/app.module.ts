@@ -16,6 +16,7 @@ import { AuthService } from './authentication/service';
 import { AuthController } from './authentication/controller';
 import { AuthModule } from './authentication/auth.module';
 import 'dotenv/config';
+import { AccountController } from './account.controller';
 
 @Module({
   imports: [
