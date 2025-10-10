@@ -46,13 +46,13 @@ jobs:
 
     # Run Code Metrics
     - name: Run LOC Script
-      run: ./count-loc.sh > loc-report.txt
+      run: ./scripts/count-loc.sh > loc-report.txt
 
     - name: Run Function Count Script
-      run: ./count-functions.sh > function-report.txt
+      run: ./scripts/count-functions.sh > function-report.txt
 
     - name: Run ESLint Complexity Script
-      run: ./eslint-report.sh > complexity-report.txt
+      run: ./scripts/eslint-report.sh > complexity-report.txt
 
     - name: Organize Metrics Output
       run: |
@@ -120,12 +120,18 @@ jobs:
     #   run: npx playwright test --config=playwright.config.ts    
     #   working-directory: ./tests/e2e
 
-    # - name: Upload Playwright Report
+    # - name: Generate readable summary
+    #   if: always()
+    #   run: node scripts/generateReadableReport.js
+
+    # - name: Upload Playwright HTML + JSON + summary
     #   if: always()
     #   uses: actions/upload-artifact@v4
     #   with:
     #     name: playwright-report
-    #     path: tests/e2e/playwright-report/
+    #     path: |
+    #       playwright-report/**
+    #       test-results/**
 
     # - name: Upload Playwright test artifacts (screenshots, videos, traces)
     #   if: always()

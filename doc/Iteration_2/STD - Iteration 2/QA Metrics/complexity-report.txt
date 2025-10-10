@@ -1,0 +1,40 @@
+Running ESLint...
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/api/src/app-socket/app-socket.gateway.ts
+  101:14  warning  'message' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  121:22  warning  'message' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/api/src/app.service.ts
+  16:21  warning  Async method 'getLlmAnswer' has a complexity of 6. Maximum allowed is 4  complexity
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/api/src/services/ai.service.ts
+  12:21  warning  Async method 'getLlmAnswer' has a complexity of 6. Maximum allowed is 4  complexity
+
+✖ 4 problems (0 errors, 4 warnings)
+
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/chit-chat-ui/src/App.tsx
+  10:25  warning  'THEME_ID' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/chit-chat-ui/src/pages/Ai.tsx
+   57:23  warning  Async arrow function has a complexity of 5. Maximum allowed is 4  complexity
+   73:14  warning  'err' is defined but never used                                   @typescript-eslint/no-unused-vars
+  169:23  warning  Arrow function has a complexity of 6. Maximum allowed is 4        complexity
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/chit-chat-ui/src/pages/Community.tsx
+  232:23  warning  Arrow function has a complexity of 18. Maximum allowed is 4  complexity
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/chit-chat-ui/src/pages/Login.tsx
+  24:16  warning  Function 'Auth' has a complexity of 6. Maximum allowed is 4        complexity
+  37:24  warning  Async arrow function has a complexity of 10. Maximum allowed is 4  complexity
+
+✖ 7 problems (0 errors, 7 warnings)
+
+
+/home/runner/work/cs673olf25project-cs673olf25_team1/cs673olf25project-cs673olf25_team1/tests/e2e/playwright.config.ts
+  7:13  warning  'dotenv' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+ESLint complete. Report saved to: eslint-report.txt

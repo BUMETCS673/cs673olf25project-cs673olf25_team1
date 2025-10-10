@@ -2,11 +2,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-type ProtectedProps = {
-  children: React.ReactNode;
+type ProtectedRouteProps = {
   user: any;
+  children: React.ReactNode;
 };
 
-export default function ProtectedRoute({ children, user }: ProtectedProps) {
-  return user ? children : <Navigate to="/login" />;
-}
+const ProtectedRoute = ({ user, children }: ProtectedRouteProps) => {
+  if (!user) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+};
+
+export default ProtectedRoute;

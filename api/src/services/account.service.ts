@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+// account.service.ts
+import { ConflictException, Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Account } from '../entities/account.entity';
@@ -27,7 +28,14 @@ export class AccountService {
   async register(username: string, password: string, fullname: string): Promise<Account> {
     const existing = await this.findByUsername(username);
     if (existing) {
-      throw new Error('Username already exists');
+      throw new ConflictException('Username already exists');
+    }
+
+    const complexityRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!complexityRegex.test(password)) {
+      throw new BadRequestException(
+        'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character (@ $ ! % * ? &).'
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,4 +49,17 @@ export class AccountService {
     return this.accountRepository.save(account);
   }
 
+  async updateProfile(username: string, updateData: Partial<Account>) {
+    const user = await this.accountRepository.findOne({ where: { username } });
+    if (!user) throw new Error('User not found');
+
+    // Only update the fields that exist in updateData
+    user.displayName = updateData.displayName ?? user.displayName;
+    user.avatar = updateData.avatar ?? user.avatar;
+    user.themeColor = updateData.themeColor ?? user.themeColor;
+
+    return this.accountRepository.save(user);
+  }
+
 }
+
