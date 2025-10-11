@@ -1,12 +1,12 @@
 
 # AI-generated-code: 80% (tool: Github CI, AI chat link: https://chatgpt.com/c/68ea65df-9768-8331-a2d8-e76b4fd8fbba)
-# Human code: 40%
+# Human code: 20%
 
 name: "Security Scan"
 
 on:
   push:
-    branches: [ jordyn/cicd ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
