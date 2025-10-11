@@ -88,9 +88,16 @@ jobs:
         docker run -d --name backend --network e2e-network -p 3000:3000 chat-backend:dev
         docker run -d --name frontend --network e2e-network -p 8000:8000 chat-frontend:dev
 
+    - name: Check backend logs
+      run: |
+        docker logs backend || true
+
+    - name: Verify backend container ports
+      run: docker ps
+
     - name: Wait for Backend
       run: |
-        until curl -s http://localhost:3000; do echo "Waiting for backend..."; sleep 2; done
+        timeout 60 bash -c 'until curl -s http://localhost:3000/health || curl -s http://localhost:3000; do echo "Waiting for backend..."; sleep 2; done'
 
     # - name: Wait for Frontend
     #   run: |
