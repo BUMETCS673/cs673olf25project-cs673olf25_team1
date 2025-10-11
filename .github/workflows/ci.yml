@@ -90,6 +90,9 @@ jobs:
 
     - name: Check backend logs
       run: |
+        echo "=== Backend container status ==="
+        docker ps -a
+        echo "=== Backend logs ==="
         docker logs backend || true
 
     - name: Verify backend container ports
