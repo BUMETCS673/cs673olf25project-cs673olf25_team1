@@ -37,4 +37,4 @@ RUN npm run build
 #   npx ts-node src/main.ts; \
 # fi"]
 # CMD ["npx", "ts-node", "--project", "/app/tsconfig.json", "/app/src/main.ts"]
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
