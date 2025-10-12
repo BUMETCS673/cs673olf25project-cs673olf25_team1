@@ -17,6 +17,9 @@ import { AuthController } from './authentication/controller';
 import { AuthModule } from './authentication/auth.module';
 import { AccountController } from './account.controller';
 
+const isSSL = process.env.DB_SSL !== 'false';
+const isSynchronize = process.env.DB_SYNCHRONIZE === 'true';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -26,8 +29,8 @@ import { AccountController } from './account.controller';
       username: process.env.POSTGRES_USER || 'postgres',
       password: process.env.POSTGRES_PASSWORD || 'M6Lu7tB$fdyNKDi!E0ftA<KvjY27',
       database: process.env.POSTGRES_DB || 'chit-chat',
-      synchronize: false,
-      ssl: { rejectUnauthorized: false },
+      synchronize: isSynchronize,
+      ssl: isSSL ? { rejectUnauthorized: false } : false,
       entities: [Account, Message, Reaction, UserMessagesReceived],
     }),
     TypeOrmModule.forFeature([
