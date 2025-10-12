@@ -125,8 +125,8 @@ jobs:
     - name: Install pg module for seed script
       run: npm install pg
 
-    - name: Seed test user into Postgres
-      run: npx ts-node api/scripts/seedUser.ts
+    - name: Seed test user into Postgres inside Docker
+      run: docker exec api npx ts-node scripts/seedUser.ts
     # - name: Wait for Frontend
     #   run: |
     #     until curl -s http://localhost:8000; do echo "Waiting for frontend..."; sleep 2; done
