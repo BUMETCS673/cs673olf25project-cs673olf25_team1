@@ -10,7 +10,8 @@ services:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 'M6Lu7tB$fdyNKDi!E0ftA<KvjY27'
+      # POSTGRES_PASSWORD: 'M6Lu7tB$$fdyNKDi!E0ftA<KvjY27'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: chit-chat
       DB_SSL: false
       DB_SYNCHRONIZE: true
@@ -50,7 +51,8 @@ services:
     container_name: chit-chat-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 'M6Lu7tB$fdyNKDi!E0ftA<KvjY27'
+      # POSTGRES_PASSWORD: 'M6Lu7tB$$fdyNKDi!E0ftA<KvjY27'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: chit-chat
       DB_SSL: false
       DB_SYNCHRONIZE: true
