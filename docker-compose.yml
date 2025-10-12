@@ -21,8 +21,8 @@ services:
     volumes:
       - ./api:/app:cached
       - /app/node_modules
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     # command: npx ts-node src/main.ts
     command: sh -c "npm install && npx ts-node scripts/seedUser.ts && npm run start"
     env_file:
