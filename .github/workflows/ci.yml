@@ -89,11 +89,12 @@ jobs:
         docker run -d --name frontend --network e2e-network -p 8000:8000 chat-frontend:dev
 
     - name: Check backend logs
+      if: failure()
       run: |
         echo "=== Backend container status ==="
         docker ps -a
         echo "=== Backend logs ==="
-        docker logs backend
+        docker compose logs api
 
     - name: Verify backend container ports
       run: docker ps
