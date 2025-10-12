@@ -27,7 +27,7 @@
     "codegen": "playwright codegen -c tests/e2e/playwright.config.ts",
     "test:headless": "playwright test -c tests/e2e/playwright.config.ts",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    "report:readable": "node scripts/generateReadableReport.js",
+    "report:readable": "node scripts/generateReadableReport.cjs",
     "test:report": "npm run test:e2e && npm run report:readable"
   },
   "dependencies": {
