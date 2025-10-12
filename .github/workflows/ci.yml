@@ -124,7 +124,6 @@ jobs:
 
     - name: Install pg module for seed script
       run: npm install pg
-      working-directory: ./api
 
     - name: Seed test user into Postgres
       run: npx ts-node api/scripts/seedUser.ts
