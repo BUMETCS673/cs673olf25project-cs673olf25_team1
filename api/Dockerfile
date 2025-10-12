@@ -23,8 +23,9 @@ ENV NODE_ENV=${NODE_ENV}
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
-# Build for production if NODE_ENV=production
-RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
+# Build
+# RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
+RUN npm run build
 
 # Dev: run ts-node, Prod: run compiled JS 
 # CMD ["sh", "-c", "\
@@ -35,4 +36,5 @@ RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
 # else \
 #   npx ts-node src/main.ts; \
 # fi"]
-CMD ["npx", "ts-node", "--project", "/app/tsconfig.json", "/app/src/main.ts"]
+# CMD ["npx", "ts-node", "--project", "/app/tsconfig.json", "/app/src/main.ts"]
+CMD ["node", "dist/main.js"]

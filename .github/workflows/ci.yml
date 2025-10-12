@@ -93,7 +93,7 @@ jobs:
         echo "=== Backend container status ==="
         docker ps -a
         echo "=== Backend logs ==="
-        docker logs backend || true
+        docker logs backend
 
     - name: Verify backend container ports
       run: docker ps
