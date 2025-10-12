@@ -94,8 +94,7 @@ jobs:
     - name: Start Containers
       run: |
         docker network create e2e-network || true
-        docker run -d --name backend --network e2e-network -p 3000:3000 -e GROQ_API_KEY=${GROQ_API_KEY} -e JWT_SECRET=${JWT_SECRET} chat-backend:dev
-        docker run -d --name frontend --network e2e-network -p 8000:8000 chat-frontend:dev
+        docker compose up -d
 
     - name: Check backend logs
       run: |
