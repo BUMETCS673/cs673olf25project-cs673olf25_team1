@@ -179,6 +179,6 @@ jobs:
     # Clean Up
     - name: Stop Containers
       run: |
-        docker stop frontend backend
-        docker rm frontend backend
+        docker stop api
+        docker rm api
         docker network rm e2e-network || true
