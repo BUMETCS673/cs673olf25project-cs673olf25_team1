@@ -13,7 +13,7 @@ const BASE_PATH = '/community';
 const selectors = {
   input: (p: any) => p.getByPlaceholder('Type a message...'),
   send: (p: any) => p.getByTestId('send-button'),
-  list: (p: any) => p.getByTestId('message-list'),
+  list: (p: any) => p.getByTestId('message-list')
 };
 
 async function stabilizePage(page: any) {
@@ -27,9 +27,9 @@ async function stabilizePage(page: any) {
 
   // Ensure scroll is at bottom
   await selectors.list(page).evaluate((el: HTMLElement) => el.scrollTop = el.scrollHeight);
-}
+  }
 
-test.afterEach(async ({ page }) => {
+  test.afterEach(async ({ page }) => {
   try { await page.waitForTimeout(200); } catch {}
 });
 
@@ -171,12 +171,12 @@ test('AT-6: Empty message is blocked', async ({ page }) => {
   // Try to send an empty message
   await selectors.input(page).fill('');
   await selectors.send(page).click();
-  await page.waitForTimeout(300); // Give UI a moment
+  await page.waitForTimeout(300); 
 
   // Capture last message AFTER attempting empty send
   const lastAfter = await selectors.list(page).locator('div:has-text("You:")').last().innerText();
 
-  // ✅ Assert nothing changed
+  // Assert nothing changed
   expect(lastAfter).toBe(lastBefore);
 
   // Now send a valid marker

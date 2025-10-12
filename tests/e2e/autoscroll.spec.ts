@@ -21,12 +21,12 @@ export async function atBottom(locator: Locator): Promise<boolean> {
     const threshold = 5; // px — allow minor diff due to rounding
     return el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
   });
-}
+  }
 
-export const send = (page: Page) =>
+  export const send = (page: Page) =>
   page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
 
-async function stabilize(page: Page) {
+  async function stabilize(page: Page) {
   await login(page);
 
   // Wait for list to be visible
@@ -65,7 +65,7 @@ test('AT-01: Auto-scroll when viewer is at bottom', async ({ browser }) => {
   await b.waitForTimeout(500);
 
   const text = await list(b).innerText();
-  expect(text.includes(msg)).toBeTruthy(); // debug-friendly
+  expect(text.includes(msg)).toBeTruthy(); 
   expect(await atBottom(list(b))).toBeTruthy();
 
   await ctxA.close();
@@ -90,7 +90,7 @@ test('AT-02: No jump when viewer scrolled up', async ({ browser }) => {
     await expect(send).toBeVisible();
     await send.waitFor({ state: 'attached' });
     await send.click();
-    await a.waitForTimeout(150); // give server time to propagate
+    await a.waitForTimeout(150); 
   }
 
   // Wait until B sees all seeded messages
@@ -106,7 +106,7 @@ test('AT-02: No jump when viewer scrolled up', async ({ browser }) => {
     clientHeight: el.clientHeight,
     isAtBottom: Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 2,
   }));
-  console.log('🟡 Before sending:', before);
+  console.log('Before sending:', before);
   expect(before.isAtBottom).toBeFalsy(); // must NOT be at bottom
 
   // Now send another message from A
@@ -127,7 +127,7 @@ test('AT-02: No jump when viewer scrolled up', async ({ browser }) => {
     clientHeight: el.clientHeight,
     isAtBottom: Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 2,
   }));
-  console.log('🟢 After receiving:', after);
+  console.log('After receiving:', after);
   expect(after.isAtBottom).toBeFalsy(); // still not at bottom
 
   await Promise.all([ctxA.close(), ctxB.close()]);

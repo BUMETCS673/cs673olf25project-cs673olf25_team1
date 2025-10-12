@@ -13,7 +13,7 @@ test('AT-1: Register new user successfully', async ({ page }) => {
   const user = `user${Date.now()}`;
   await page.goto(`${BASE_URL}/login`);
   await page.getByText(/register here/i).click();
-  
+
   await page.getByTestId('login-username').locator('input').fill(user);
   await page.getByTestId('login-password').locator('input').fill('password123');
   await page.getByTestId('register-button').click();
@@ -82,9 +82,9 @@ test('AT-4: Registration fails when password is too short', async ({ page }) => 
   await page.getByTestId('login-password').locator('input').fill('123'); // too short
   await page.getByTestId('register-button').click();
 
-  const errorMsg = page.locator('.error');
-  await expect(errorMsg).toBeVisible({ timeout: 5000 });
-  await expect(errorMsg).toContainText(/password.*too short|minimum/i);
+  const errorMsg = page.locator('[data-testid="auth-error"]');
+  await expect(errorMsg).toBeVisible();
+  await expect(errorMsg).toContainText(/Password must be at least|\/characters|\/uppercase|\/lowercase|\/special/i);
 });
 
 // AT-5: Valid login
@@ -148,4 +148,37 @@ test('AT-9: Navigation between login and register pages works', async ({ page })
 
   await page.getByText(/login here/i).click();
   await expect(page).toHaveURL(/\/login$/);
+});
+
+test('AT-10: Registration fails when password boundaries are not met', async ({ page }) => {
+  const user = `short${Date.now()}`;
+  const weakPasswords = [
+    '123567',     // too short
+    'uwyehd1@',   // no uppercase
+    'BDHEIS1@',   // no lowercase
+    '12345678',   // numbers only
+    'uwyehdwe',   // lowercase only
+    'JDHCBWIR',   // uppercase only
+    '!@#$%^&*',   // special characters only
+    'uwyehdH@',   // no number
+    'uwyehd1C',   // no special character
+  ];
+
+  const registerWithPassword = async (password: string) => {
+    await page.goto(`${BASE_URL}/login`);
+    await page.getByText(/register here/i).click();
+    await page.getByRole('textbox', { name: 'Full Name' }).fill('Test User');
+    await page.getByRole('textbox', { name: 'Full Name' }).press('Enter');
+    await page.getByTestId('login-username').locator('input').fill(user);
+    await page.getByTestId('login-password').locator('input').fill(password);
+    await page.getByTestId('register-button').click();
+  };
+
+  const errorMsg = page.locator('[data-testid="auth-error"]');
+
+  for (const password of weakPasswords) {
+    await registerWithPassword(password);
+    await expect(errorMsg).toBeVisible({ timeout: 5000 });
+    await expect(errorMsg).toContainText(/Password must be at least|characters|uppercase|lowercase|special/i);
+  }
 });
