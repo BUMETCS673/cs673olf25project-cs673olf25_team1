@@ -20,6 +20,8 @@ EXPOSE 3000
 # Use environment variable to choose dev vs prod
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
+ENV HOST=0.0.0.0
+ENV PORT=3000
 
 # Build for production if NODE_ENV=production
 RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
