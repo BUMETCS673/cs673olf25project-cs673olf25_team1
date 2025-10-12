@@ -26,8 +26,8 @@ services:
       - db
     env_file:
       - .env
-    # command: npx ts-node src/main.ts
-    command: sh -c "npm install && npx ts-node scripts/seedUser.ts && npm run start"
+    # command: sh -c "npm install && npx ts-node scripts/seedUser.ts && npm run start:dev"
+    command: sh -c "npm install && npm run start"
 
   # Frontend Service
   frontend:
