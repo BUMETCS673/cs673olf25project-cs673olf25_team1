@@ -1,0 +1,1562 @@
+
+Running 65 tests using 4 workers
+
+  ✓   3 tests/e2e/chat-guest.spec.ts:37:1 › AT-1: Guest sends a message (4.9s)
+  ✘   5 tests/e2e/chat-guest.spec.ts:50:1 › AT-2: Real-time receive across two guests (11.4s)
+  ✘   6 tests/e2e/chat-guest.spec.ts:73:1 › AT-3: Messages preserve chronological order (11.0s)
+  ✘   4 tests/e2e/auth-login.spec.ts:14:3 › AT-1: Register new user successfully (30.0s)
+  ✘   1 tests/e2e/chat-history.spec.ts:13:1 › AT-1: should persist a message after refresh (30.2s)
+  ✘   2 tests/e2e/autoscroll.spec.ts:52:1 › AT-01: Auto-scroll when viewer is at bottom (30.0s)
+  ✘   7 tests/e2e/chat-guest.spec.ts:108:1 › AT-4: Delivery time under target (11.5s)
+  ✘  11 tests/e2e/chat-guest.spec.ts:137:1 › AT-5: Guest can continue chatting after reload (10.4s)
+  ✘  12 tests/e2e/chat-guest.spec.ts:160:1 › AT-6: Empty message is blocked (7.9s)
+  ✘   8 tests/e2e/auth-login.spec.ts:28:3 › AT-2: Registration fails when username already exists (30.0s)
+  ✘   9 tests/e2e/chat-history.spec.ts:26:1 › AT-2: should persist multiple messages and keep order (30.1s)
+  ✘  10 tests/e2e/autoscroll.spec.ts:72:1 › AT-02: No jump when viewer scrolled up (30.0s)
+  ✓  13 tests/e2e/chat-guest.spec.ts:176:1 › AT-7: Whitespace-only message is blocked (3.5s)
+  ✘  17 tests/e2e/chat-guest.spec.ts:192:1 › AT-8: Long word wraps without breaking layout (8.1s)
+  ✓  18 tests/e2e/chat-guest.spec.ts:205:1 › AT-9: Autoscroll to bottom on send (3.1s)
+  ✓  19 tests/e2e/chat-guest.spec.ts:226:1 › AT-10: Clears input after sending (2.8s)
+  ✘  14 tests/e2e/auth-login.spec.ts:52:3 › AT-3: Registration fails when fields are empty (30.1s)
+  ✘  15 tests/e2e/chat-history.spec.ts:51:1 › AT-3: should persist a long history of messages (30.1s)
+  ✘  16 tests/e2e/autoscroll.spec.ts:97:1 › AT-03: Auto-scroll resumes after viewer returns to bottom (30.0s)
+  ✘  20 tests/e2e/enter-key.spec.ts:6:1 › AT-1: should send a message when Enter is pressed (30.1s)
+  ✘  21 tests/e2e/auth-login.spec.ts:65:3 › AT-4: Registration fails when password is too short (30.1s)
+  ✘  22 tests/e2e/chat-history.spec.ts:67:1 › AT-4: should keep messages across multiple send/refresh cycles (30.1s)
+  ✘  23 tests/e2e/autoscroll.spec.ts:124:1 › AT-04: Sender stays at bottom after sending (30.1s)
+  ✓  27 tests/e2e/hello.spec.ts:6:1 › app loads at base URL and backend is alive (1.3s)
+  ✓  28 tests/e2e/help-community.spec.ts:64:3 › Help Dialog › AT-1: Help dialog opens when clicking Help button (1.8s)
+  ✓  29 tests/e2e/help-community.spec.ts:69:3 › Help Dialog › AT-2: FAQ content loads in dialog (1.8s)
+  ✓  30 tests/e2e/help-community.spec.ts:77:3 › Help Dialog › AT-3: Search filters FAQ content (1.8s)
+  ✓  31 tests/e2e/help-community.spec.ts:87:3 › Help Dialog › AT-4: Search case insensitive (1.8s)
+  ✓  32 tests/e2e/help-community.spec.ts:95:3 › Help Dialog › AT-5: Close button hides FAQ dialog (2.3s)
+  ✓  33 tests/e2e/help-community.spec.ts:105:3 › Help Dialog › AT6: Pressing ESC closes FAQ dialog (2.2s)
+  ✘  34 tests/e2e/help-community.spec.ts:112:3 › Help Dialog › AT-7: Re-open works after closing (1.8s)
+  ✘  24 tests/e2e/enter-key.spec.ts:15:1 › AT-2:should send a message with Send button (30.1s)
+  ✓  35 tests/e2e/help-community.spec.ts:123:3 › Help Dialog › AT-8: Search yields no results message (1.9s)
+  ✘  25 tests/e2e/auth-login.spec.ts:81:3 › AT-5: Login with valid credentials redirects to community (30.1s)
+  ✘  26 tests/e2e/chat-history.spec.ts:85:1 › AT-5: should not duplicate messages after refresh (30.1s)
+  ✘  36 tests/e2e/enter-key.spec.ts:24:1 › AT-3: should trim leading/trailing spaces (30.1s)
+  ✘  37 tests/e2e/help-community.spec.ts:131:3 › Help Dialog › AT-9: Dialog is usable on mobile viewport (30.1s)
+  ✘  41 tests/e2e/sidebar.spec.ts:30:1 › AT-1: Sidebar shows Community and AI (6.7s)
+  ✘  38 tests/e2e/auth-login.spec.ts:92:3 › AT-06: Login fails with invalid password (30.0s)
+  ✘  39 tests/e2e/chat-history.spec.ts:98:1 › AT-6: should keep order after multiple refreshes (30.1s)
+  ✘  42 tests/e2e/sidebar.spec.ts:40:1 › AT-2: Click AI goes to AI page (6.6s)
+  ✘  45 tests/e2e/sidebar.spec.ts:50:1 › AT-3: Click Community goes back to Community page (7.6s)
+  ✓  46 tests/e2e/sidebar.spec.ts:60:1 › AT-4: Direct /ai shows AI content (2.5s)
+  ✓  47 tests/e2e/sidebar.spec.ts:67:1 › AT-5: Direct root shows Community content (2.4s)
+  ✓  48 tests/e2e/smoke.spec.ts:3:1 › basic math works (0ms)
+  ✘  40 tests/e2e/enter-key.spec.ts:33:1 › AT-4: should send a long message up to limit (30.1s)
+  ✘  43 tests/e2e/auth-login.spec.ts:104:3 › AT-07: Login fails when username or password is missing (30.1s)
+  ✘  44 tests/e2e/chat-history.spec.ts:119:1 › AT-7: refresh should not create ghost messages (30.1s)
+  ✘  49 tests/e2e/typing-indicator.spec.ts:39:1 › AT-1: shows typing indicator to other users when someone starts typing (22.9s)
+  ✘  50 tests/e2e/enter-key.spec.ts:43:1 › AT-5: should support special characters (30.1s)
+  ✘  51 tests/e2e/auth-login.spec.ts:118:3 › AT-8: Login fails if username case does not match (30.1s)
+  ✘  52 tests/e2e/chat-history.spec.ts:128:1 › AT-8: new session should start with empty history (30.0s)
+  ✘  53 tests/e2e/typing-indicator.spec.ts:53:1 › AT-2: Indicator disappears after stop typing or sending (22.9s)
+  ✘  55 tests/e2e/auth-login.spec.ts:130:3 › AT-9: Navigation between login and register pages works (6.4s)
+  ✘  54 tests/e2e/enter-key.spec.ts:53:1 › AT-6: should not send an empty message (30.1s)
+  ✘  57 tests/e2e/typing-indicator.spec.ts:72:1 › AT-3: Shows "X users are typing" when two users type (24.5s)
+  ✘  56 tests/e2e/chat-history.spec.ts:139:1 › AT-9: multiple tabs should show same history (30.1s)
+  ✘  58 tests/e2e/enter-key.spec.ts:68:1 › AT-7: should not send whitespace-only message (30.1s)
+  ✘  59 tests/e2e/typing-indicator.spec.ts:91:1 › AT-4: Typist does not see their own indicator (22.0s)
+  ✘  60 tests/e2e/chat-history.spec.ts:154:1 › AT-10: empty history stays empty after refresh (30.1s)
+  ✘  62 tests/e2e/typing-indicator.spec.ts:101:1 › AT-5: Indicator does not persist after reload (23.0s)
+  ✘  61 tests/e2e/enter-key.spec.ts:83:1 › AT-8: should not duplicate message on rapid Enter presses (30.1s)
+  ✘  63 tests/e2e/enter-key.spec.ts:98:3 › AT-9: pressing Shift+Enter creates newline in input (30.1s)
+  ✘  64 tests/e2e/enter-key.spec.ts:111:3 › AT-10: pressing Enter outside input does nothing (30.1s)
+  ✘  65 tests/e2e/enter-key.spec.ts:124:3 › AT-11: pressing Enter again immediately does nothing (30.1s)
+
+
+  1) tests/e2e/auth-login.spec.ts:14:3 › AT-1: Register new user successfully ──────────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Don\'t have an account? Register here')[22m
+
+
+      16 |     await page.goto(BASE_URL + '/login');
+      17 |     // Click the register text 
+    > 18 |     await page.getByText("Don't have an account? Register here").click();
+         |                                                                  ^
+      19 |     await page.getByPlaceholder('Full Name').fill('Test User');
+      20 |     await page.getByPlaceholder('Username').fill(user);
+      21 |     await page.getByPlaceholder('Password').fill('password123');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:18:66
+
+    Error Context: test-results/tests-e2e-auth-login-AT-1-Register-new-user-successfully/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-1-Register-new-user-successfully/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-1-Register-new-user-successfully/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/auth-login.spec.ts:28:3 › AT-2: Registration fails when username already exists ─────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Don\'t have an account? Register here')[22m
+
+
+      30 |     await page.goto(BASE_URL + '/login');
+      31 |     // Click the register text 
+    > 32 |     await page.getByText("Don't have an account? Register here").click();
+         |                                                                  ^
+      33 |     await page.getByPlaceholder('Full Name').fill('Test User');
+      34 |     await page.getByPlaceholder('Username').fill(user);
+      35 |     await page.getByPlaceholder('Password').fill('password123');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:32:66
+
+    Error Context: test-results/tests-e2e-auth-login-AT-2--b90d8-hen-username-already-exists/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-2--b90d8-hen-username-already-exists/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-2--b90d8-hen-username-already-exists/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/auth-login.spec.ts:52:3 › AT-3: Registration fails when fields are empty ────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Don\'t have an account? Register here')[22m
+
+
+      53 |     await page.goto(BASE_URL + '/login');
+      54 |     // Click the register text
+    > 55 |     await page.getByText("Don't have an account? Register here").click();
+         |                                                                  ^
+      56 |     await page.getByRole('button', { name: 'Register' }).click();
+      57 |
+      58 |     // Expect required validation
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:55:66
+
+    Error Context: test-results/tests-e2e-auth-login-AT-3--a4528-fails-when-fields-are-empty/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-3--a4528-fails-when-fields-are-empty/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-3--a4528-fails-when-fields-are-empty/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/auth-login.spec.ts:65:3 › AT-4: Registration fails when password is too short ───────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Don\'t have an account? Register here')[22m
+
+
+      67 |     await page.goto(BASE_URL + '/login');
+      68 |     // Click the register text
+    > 69 |     await page.getByText("Don't have an account? Register here").click();
+         |                                                                  ^
+      70 |     await page.getByPlaceholder('Full Name').fill('Short Pass');
+      71 |     await page.getByPlaceholder('Username').fill(user);
+      72 |     await page.getByPlaceholder('Password').fill('123');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:69:66
+
+    Error Context: test-results/tests-e2e-auth-login-AT-4--14889--when-password-is-too-short/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-4--14889--when-password-is-too-short/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-4--14889--when-password-is-too-short/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/auth-login.spec.ts:81:3 › AT-5: Login with valid credentials redirects to community ─
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByPlaceholder('Username')[22m
+
+
+      81 |   test('AT-5: Login with valid credentials redirects to community', async ({ page }) => {
+      82 |     await page.goto(BASE_URL + '/login');
+    > 83 |     await page.getByPlaceholder('Username').fill('AT');
+         |                                             ^
+      84 |     await page.getByPlaceholder('Password').fill('automatedtests');
+      85 |     await page.getByRole('button', { name: 'Login' }).click();
+      86 |
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:83:45
+
+    Error Context: test-results/tests-e2e-auth-login-AT-5--32a4c-ials-redirects-to-community/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-5--32a4c-ials-redirects-to-community/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-5--32a4c-ials-redirects-to-community/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/e2e/auth-login.spec.ts:92:3 › AT-06: Login fails with invalid password ──────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByPlaceholder('Username')[22m
+
+
+      92 |   test('AT-06: Login fails with invalid password', async ({ page }) => {
+      93 |     await page.goto(BASE_URL + '/login');
+    > 94 |     await page.getByPlaceholder('Username').fill('AT');
+         |                                             ^
+      95 |     await page.getByPlaceholder('Password').fill('wrong');
+      96 |     await page.getByRole('button', { name: 'Login' }).click();
+      97 |
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:94:45
+
+    Error Context: test-results/tests-e2e-auth-login-AT-06-Login-fails-with-invalid-password/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-06-Login-fails-with-invalid-password/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-06-Login-fails-with-invalid-password/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/e2e/auth-login.spec.ts:104:3 › AT-07: Login fails when username or password is missing ──
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByPlaceholder('Username')[22m
+
+
+      104 |   test('AT-07: Login fails when username or password is missing', async ({ page }) => {
+      105 |     await page.goto(BASE_URL + '/login');
+    > 106 |     await page.getByPlaceholder('Username').fill('');
+          |                                             ^
+      107 |     await page.getByPlaceholder('Password').fill('');
+      108 |     await page.getByRole('button', { name: 'Login' }).click();
+      109 |
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:106:45
+
+    Error Context: test-results/tests-e2e-auth-login-AT-07-796a7-name-or-password-is-missing/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-07-796a7-name-or-password-is-missing/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-07-796a7-name-or-password-is-missing/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/e2e/auth-login.spec.ts:118:3 › AT-8: Login fails if username case does not match ────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByPlaceholder('Username')[22m
+
+
+      118 |   test('AT-8: Login fails if username case does not match', async ({ page }) => {
+      119 |     await page.goto(BASE_URL + '/login');
+    > 120 |     await page.getByPlaceholder('Username').fill('at');
+          |                                             ^
+      121 |     await page.getByPlaceholder('Password').fill('automatedtests');
+      122 |     await page.getByRole('button', { name: 'Login' }).click();
+      123 |
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:120:45
+
+    Error Context: test-results/tests-e2e-auth-login-AT-8--6f428-sername-case-does-not-match/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-8--6f428-sername-case-does-not-match/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-8--6f428-sername-case-does-not-match/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/e2e/auth-login.spec.ts:130:3 › AT-9: Navigation between login and register pages works ──
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Expected pattern: [32m/\/register$/[39m
+    Received string:  [31m"http://localhost:8000/login"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveURL" with timeout 5000ms[22m
+    [2m    9 × unexpected value "http://localhost:8000/login"[22m
+
+
+      131 |     await page.goto(BASE_URL + '/login');
+      132 |     await page.getByText(/register here/i).click();
+    > 133 |     await expect(page).toHaveURL(/\/register$/);
+          |                        ^
+      134 |
+      135 |     await page.getByText(/login here/i).click();
+      136 |     await expect(page).toHaveURL(/\/login$/);
+        at /Users/deasialittle/Projects/cs673/tests/e2e/auth-login.spec.ts:133:24
+
+    Error Context: test-results/tests-e2e-auth-login-AT-9--6a80c-in-and-register-pages-works/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-auth-login-AT-9--6a80c-in-and-register-pages-works/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-auth-login-AT-9--6a80c-in-and-register-pages-works/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) tests/e2e/autoscroll.spec.ts:52:1 › AT-01: Auto-scroll when viewer is at bottom ──────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForResponse: Test ended.
+
+      34 |   await input(p).fill(text);
+      35 |   await Promise.all([
+    > 36 |     p.waitForResponse(res => res.url().includes('/api/messages') && res.status() === 200),
+         |       ^
+      37 |     send(p).click({ force: true }), // force in case it's slightly covered
+      38 |   ]);
+      39 |   await p.waitForTimeout(200); // brief delay to allow render
+        at sendMessage (/Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:36:7)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:64:3
+
+    Error Context: test-results/tests-e2e-autoscroll-AT-01-30ddd-ll-when-viewer-is-at-bottom/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-autoscroll-AT-01-30ddd-ll-when-viewer-is-at-bottom/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-autoscroll-AT-01-30ddd-ll-when-viewer-is-at-bottom/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) tests/e2e/autoscroll.spec.ts:72:1 › AT-02: No jump when viewer scrolled up ───────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForResponse: Test ended.
+
+      34 |   await input(p).fill(text);
+      35 |   await Promise.all([
+    > 36 |     p.waitForResponse(res => res.url().includes('/api/messages') && res.status() === 200),
+         |       ^
+      37 |     send(p).click({ force: true }), // force in case it's slightly covered
+      38 |   ]);
+      39 |   await p.waitForTimeout(200); // brief delay to allow render
+        at sendMessage (/Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:36:7)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:81:31
+
+    Error Context: test-results/tests-e2e-autoscroll-AT-02-No-jump-when-viewer-scrolled-up/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-autoscroll-AT-02-No-jump-when-viewer-scrolled-up/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-autoscroll-AT-02-No-jump-when-viewer-scrolled-up/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) tests/e2e/autoscroll.spec.ts:97:1 › AT-03: Auto-scroll resumes after viewer returns to bottom 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForResponse: Test ended.
+
+      34 |   await input(p).fill(text);
+      35 |   await Promise.all([
+    > 36 |     p.waitForResponse(res => res.url().includes('/api/messages') && res.status() === 200),
+         |       ^
+      37 |     send(p).click({ force: true }), // force in case it's slightly covered
+      38 |   ]);
+      39 |   await p.waitForTimeout(200); // brief delay to allow render
+        at sendMessage (/Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:36:7)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:106:31
+
+    Error Context: test-results/tests-e2e-autoscroll-AT-03-6935c-er-viewer-returns-to-bottom/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-autoscroll-AT-03-6935c-er-viewer-returns-to-bottom/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-autoscroll-AT-03-6935c-er-viewer-returns-to-bottom/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) tests/e2e/autoscroll.spec.ts:124:1 › AT-04: Sender stays at bottom after sending ─────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+
+      34 |   await input(p).fill(text);
+      35 |   await Promise.all([
+    > 36 |     p.waitForResponse(res => res.url().includes('/api/messages') && res.status() === 200),
+         |       ^
+      37 |     send(p).click({ force: true }), // force in case it's slightly covered
+      38 |   ]);
+      39 |   await p.waitForTimeout(200); // brief delay to allow render
+        at sendMessage (/Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:36:7)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/autoscroll.spec.ts:130:3
+
+    Error Context: test-results/tests-e2e-autoscroll-AT-04-d9285-ays-at-bottom-after-sending/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-autoscroll-AT-04-d9285-ays-at-bottom-after-sending/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-autoscroll-AT-04-d9285-ays-at-bottom-after-sending/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) tests/e2e/chat-guest.spec.ts:50:1 › AT-2: Real-time receive across two guests ────────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByTestId('message-list').locator('div:has-text("You:")').last()
+    Expected string: [32m"[7mping[27m 17602182[7m92547[27m"[39m
+    Received string: [31m"[7mYou: auto-bottom[27m 17602182[7m87152[27m"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('message-list').locator('div:has-text("You:")').last()[22m
+    [2m    9 × locator resolved to <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-zcilb1-MuiPaper-root">…</div>[22m
+    [2m      - unexpected value "You: auto-bottom 1760218287152"[22m
+
+
+      65 |
+      66 |   const lastMessageB = selectors.list(b).locator('div:has-text("You:")').last();
+    > 67 |   await expect(lastMessageB).toContainText(ping);
+         |                              ^
+      68 |
+      69 |   await Promise.all([ctxA.close(), ctxB.close()]);
+      70 | });
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-guest.spec.ts:67:30
+
+    Error Context: test-results/tests-e2e-chat-guest-AT-2--c3e59-e-receive-across-two-guests/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-guest-AT-2--c3e59-e-receive-across-two-guests/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-guest-AT-2--c3e59-e-receive-across-two-guests/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) tests/e2e/chat-guest.spec.ts:73:1 › AT-3: Messages preserve chronological order ──────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByTestId('message-list').locator('div:has-text("You:")').last()
+    Expected string: [32m"[7mmsg1[27m 1760218[7m304455[27m"[39m
+    Received string: [31m"[7mYou: ping[27m 1760218[7m292547[27m"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('message-list').locator('div:has-text("You:")').last()[22m
+    [2m    8 × locator resolved to <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-zcilb1-MuiPaper-root">…</div>[22m
+    [2m      - unexpected value "You: ping 1760218292547"[22m
+
+
+      90 |   await selectors.send(a).click();
+      91 |   const last1 = selectors.list(b).locator('div:has-text("You:")').last();
+    > 92 |   await expect(last1).toContainText(m1);
+         |                       ^
+      93 |
+      94 |   await selectors.input(a).fill(m2);
+      95 |   await selectors.send(a).click();
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-guest.spec.ts:92:23
+
+    Error Context: test-results/tests-e2e-chat-guest-AT-3--ba594-reserve-chronological-order/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-guest-AT-3--ba594-reserve-chronological-order/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-guest-AT-3--ba594-reserve-chronological-order/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) tests/e2e/chat-guest.spec.ts:108:1 › AT-4: Delivery time under target ────────────────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByTestId('message-list').locator('div:has-text("You:")').last()
+    Expected string: [32m"[7mlatency[27m 17602183[7m16690[27m"[39m
+    Received string: [31m"[7mYou: msg1[27m 17602183[7m04455[27m"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('message-list').locator('div:has-text("You:")').last()[22m
+    [2m    8 × locator resolved to <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-zcilb1-MuiPaper-root">…</div>[22m
+    [2m      - unexpected value "You: msg1 1760218304455"[22m
+
+
+      125 |
+      126 |   const lastMessageB = selectors.list(b).locator('div:has-text("You:")').last();
+    > 127 |   await expect(lastMessageB).toContainText(payload);
+          |                              ^
+      128 |
+      129 |   const dt = Date.now() - t0;
+      130 |   expect(dt).toBeLessThanOrEqual(60000);
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-guest.spec.ts:127:30
+
+    Error Context: test-results/tests-e2e-chat-guest-AT-4-Delivery-time-under-target/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-guest-AT-4-Delivery-time-under-target/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-guest-AT-4-Delivery-time-under-target/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) tests/e2e/chat-guest.spec.ts:137:1 › AT-5: Guest can continue chatting after reload ──────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByTestId('message-list').locator('div:has-text("You:")').last()
+    Expected string: [32m"[7mafter[27m-reload 176021832[7m8323[27m"[39m
+    Received string: [31m"[7mYou: before[27m-reload 176021832[7m5788[27m"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('message-list').locator('div:has-text("You:")').last()[22m
+    [2m    6 × locator resolved to <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-zcilb1-MuiPaper-root">…</div>[22m
+    [2m      - unexpected value "You: before-reload 1760218325788"[22m
+
+
+      154 |
+      155 |   const lastAfter = selectors.list(page).locator('div:has-text("You:")').last();
+    > 156 |   await expect(lastAfter).toContainText(after);
+          |                           ^
+      157 | });
+      158 |
+      159 | // AT-6: Empty message is blocked
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-guest.spec.ts:156:27
+
+    Error Context: test-results/tests-e2e-chat-guest-AT-5--86d43-tinue-chatting-after-reload/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-guest-AT-5--86d43-tinue-chatting-after-reload/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-guest-AT-5--86d43-tinue-chatting-after-reload/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) tests/e2e/chat-guest.spec.ts:160:1 › AT-6: Empty message is blocked ──────────────────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByTestId('message-list').locator('div:has-text("You:")').last()
+    Expected string: [32m"[7mmarker[27m 17602183[7m36820[27m"[39m
+    Received string: [31m"[7mYou: after-reload[27m 17602183[7m28323[27m"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('message-list').locator('div:has-text("You:")').last()[22m
+    [2m    7 × locator resolved to <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-zcilb1-MuiPaper-root">…</div>[22m
+    [2m      - unexpected value "You: after-reload 1760218328323"[22m
+
+
+      170 |
+      171 |   const lastMessage = selectors.list(page).locator('div:has-text("You:")').last();
+    > 172 |   await expect(lastMessage).toContainText(marker);
+          |                             ^
+      173 | });
+      174 |
+      175 | // AT-7: Whitespace-only message is blocked
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-guest.spec.ts:172:29
+
+    Error Context: test-results/tests-e2e-chat-guest-AT-6-Empty-message-is-blocked/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-guest-AT-6-Empty-message-is-blocked/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-guest-AT-6-Empty-message-is-blocked/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) tests/e2e/chat-guest.spec.ts:192:1 › AT-8: Long word wraps without breaking layout ───────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByTestId('message-list').locator('div:has-text("You:")').last()
+    Expected string: [32m"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"[39m
+    Received string: [31m"You: seed 1760218348090"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('message-list').locator('div:has-text("You:")').last()[22m
+    [2m    6 × locator resolved to <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 css-zcilb1-MuiPaper-root">…</div>[22m
+    [2m      - unexpected value "You: seed 1760218348090"[22m
+
+
+      199 |
+      200 |   const lastMessage = selectors.list(page).locator('div:has-text("You:")').last();
+    > 201 |   await expect(lastMessage).toContainText(long);
+          |                             ^
+      202 | });
+      203 |
+      204 | // AT-9: Autoscroll to bottom on send
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-guest.spec.ts:201:29
+
+    Error Context: test-results/tests-e2e-chat-guest-AT-8--fb5ae-aps-without-breaking-layout/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-guest-AT-8--fb5ae-aps-without-breaking-layout/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-guest-AT-8--fb5ae-aps-without-breaking-layout/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) tests/e2e/chat-history.spec.ts:13:1 › AT-1: should persist a message after refresh ───────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:15:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--62e8b-ist-a-message-after-refresh/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--62e8b-ist-a-message-after-refresh/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--62e8b-ist-a-message-after-refresh/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) tests/e2e/chat-history.spec.ts:26:1 › AT-2: should persist multiple messages and keep order ──
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:28:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--88dd9-ple-messages-and-keep-order/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--88dd9-ple-messages-and-keep-order/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--88dd9-ple-messages-and-keep-order/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22) tests/e2e/chat-history.spec.ts:51:1 › AT-3: should persist a long history of messages ────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:53:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--8716f--a-long-history-of-messages/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--8716f--a-long-history-of-messages/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--8716f--a-long-history-of-messages/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  23) tests/e2e/chat-history.spec.ts:67:1 › AT-4: should keep messages across multiple send/refresh cycles 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:69:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--1ee11-ultiple-send-refresh-cycles/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--1ee11-ultiple-send-refresh-cycles/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--1ee11-ultiple-send-refresh-cycles/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  24) tests/e2e/chat-history.spec.ts:85:1 › AT-5: should not duplicate messages after refresh ──────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:87:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--fdc62-cate-messages-after-refresh/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--fdc62-cate-messages-after-refresh/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--fdc62-cate-messages-after-refresh/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  25) tests/e2e/chat-history.spec.ts:98:1 › AT-6: should keep order after multiple refreshes ───────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:100:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--17a8a-er-after-multiple-refreshes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--17a8a-er-after-multiple-refreshes/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--17a8a-er-after-multiple-refreshes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  26) tests/e2e/chat-history.spec.ts:119:1 › AT-7: refresh should not create ghost messages ────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:121:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--5fbab-d-not-create-ghost-messages/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--5fbab-d-not-create-ghost-messages/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--5fbab-d-not-create-ghost-messages/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  27) tests/e2e/chat-history.spec.ts:128:1 › AT-8: new session should start with empty history ─────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test ended.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:132:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--78cf6-ld-start-with-empty-history/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--78cf6-ld-start-with-empty-history/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--78cf6-ld-start-with-empty-history/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  28) tests/e2e/chat-history.spec.ts:139:1 › AT-9: multiple tabs should show same history ──────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:142:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--a56d7-bs-should-show-same-history/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--a56d7-bs-should-show-same-history/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--a56d7-bs-should-show-same-history/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  29) tests/e2e/chat-history.spec.ts:154:1 › AT-10: empty history stays empty after refresh ────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+       7 |   //await page.goto('/');
+       8 |   await page.reload();
+    >  9 |   await page.waitForSelector('.messages-container');
+         |              ^
+      10 | }
+      11 |
+      12 | // AT-1: Persist single message after refresh
+        at goToChat (/Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:9:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/chat-history.spec.ts:156:5
+
+    Error Context: test-results/tests-e2e-chat-history-AT--58378-y-stays-empty-after-refresh/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-chat-history-AT--58378-y-stays-empty-after-refresh/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-chat-history-AT--58378-y-stays-empty-after-refresh/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  30) tests/e2e/enter-key.spec.ts:6:1 › AT-1: should send a message when Enter is pressed ──────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Type a message..."]')[22m
+
+
+       7 |     await login(page);
+       8 |     //await page.goto('/');
+    >  9 |     await page.fill('input[placeholder="Type a message..."]', 'Test ' + Date.now());
+         |                ^
+      10 |     await page.keyboard.press('Enter');
+      11 |     await expect(page.locator('.messages-container')).toContainText('Test');
+      12 | });
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:9:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-1-s-a0f98-ssage-when-Enter-is-pressed/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-1-s-a0f98-ssage-when-Enter-is-pressed/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-1-s-a0f98-ssage-when-Enter-is-pressed/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  31) tests/e2e/enter-key.spec.ts:15:1 › AT-2:should send a message with Send button ───────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Type a message..."]')[22m
+
+
+      16 |     await login(page);
+      17 |     //await page.goto('/');
+    > 18 |     await page.fill('input[placeholder="Type a message..."]', 'Test ' + Date.now());
+         |                ^
+      19 |     await page.click('button:has-text("Send")');
+      20 |     await expect(page.locator('.messages-container')).toContainText('Test');
+      21 | });
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:18:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-2-s-d7a6a--a-message-with-Send-button/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-2-s-d7a6a--a-message-with-Send-button/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-2-s-d7a6a--a-message-with-Send-button/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  32) tests/e2e/enter-key.spec.ts:24:1 › AT-3: should trim leading/trailing spaces ─────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Type a message..."]')[22m
+
+
+      25 |     await login(page);
+      26 |     //await page.goto('/');
+    > 27 |     await page.fill('input[placeholder="Type a message..."]', '   Test   ');
+         |                ^
+      28 |     await page.keyboard.press('Enter');
+      29 |     await expect(page.locator('.messages-container')).toContainText('Test');
+      30 | });
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:27:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-3-should-trim-leading-trailing-spaces/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-3-should-trim-leading-trailing-spaces/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-3-should-trim-leading-trailing-spaces/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  33) tests/e2e/enter-key.spec.ts:33:1 › AT-4: should send a long message up to limit ──────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Type a message..."]')[22m
+
+
+      35 |     await login(page);
+      36 |     //await page.goto('/');
+    > 37 |     await page.fill('input[placeholder="Type a message..."]', longMessage);
+         |                ^
+      38 |     await page.keyboard.press('Enter');
+      39 |     await expect(page.locator('.messages-container')).toContainText(longMessage);
+      40 | });
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:37:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-4-s-a2967--a-long-message-up-to-limit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-4-s-a2967--a-long-message-up-to-limit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-4-s-a2967--a-long-message-up-to-limit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  34) tests/e2e/enter-key.spec.ts:43:1 › AT-5: should support special characters ───────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Type a message..."]')[22m
+
+
+      45 |     await login(page);
+      46 |     //await page.goto('/');
+    > 47 |     await page.fill('input[placeholder="Type a message..."]', msg);
+         |                ^
+      48 |     await page.keyboard.press('Enter');
+      49 |     await expect(page.locator('.messages-container')).toContainText('Test #@$%^&*');
+      50 | });
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:47:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-5-should-support-special-characters/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-5-should-support-special-characters/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-5-should-support-special-characters/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  35) tests/e2e/enter-key.spec.ts:53:1 › AT-6: should not send an empty message ────────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      55 |     //await page.goto('/');
+      56 |     await page.reload();
+    > 57 |     await page.waitForSelector('.messages-container');
+         |                ^
+      58 |     const countBefore = await page.locator('.messages-container > *').count();
+      59 |
+      60 |     await page.focus('input[placeholder="Type a message..."]');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:57:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-6-should-not-send-an-empty-message/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-6-should-not-send-an-empty-message/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-6-should-not-send-an-empty-message/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  36) tests/e2e/enter-key.spec.ts:68:1 › AT-7: should not send whitespace-only message ─────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      70 |     //await page.goto('/');
+      71 |     await page.reload();
+    > 72 |     await page.waitForSelector('.messages-container');
+         |                ^
+      73 |     const countBefore = await page.locator('.messages-container > *').count();
+      74 |
+      75 |     await page.fill('input[placeholder="Type a message..."]', '     ');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:72:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-7-s-bfd7d-end-whitespace-only-message/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-7-s-bfd7d-end-whitespace-only-message/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-7-s-bfd7d-end-whitespace-only-message/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  37) tests/e2e/enter-key.spec.ts:83:1 › AT-8: should not duplicate message on rapid Enter presses ─
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      86 |     //await page.goto('/');
+      87 |     await page.reload();
+    > 88 |     await page.waitForSelector('.messages-container');      
+         |                ^
+      89 |     await page.fill('input[placeholder="Type a message..."]', msg);
+      90 |     await page.keyboard.press('Enter');
+      91 |     await page.keyboard.press('Enter');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:88:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-8-s-581b9-sage-on-rapid-Enter-presses/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-8-s-581b9-sage-on-rapid-Enter-presses/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-8-s-581b9-sage-on-rapid-Enter-presses/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  38) tests/e2e/enter-key.spec.ts:98:3 › AT-9: pressing Shift+Enter creates newline in input ───────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Type a message..."]')[22m
+
+
+       99 |     await login(page);
+      100 |     //await page.goto('/');
+    > 101 |     await page.fill('input[placeholder="Type a message..."]', 'Line1');
+          |                ^
+      102 |     await page.keyboard.press('Shift+Enter');
+      103 |     await page.keyboard.type('Line2');
+      104 |     const value = await page.inputValue('input[placeholder="Type a message..."]');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:101:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-9-p-b7b2f-er-creates-newline-in-input/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-9-p-b7b2f-er-creates-newline-in-input/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-9-p-b7b2f-er-creates-newline-in-input/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  39) tests/e2e/enter-key.spec.ts:111:3 › AT-10: pressing Enter outside input does nothing ─────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      113 |     //await page.goto('/');
+      114 |     await page.reload();
+    > 115 |     await page.waitForSelector('.messages-container');
+          |                ^
+      116 |     const countBefore = await page.locator('.messages-container > *').count();
+      117 |     await page.click('body'); // click outside input
+      118 |     await page.keyboard.press('Enter');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:115:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-10--4a439--outside-input-does-nothing/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-10--4a439--outside-input-does-nothing/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-10--4a439--outside-input-does-nothing/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  40) tests/e2e/enter-key.spec.ts:124:3 › AT-11: pressing Enter again immediately does nothing ─────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForSelector: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      126 |     //await page.goto('/');
+      127 |     await page.reload();
+    > 128 |     await page.waitForSelector('.messages-container');
+          |                ^
+      129 |     const msg = 'Test ' + Date.now();
+      130 |     await page.fill('input[placeholder="Type a message..."]', msg);
+      131 |     await page.keyboard.press('Enter');
+        at /Users/deasialittle/Projects/cs673/tests/e2e/enter-key.spec.ts:128:16
+
+    Error Context: test-results/tests-e2e-enter-key-AT-11--7bd8c-in-immediately-does-nothing/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-enter-key-AT-11--7bd8c-in-immediately-does-nothing/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-enter-key-AT-11--7bd8c-in-immediately-does-nothing/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  41) tests/e2e/help-community.spec.ts:112:3 › Help Dialog › AT-7: Re-open works after closing ─────
+
+    Error: locator.elementHandle: Error: strict mode violation: locator('text=Help') resolved to 2 elements:
+        1) <button tabindex="0" type="button" data-testid="help-button" class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-zoli0u-MuiButtonBase-root-MuiButton-root">…</button> aka getByTestId('help-button')
+        2) <p class="MuiTypography-root MuiTypography-body2 css-tf6nos-MuiTypography-root">Click the Help button and follow the instructions…</p> aka getByText('Click the Help button and')
+
+    Call log:
+    [2m  - waiting for locator('text=Help')[22m
+
+
+      38 |     await helpButton.click({ timeout: 5000 });
+      39 |   } catch {
+    > 40 |     const el = await helpButton.elementHandle();
+         |                                 ^
+      41 |     if (el) await page.evaluate((e) => (e as HTMLElement).click(), el);
+      42 |     else throw new Error('Help button click failed — element handle missing.');
+      43 |   }
+        at openHelp (/Users/deasialittle/Projects/cs673/tests/e2e/help-community.spec.ts:40:33)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/help-community.spec.ts:118:5
+
+    Error Context: test-results/tests-e2e-help-community-H-f9cef-Re-open-works-after-closing/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-help-community-H-f9cef-Re-open-works-after-closing/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-help-community-H-f9cef-Re-open-works-after-closing/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  42) tests/e2e/help-community.spec.ts:131:3 › Help Dialog › AT-9: Dialog is usable on mobile viewport 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.evaluate: Target page, context or browser has been closed
+
+      31 |     await helpButton.scrollIntoViewIfNeeded();
+      32 |   } catch {
+    > 33 |     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+         |                ^
+      34 |   }
+      35 |
+      36 |   // Attempt click; fallback to JS click if Playwright rejects
+        at openHelp (/Users/deasialittle/Projects/cs673/tests/e2e/help-community.spec.ts:33:16)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/help-community.spec.ts:133:5
+
+    Error Context: test-results/tests-e2e-help-community-H-b6908-s-usable-on-mobile-viewport/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-help-community-H-b6908-s-usable-on-mobile-viewport/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-help-community-H-b6908-s-usable-on-mobile-viewport/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  43) tests/e2e/sidebar.spec.ts:30:1 › AT-1: Sidebar shows Community and AI ────────────────────────
+
+    TimeoutError: locator.waitFor: Timeout 5000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('nav:visible, [role="navigation"]:visible') to be visible[22m
+
+
+      14 |   if (!navVisible) {
+      15 |     await page.locator('button').first().click().catch(() => {});
+    > 16 |     await page.locator('nav:visible, [role="navigation"]:visible').waitFor({ state: 'visible', timeout: 5000 });
+         |                                                                    ^
+      17 |   }
+      18 | }
+      19 |
+        at openSidebar (/Users/deasialittle/Projects/cs673/tests/e2e/sidebar.spec.ts:16:68)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/sidebar.spec.ts:33:3
+
+    Error Context: test-results/tests-e2e-sidebar-AT-1-Sidebar-shows-Community-and-AI/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-sidebar-AT-1-Sidebar-shows-Community-and-AI/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-sidebar-AT-1-Sidebar-shows-Community-and-AI/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  44) tests/e2e/sidebar.spec.ts:40:1 › AT-2: Click AI goes to AI page ──────────────────────────────
+
+    TimeoutError: locator.waitFor: Timeout 5000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('nav:visible, [role="navigation"]:visible') to be visible[22m
+
+
+      14 |   if (!navVisible) {
+      15 |     await page.locator('button').first().click().catch(() => {});
+    > 16 |     await page.locator('nav:visible, [role="navigation"]:visible').waitFor({ state: 'visible', timeout: 5000 });
+         |                                                                    ^
+      17 |   }
+      18 | }
+      19 |
+        at openSidebar (/Users/deasialittle/Projects/cs673/tests/e2e/sidebar.spec.ts:16:68)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/sidebar.spec.ts:43:3
+
+    Error Context: test-results/tests-e2e-sidebar-AT-2-Click-AI-goes-to-AI-page/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-sidebar-AT-2-Click-AI-goes-to-AI-page/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-sidebar-AT-2-Click-AI-goes-to-AI-page/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  45) tests/e2e/sidebar.spec.ts:50:1 › AT-3: Click Community goes back to Community page ───────────
+
+    TimeoutError: locator.waitFor: Timeout 5000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('nav:visible, [role="navigation"]:visible') to be visible[22m
+
+
+      14 |   if (!navVisible) {
+      15 |     await page.locator('button').first().click().catch(() => {});
+    > 16 |     await page.locator('nav:visible, [role="navigation"]:visible').waitFor({ state: 'visible', timeout: 5000 });
+         |                                                                    ^
+      17 |   }
+      18 | }
+      19 |
+        at openSidebar (/Users/deasialittle/Projects/cs673/tests/e2e/sidebar.spec.ts:16:68)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/sidebar.spec.ts:53:3
+
+    Error Context: test-results/tests-e2e-sidebar-AT-3-Cli-b2099-goes-back-to-Community-page/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-sidebar-AT-3-Cli-b2099-goes-back-to-Community-page/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-sidebar-AT-3-Cli-b2099-goes-back-to-Community-page/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  46) tests/e2e/typing-indicator.spec.ts:39:1 › AT-1: shows typing indicator to other users when someone starts typing 
+
+    TimeoutError: page.waitForSelector: Timeout 20000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      20 | async function startTyping(page: any, text = 'hello') {
+      21 |   await page.waitForLoadState('networkidle');
+    > 22 |   await page.waitForSelector('.messages-container', { timeout: 20000 });
+         |              ^
+      23 |   const input = S.input(page);
+      24 |   
+      25 |   //await input.waitFor({ state: 'visible', timeout: 10000 });
+        at startTyping (/Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:22:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:46:3
+
+    Error Context: test-results/tests-e2e-typing-indicator-2681b--when-someone-starts-typing/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-typing-indicator-2681b--when-someone-starts-typing/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-typing-indicator-2681b--when-someone-starts-typing/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  47) tests/e2e/typing-indicator.spec.ts:53:1 › AT-2: Indicator disappears after stop typing or sending 
+
+    TimeoutError: page.waitForSelector: Timeout 20000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      20 | async function startTyping(page: any, text = 'hello') {
+      21 |   await page.waitForLoadState('networkidle');
+    > 22 |   await page.waitForSelector('.messages-container', { timeout: 20000 });
+         |              ^
+      23 |   const input = S.input(page);
+      24 |   
+      25 |   //await input.waitFor({ state: 'visible', timeout: 10000 });
+        at startTyping (/Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:22:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:61:3
+
+    Error Context: test-results/tests-e2e-typing-indicator-95d58-fter-stop-typing-or-sending/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-typing-indicator-95d58-fter-stop-typing-or-sending/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-typing-indicator-95d58-fter-stop-typing-or-sending/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  48) tests/e2e/typing-indicator.spec.ts:72:1 › AT-3: Shows "X users are typing" when two users type 
+
+    TimeoutError: page.waitForSelector: Timeout 20000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      20 | async function startTyping(page: any, text = 'hello') {
+      21 |   await page.waitForLoadState('networkidle');
+    > 22 |   await page.waitForSelector('.messages-container', { timeout: 20000 });
+         |              ^
+      23 |   const input = S.input(page);
+      24 |   
+      25 |   //await input.waitFor({ state: 'visible', timeout: 10000 });
+        at startTyping (/Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:22:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:80:3
+
+    Error Context: test-results/tests-e2e-typing-indicator-33f4c--typing-when-two-users-type/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-typing-indicator-33f4c--typing-when-two-users-type/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-typing-indicator-33f4c--typing-when-two-users-type/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  49) tests/e2e/typing-indicator.spec.ts:91:1 › AT-4: Typist does not see their own indicator ──────
+
+    TimeoutError: page.waitForSelector: Timeout 20000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      20 | async function startTyping(page: any, text = 'hello') {
+      21 |   await page.waitForLoadState('networkidle');
+    > 22 |   await page.waitForSelector('.messages-container', { timeout: 20000 });
+         |              ^
+      23 |   const input = S.input(page);
+      24 |   
+      25 |   //await input.waitFor({ state: 'visible', timeout: 10000 });
+        at startTyping (/Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:22:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:94:3
+
+    Error Context: test-results/tests-e2e-typing-indicator-312d0-not-see-their-own-indicator/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-typing-indicator-312d0-not-see-their-own-indicator/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-typing-indicator-312d0-not-see-their-own-indicator/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  50) tests/e2e/typing-indicator.spec.ts:101:1 › AT-5: Indicator does not persist after reload ─────
+
+    TimeoutError: page.waitForSelector: Timeout 20000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.messages-container') to be visible[22m
+
+
+      20 | async function startTyping(page: any, text = 'hello') {
+      21 |   await page.waitForLoadState('networkidle');
+    > 22 |   await page.waitForSelector('.messages-container', { timeout: 20000 });
+         |              ^
+      23 |   const input = S.input(page);
+      24 |   
+      25 |   //await input.waitFor({ state: 'visible', timeout: 10000 });
+        at startTyping (/Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:22:14)
+        at /Users/deasialittle/Projects/cs673/tests/e2e/typing-indicator.spec.ts:108:3
+
+    Error Context: test-results/tests-e2e-typing-indicator-0ff07-es-not-persist-after-reload/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tests-e2e-typing-indicator-0ff07-es-not-persist-after-reload/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tests-e2e-typing-indicator-0ff07-es-not-persist-after-reload/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  50 failed
+    tests/e2e/auth-login.spec.ts:14:3 › AT-1: Register new user successfully ───────────────────────
+    tests/e2e/auth-login.spec.ts:28:3 › AT-2: Registration fails when username already exists ──────
+    tests/e2e/auth-login.spec.ts:52:3 › AT-3: Registration fails when fields are empty ─────────────
+    tests/e2e/auth-login.spec.ts:65:3 › AT-4: Registration fails when password is too short ────────
+    tests/e2e/auth-login.spec.ts:81:3 › AT-5: Login with valid credentials redirects to community ──
+    tests/e2e/auth-login.spec.ts:92:3 › AT-06: Login fails with invalid password ───────────────────
+    tests/e2e/auth-login.spec.ts:104:3 › AT-07: Login fails when username or password is missing ───
+    tests/e2e/auth-login.spec.ts:118:3 › AT-8: Login fails if username case does not match ─────────
+    tests/e2e/auth-login.spec.ts:130:3 › AT-9: Navigation between login and register pages works ───
+    tests/e2e/autoscroll.spec.ts:52:1 › AT-01: Auto-scroll when viewer is at bottom ────────────────
+    tests/e2e/autoscroll.spec.ts:72:1 › AT-02: No jump when viewer scrolled up ─────────────────────
+    tests/e2e/autoscroll.spec.ts:97:1 › AT-03: Auto-scroll resumes after viewer returns to bottom ──
+    tests/e2e/autoscroll.spec.ts:124:1 › AT-04: Sender stays at bottom after sending ───────────────
+    tests/e2e/chat-guest.spec.ts:50:1 › AT-2: Real-time receive across two guests ──────────────────
+    tests/e2e/chat-guest.spec.ts:73:1 › AT-3: Messages preserve chronological order ────────────────
+    tests/e2e/chat-guest.spec.ts:108:1 › AT-4: Delivery time under target ──────────────────────────
+    tests/e2e/chat-guest.spec.ts:137:1 › AT-5: Guest can continue chatting after reload ────────────
+    tests/e2e/chat-guest.spec.ts:160:1 › AT-6: Empty message is blocked ────────────────────────────
+    tests/e2e/chat-guest.spec.ts:192:1 › AT-8: Long word wraps without breaking layout ─────────────
+    tests/e2e/chat-history.spec.ts:13:1 › AT-1: should persist a message after refresh ─────────────
+    tests/e2e/chat-history.spec.ts:26:1 › AT-2: should persist multiple messages and keep order ────
+    tests/e2e/chat-history.spec.ts:51:1 › AT-3: should persist a long history of messages ──────────
+    tests/e2e/chat-history.spec.ts:67:1 › AT-4: should keep messages across multiple send/refresh cycles 
+    tests/e2e/chat-history.spec.ts:85:1 › AT-5: should not duplicate messages after refresh ────────
+    tests/e2e/chat-history.spec.ts:98:1 › AT-6: should keep order after multiple refreshes ─────────
+    tests/e2e/chat-history.spec.ts:119:1 › AT-7: refresh should not create ghost messages ──────────
+    tests/e2e/chat-history.spec.ts:128:1 › AT-8: new session should start with empty history ───────
+    tests/e2e/chat-history.spec.ts:139:1 › AT-9: multiple tabs should show same history ────────────
+    tests/e2e/chat-history.spec.ts:154:1 › AT-10: empty history stays empty after refresh ──────────
+    tests/e2e/enter-key.spec.ts:6:1 › AT-1: should send a message when Enter is pressed ────────────
+    tests/e2e/enter-key.spec.ts:15:1 › AT-2:should send a message with Send button ─────────────────
+    tests/e2e/enter-key.spec.ts:24:1 › AT-3: should trim leading/trailing spaces ───────────────────
+    tests/e2e/enter-key.spec.ts:33:1 › AT-4: should send a long message up to limit ────────────────
+    tests/e2e/enter-key.spec.ts:43:1 › AT-5: should support special characters ─────────────────────
+    tests/e2e/enter-key.spec.ts:53:1 › AT-6: should not send an empty message ──────────────────────
+    tests/e2e/enter-key.spec.ts:68:1 › AT-7: should not send whitespace-only message ───────────────
+    tests/e2e/enter-key.spec.ts:83:1 › AT-8: should not duplicate message on rapid Enter presses ───
+    tests/e2e/enter-key.spec.ts:98:3 › AT-9: pressing Shift+Enter creates newline in input ─────────
+    tests/e2e/enter-key.spec.ts:111:3 › AT-10: pressing Enter outside input does nothing ───────────
+    tests/e2e/enter-key.spec.ts:124:3 › AT-11: pressing Enter again immediately does nothing ───────
+    tests/e2e/help-community.spec.ts:112:3 › Help Dialog › AT-7: Re-open works after closing ───────
+    tests/e2e/help-community.spec.ts:131:3 › Help Dialog › AT-9: Dialog is usable on mobile viewport 
+    tests/e2e/sidebar.spec.ts:30:1 › AT-1: Sidebar shows Community and AI ──────────────────────────
+    tests/e2e/sidebar.spec.ts:40:1 › AT-2: Click AI goes to AI page ────────────────────────────────
+    tests/e2e/sidebar.spec.ts:50:1 › AT-3: Click Community goes back to Community page ─────────────
+    tests/e2e/typing-indicator.spec.ts:39:1 › AT-1: shows typing indicator to other users when someone starts typing 
+    tests/e2e/typing-indicator.spec.ts:53:1 › AT-2: Indicator disappears after stop typing or sending 
+    tests/e2e/typing-indicator.spec.ts:72:1 › AT-3: Shows "X users are typing" when two users type ─
+    tests/e2e/typing-indicator.spec.ts:91:1 › AT-4: Typist does not see their own indicator ────────
+    tests/e2e/typing-indicator.spec.ts:101:1 › AT-5: Indicator does not persist after reload ───────
+  15 passed (6.9m)

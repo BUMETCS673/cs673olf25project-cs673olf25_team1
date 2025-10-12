@@ -1,4 +1,5 @@
 import { Page, BrowserContext, expect } from '@playwright/test';
+import { E } from './playwright-report/trace/assets/defaultSettingsView-BA25Usqk';
 
 
 export async function login(target: Page | BrowserContext) {
@@ -22,9 +23,9 @@ export async function login(target: Page | BrowserContext) {
   }
 
   // Perform login
-  await page.getByPlaceholder('Username').fill('AT');      
-  await page.getByPlaceholder('Password').fill('automatedtests');   
-  await page.getByRole('button', { name: 'Login' }).click();
+  await page.getByTestId('login-username').locator('input').fill('AT');      
+  await page.getByTestId('login-password').locator('input').fill('automatedtests');   
+  await page.getByTestId('login-button').click();
 
   // Wait until redirected to the main page
   await page.waitForURL('**/community', { timeout: 10000 });

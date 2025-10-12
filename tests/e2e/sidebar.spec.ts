@@ -7,65 +7,81 @@ Framework generated code: 0%
 import { test, expect, Page } from '@playwright/test';
 import { login } from './helpers';
 
+export async function openSidebar(page: Page) {
+  const nav = page.locator('nav:visible, [role="navigation"]:visible');
 
-// Open sidebar if needed 
-async function openSidebar(page: Page) {
-  const navVisible = await page.locator('nav:visible, [role="navigation"]:visible').isVisible().catch(() => false);
-  if (!navVisible) {
-    await page.locator('button').first().click().catch(() => {});
-    await page.locator('nav:visible, [role="navigation"]:visible').waitFor({ state: 'visible', timeout: 5000 });
+  // ✅ If already visible (e.g., desktop screen), do nothing
+  if (await nav.isVisible()) return;
+
+  // ⏯️ Otherwise, try to open it via hamburger/menu button
+  const toggleButton = page.locator('[data-testid="MenuIcon"], button[aria-label*="menu"]').first();
+
+  try {
+    await toggleButton.click();
+    await nav.waitFor({ state: 'visible', timeout: 5000 });
+  } catch {
+    // 🔇 Silently fail — nav may never appear if not implemented correctly
+    console.warn('Sidebar toggle did not open nav — skipping.');
   }
 }
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
-
+// Locators for sidebar links
 const communityLink = (page: Page) =>
   page.locator('nav:visible a[href$="/community"]').first();
 
 const aiLink = (page: Page) =>
   page.locator('nav:visible a[href$="/ai"]').first();
 
+const profileLink = (page: Page) =>
+  page.locator('nav:visible a[href$="/profile"]').first();
 
-// AT-1: Sidebar shows the Community and AI tab
-test('AT-1: Sidebar shows Community and AI', async ({ page }) => {
-  await login(page);
-  //await page.goto(BASE_URL + '/');
-  await openSidebar(page);
+const logoutLink = (page: Page) =>
+  page.locator('nav:visible a:has-text("Logout")').first(); // Or adjust if it's a button
 
-  await expect(communityLink(page)).toBeVisible();
-  await expect(aiLink(page)).toBeVisible();
-});
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
 
-// AT-2: Clicking the AI tab goes to the AI page
-test('AT-2: Click AI goes to AI page', async ({ page }) => {
-  await login(page);
-  //await page.goto(BASE_URL + '/');
-  await openSidebar(page);
+test('AT-1: Sidebar shows Community and AI tabs', async ({ page }) => {
+    await login(page);
+    await expect(page.getByRole('link', { name: 'Community' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'AI Chat' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Profile' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Logout' })).toBeVisible();
+  });
 
-  await aiLink(page).click();
-  await expect(page).toHaveURL(/\/ai(?:$|[?#])/);
-});
+  test('AT-2: Click AI goes to AI page', async ({ page }) => {
+    await login(page);
+    await page.getByRole('link', { name: 'AI Chat' }).click();
+    await expect(page).toHaveURL(/\/ai(?:$|[?#])/);
+  });
 
-// AT-3: Clicking the Community tab goes to the Community page
-test('AT-3: Click Community goes back to Community page', async ({ page }) => {
-  await login(page);
-  await page.goto(BASE_URL + '/community').catch(async () => { await page.goto(BASE_URL + '/'); });
-  await openSidebar(page);
+  test('AT-3: Click Community goes to Community page', async ({ page }) => {
+    await login(page);
+    await page.getByRole('link', { name: 'Community' }).click();
+    await expect(page).toHaveURL(/\/community(?:$|[?#])/);
+  });
 
-  await communityLink(page).click();
-  await expect(page).toHaveURL(/(?:\/community|\/$)/);
-});
+  test('AT-4: Direct /ai shows AI content', async ({ page }) => {
+    await login(page);
+    await page.goto(`${BASE_URL}/ai`);
+    await expect(page.getByRole('heading', { name: /AI/i })).toBeVisible();
+  });
 
-// AT-4: Directly go to /ai
-test('AT-4: Direct /ai shows AI content', async ({ page }) => {
-  await login(page);
-  await page.goto(BASE_URL + '/ai').catch(async () => { await page.goto(BASE_URL + '/'); });
-  await expect(page).toHaveURL(/\/ai(?:$|[?#])/);
-});
+  test('AT-5: Direct /community shows Community content', async ({ page }) => {
+    await login(page);
+    await page.goto(`${BASE_URL}/community`);
+    await expect(page.getByRole('heading', { name: /Community/i })).toBeVisible();
+  });
 
-// AT-5: Directly go to /community
-test('AT-5: Direct root shows Community content', async ({ page }) => {
-  await login(page);
-  await page.goto(BASE_URL + '/');
-  await expect(page).toHaveURL(/(?:\/community|\/$)/);
-});
+  test('AT-6: Click Profile goes to Profile page', async ({ page }) => {
+    await login(page);
+    await page.getByRole('link', { name: 'Profile' }).click();
+    await expect(page).toHaveURL(/\/profile(?:$|[?#])/);
+    await expect(page.getByRole('heading', { name: /Profile/i })).toBeVisible();
+  });
+
+  test('AT-7: Click Logout logs out and redirects to Login', async ({ page }) => {
+    await login(page);
+    await page.getByRole('link', { name: 'Logout' }).click();
+    await expect(page).toHaveURL(/\/login(?:$|[?#])/);
+    await expect(page.getByRole('heading', { name: /login/i })).toBeVisible();
+  });

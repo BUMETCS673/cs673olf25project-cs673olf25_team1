@@ -71,25 +71,24 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
       <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
 
       <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
-        <List dense>
-          {navItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                selected={location.pathname === item.path}
-                component={Link}
-                to={item.path}
-                sx={{ borderRadius: 2 }}
-                data-testid={
-                  item.text === "Community" ? "nav-community" : "nav-ai"
-                }
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} sx={{ color: "black" }} />
-              </ListItemButton>
-              )}
-            </ListItem>
-          ))}
-        </List>
+       <List dense>
+  {navItems.map((item) => (
+    <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
+      <ListItemButton
+        selected={location.pathname === item.path}
+        component={Link}
+        to={item.path}
+        sx={{ borderRadius: 2 }}
+        data-testid={
+          item.text === "Community" ? "nav-community" : item.text === "AI Chat" ? "nav-ai" : undefined
+        }
+      >
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText primary={item.text} sx={{ color: "black" }} />
+      </ListItemButton>
+    </ListItem>
+  ))}
+</List>
       </Stack>
     </Box>
   );

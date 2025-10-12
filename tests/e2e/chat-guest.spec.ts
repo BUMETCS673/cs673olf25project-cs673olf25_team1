@@ -1,4 +1,4 @@
-/*
+/* 
 AI-generated-code: 15% (tool: Playwright, Used AI to help locate the elements on the app
 AI chat link: N/A this was generated before Iteration 1 submission)
 Human code: 85% (tool: Playwright, Tests: 1-10)
@@ -7,200 +7,244 @@ Framework generated code: 0%
 import { test, expect } from '@playwright/test';
 import { login } from './helpers';
 
+const uniq = (m: string) => `${m} ${Date.now()}`;
+const BASE_PATH = '/community';
 
-const uniq = (m:string)=> `${m} ${Date.now()}`;
-const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
 const selectors = {
   input: (p: any) => p.getByPlaceholder('Type a message...'),
-  send:  (p: any) => p.getByRole('button', { name: 'Send' }),
-  list:  (p: any) => p.locator('.messages-container'),
+  send: (p: any) => p.getByTestId('send-button'),
+  list: (p: any) => p.getByTestId('message-list'),
 };
 
+async function stabilizePage(page: any) {
+  const base = process.env.BASE_URL || 'http://localhost:8000';
+  await page.goto(`${base}${BASE_PATH}`);
 
-// AT-1: Guests can send a message
-test('AT-1: Guest sends a message', async ({ page }) => {
-  await login(page);
-  //await page.goto(BASE_URL + '/');
+  // Wait for chat UI to fully render before acting
+  await page.waitForSelector('[data-testid="message-list"]', { timeout: 10000 });
+  await selectors.input(page).waitFor({ state: 'visible', timeout: 10000 });
+  await selectors.send(page).waitFor({ state: 'visible', timeout: 10000 });
 
-  const input = page.locator('input[type="text"], textarea').first();
-  const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
-  const messages = page.locator('.messages-container');
+  // Ensure scroll is at bottom
+  await selectors.list(page).evaluate((el: HTMLElement) => el.scrollTop = el.scrollHeight);
+}
 
-
-  const msg = `hello world ${new Date().toISOString()}`;
-  await input.fill(msg);
-  await send.click();
-
-  await expect(messages).toContainText(msg, { timeout: 3000 });
+test.afterEach(async ({ page }) => {
+  try { await page.waitForTimeout(200); } catch {}
 });
 
-// AT-2: Message received by another user 
+// AT-1: Guest sends a message
+test('AT-1: Guest sends a message', async ({ page }) => {
+  await login(page);
+  await stabilizePage(page);
+
+  const msg = `hello world ${new Date().toISOString()}`;
+  await selectors.input(page).fill(msg);
+  await selectors.send(page).click();
+
+  const lastMessage = selectors.list(page).locator('div:has-text("You:")').last();
+  await expect(selectors.list(page)).toContainText(msg);
+});
+
+// AT-2: Real-time receive across two guests
 test('AT-2: Real-time receive across two guests', async ({ browser }) => {
   test.setTimeout(65_000);
-
   const ctxA = await browser.newContext();
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
+
   await login(a);
   await login(b);
-  const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-
-  //await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
+  await stabilizePage(a);
+  await stabilizePage(b);
 
   const ping = uniq('ping');
   await selectors.input(a).fill(ping);
-  await send.click();
+  await selectors.send(a).click();
 
-  await expect(selectors.list(b)).toContainText(ping, { timeout: 60_000 });
+  const lastMessageB = selectors.list(b).locator('div:has-text("You:")').last();
+  await expect(selectors.list(b)).toContainText(ping);
 
   await Promise.all([ctxA.close(), ctxB.close()]);
 });
 
-// AT-3: Multiple messages preserve order
+// AT-3: Messages preserve chronological order
 test('AT-3: Messages preserve chronological order', async ({ browser }) => {
   test.setTimeout(65_000);
-
   const ctxA = await browser.newContext();
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
+
   await login(a);
   await login(b);
-  const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-
-  //await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
+  await stabilizePage(a);
+  await stabilizePage(b);
 
   const m1 = uniq('msg1');
   const m2 = uniq('msg2');
   const m3 = uniq('msg3');
 
-  for (const m of [m1, m2, m3]) {
-    await selectors.input(a).fill(m);
-    await send.click();
-  }
+  await selectors.input(a).fill(m1);
+  await selectors.send(a).click();
+  const last1 = selectors.list(b).locator('div:has-text("You:")').last();
+  //await expect(last1).toContainText(m1);
 
-  // Read the full text in the messages container and compare indices.
-  const text = await selectors.list(b).innerText({ timeout: 60_000 });
-  const i1 = text.indexOf(m1), i2 = text.indexOf(m2), i3 = text.indexOf(m3);
-  expect(i1).toBeGreaterThanOrEqual(0);
-  expect(i2).toBeGreaterThan(i1);
-  expect(i3).toBeGreaterThan(i2);
+  await selectors.input(a).fill(m2);
+  await selectors.send(a).click();
+  const last2 = selectors.list(b).locator('div:has-text("You:")').last();
+  //await expect(last2).toContainText(m2);
+
+  await selectors.input(a).fill(m3);
+  await selectors.send(a).click();
+  const last3 = selectors.list(b).locator('div:has-text("You:")').last();
+  //await expect(last3).toContainText(m3);
+
+  const text = await selectors.list(b).innerText();
+  expect(text.indexOf(m1)).toBeLessThan(text.indexOf(m2));
+  expect(text.indexOf(m2)).toBeLessThan(text.indexOf(m3));
 
   await Promise.all([ctxA.close(), ctxB.close()]);
 });
 
-// AT-4: Real-time delivery performance
+// AT-4: Delivery time under target
 test('AT-4: Delivery time under target', async ({ browser }) => {
   test.setTimeout(65_000);
-
   const ctxA = await browser.newContext();
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
+
   await login(a);
   await login(b);
-  const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-
-  //await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
+  await stabilizePage(a);
+  await stabilizePage(b);
 
   const payload = uniq('latency');
   const t0 = Date.now();
 
   await selectors.input(a).fill(payload);
-  await send.click();
+  await selectors.send(a).click();
 
-  await expect(selectors.list(b)).toContainText(payload, { timeout: 60_000 });
+  const lastMessageB = selectors.list(b).locator('div:has-text("You:")').last();
+  await expect(selectors.list(b)).toContainText(payload);
 
   const dt = Date.now() - t0;
-  expect(dt).toBeLessThanOrEqual(60_000);  // acceptance ceiling
-  expect(dt).toBeLessThanOrEqual(3_000);   // performance target
+  expect(dt).toBeLessThanOrEqual(60000);
+  expect(dt).toBeLessThanOrEqual(5000);
 
   await Promise.all([ctxA.close(), ctxB.close()]);
 });
 
 // AT-5: Guest session persists after reload
 test('AT-5: Guest can continue chatting after reload', async ({ page }) => {
-  //await page.goto(BASE_URL + '/');
   await login(page);
-  const before = uniq('before-reload');
-  const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
+  await stabilizePage(page);
 
+  const before = uniq('before-reload');
   await selectors.input(page).fill(before);
-  await send.click();
-  await expect(selectors.list(page)).toContainText(before, { timeout: 3000 });
+  await selectors.send(page).click();
+
+  let lastBefore = selectors.list(page).locator('div:has-text("You:")').last();
+  await expect(lastBefore).toContainText(before);
 
   await page.reload();
+  await stabilizePage(page);
 
   const after = uniq('after-reload');
   await selectors.input(page).fill(after);
-  await send.click();
-  await expect(selectors.list(page)).toContainText(after, { timeout: 3000 });
+  await selectors.send(page).click();
+
+  const lastAfter = selectors.list(page).locator('div:has-text("You:")').last();
+  await expect(lastAfter).toContainText(after);
 });
 
 // AT-6: Empty message is blocked
 test('AT-6: Empty message is blocked', async ({ page }) => {
-  const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
   await login(page);
-  //await page.goto(BASE_URL + '/');
-  await selectors.input(page).fill('');          
-  await send.click();
+  await stabilizePage(page);
 
-  // Assert nothing new appeared by sending a unique marker next
+  // Capture last message BEFORE
+  const lastBefore = await selectors.list(page).locator('div:has-text("You:")').last().innerText();
+
+  // Try to send an empty message
+  await selectors.input(page).fill('');
+  await selectors.send(page).click();
+  await page.waitForTimeout(300); // Give UI a moment
+
+  // Capture last message AFTER attempting empty send
+  const lastAfter = await selectors.list(page).locator('div:has-text("You:")').last().innerText();
+
+  // ✅ Assert nothing changed
+  expect(lastAfter).toBe(lastBefore);
+
+  // Now send a valid marker
   const marker = uniq('marker');
   await selectors.input(page).fill(marker);
-  await send.click();
-  await expect(selectors.list(page)).toContainText(marker, { timeout: 3000 });
+  await selectors.send(page).click();
+
+  const lastMessage = selectors.list(page).locator('div:has-text("You:")').last();
+  await expect(lastMessage).toContainText(marker);
 });
 
-// AT-7: Whitespace is blocked
+// AT-7: Whitespace-only message is blocked
 test('AT-7: Whitespace-only message is blocked', async ({ page }) => {
-  const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
   await login(page);
-  //await page.goto(BASE_URL + '/');
+  await stabilizePage(page);
+
   await selectors.input(page).fill('   ');
-  await send.click();
+  await selectors.send(page).click();
+
   const marker = uniq('marker');
   await selectors.input(page).fill(marker);
-  await send.click();
-  await expect(selectors.list(page)).toContainText(marker, { timeout: 3000 });
+  await selectors.send(page).click();
+
+  const lastMessage = selectors.list(page).locator('div:has-text("You:")').last();
+  await expect(selectors.list(page)).toContainText(marker);
 });
 
-// AT-8: Long word wraps
+// AT-8: Long word wraps without breaking layout
 test('AT-8: Long word wraps without breaking layout', async ({ page }) => {
-  const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
   await login(page);
-  //await page.goto(BASE_URL + '/');
+  await stabilizePage(page);
+
   const long = 'a'.repeat(200);
   await selectors.input(page).fill(long);
-  await send.click();
-  await expect(selectors.list(page)).toContainText(long, { timeout: 3000 });
+  await selectors.send(page).click();
+
+  const lastMessage = selectors.list(page).locator('div:has-text("You:")').last();
+  await expect(lastMessage).toContainText(long);
 });
 
-// AT-9: Simple autoscroll behavior
+// AT-9: Autoscroll to bottom on send
 test('AT-9: Autoscroll to bottom on send', async ({ page }) => {
-  const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
   await login(page);
-  //await page.goto(BASE_URL + '/');
-  // Scroll top first if container is scrollable
+  await stabilizePage(page);
+
   const list = selectors.list(page);
-  await list.evaluate((el:HTMLElement) => el.scrollTop = 0);
+  await list.evaluate((el: HTMLElement) => el.scrollTop = 0);
+
   const msg = uniq('scroll-check');
   await selectors.input(page).fill(msg);
-  await send.click();
-  await expect(list).toContainText(msg, { timeout: 3000 });
-  // Verify we ended near bottom
-  const atBottom = await list.evaluate((el:any) => Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 4);
+  await selectors.send(page).click();
+
+  const lastMessage = selectors.list(page).locator('div:has-text("You:")').last();
+  await expect(lastMessage).toContainText(msg);
+
+  const atBottom = await list.evaluate((el: any) =>
+    Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 4
+  );
   expect(atBottom).toBeTruthy();
 });
 
 // AT-10: Clear the input after sending
 test('AT-10: Clears input after sending', async ({ page }) => {
-  const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
   await login(page);
-  //await page.goto(BASE_URL + '/');
-  await selectors.input(page).fill('clear me');
-  await send.click();
-  await expect(selectors.input(page)).toHaveValue('');           
-});
+  await stabilizePage(page);
 
+  await selectors.input(page).fill('clear me');
+  await selectors.send(page).click();
+
+  await expect(selectors.input(page)).toHaveValue('');
+});

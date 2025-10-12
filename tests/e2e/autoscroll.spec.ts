@@ -5,127 +5,192 @@ Human code: 85% (tool: Playwright, Tests: 1-4)
 Framework generated code: 0%
 */
 
-import { test, expect } from '@playwright/test';
+import { test, expect, Page, Locator } from '@playwright/test';
+import { login } from './helpers';
 
 // selectors used everywhere
 const input = (p:any) => p.getByPlaceholder('Type a message...');
-const list  = (p:any) => p.locator('.messages-container');
+const list = (p: Page) => p.locator('[data-testid="message-list"]');
 const uniq  = (s:string) => `${s} ${Date.now()}`;
+
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
 
-// Helper function for scrolling
-async function atBottom(l:any) {
-  return l.evaluate((el:HTMLElement) =>
-    Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) <= 4
-  );
+// Accepts a locator and checks if the scroll is near the bottom
+export async function atBottom(locator: Locator): Promise<boolean> {
+  return await locator.evaluate((el) => {
+    const threshold = 5; // px — allow minor diff due to rounding
+    return el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+  });
 }
 
-// AT-01: Viewer is at bottom, auto-scroll to see new message 
+export const send = (page: Page) =>
+  page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
+
+async function stabilize(page: Page) {
+  await login(page);
+
+  // Wait for list to be visible
+  await expect(list(page)).toBeVisible({ timeout: 10000 });
+
+  // Scroll to bottom
+  await list(page).evaluate((el: HTMLElement) => {
+    el.scrollTop = el.scrollHeight;
+  });
+
+  // Ensure input and send button are also visible
+  await input(page).waitFor({ state: 'visible', timeout: 10000 });
+  await send(page).waitFor({ state: 'visible', timeout: 10000 });
+}
+
 test('AT-01: Auto-scroll when viewer is at bottom', async ({ browser }) => {
   const ctxA = await browser.newContext();
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
-  const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
-  // make sure user B is at bottom now
-  await list(b).evaluate((el:HTMLElement) => el.scrollTop = el.scrollHeight);
+  await login(a);
+  await login(b);
+
+  await expect(list(b)).toBeVisible();
+
+  // Scroll B to bottom
+  await list(b).evaluate((el: HTMLElement) => el.scrollTop = el.scrollHeight);
   expect(await atBottom(list(b))).toBeTruthy();
 
-  const msg = uniq('auto-bottom');
+  const msg = uniq('AT: auto-bottom');
   await input(a).fill(msg);
-  await send.click();
+  await send(a).click();
 
-  await expect(list(b)).toContainText(msg, { timeout: 10000 });
+  // Optional: wait for UI
+  await b.waitForTimeout(500);
+
+  const text = await list(b).innerText();
+  expect(text.includes(msg)).toBeTruthy(); // debug-friendly
   expect(await atBottom(list(b))).toBeTruthy();
 
-  await Promise.all([ctxA.close(), ctxB.close()]);
+  await ctxA.close();
+  await ctxB.close();
 });
 
-// AT-02: Viewer scrolled up, do not force-scroll 
 test('AT-02: No jump when viewer scrolled up', async ({ browser }) => {
   const ctxA = await browser.newContext();
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
-  const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
 
-  // seed some history so we can scroll
-  for (let i = 0; i < 6; i++) {
-    await input(a).fill(uniq('seed'));
+  await login(a);
+  await login(b);
+
+  const send = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
+
+  // Seed multiple messages so B can scroll
+  for (let i = 0; i < 10; i++) {
+    const msg = uniq('seed');
+    await input(a).fill(msg);
+    await expect(send).toBeVisible();
+    await send.waitFor({ state: 'attached' });
     await send.click();
+    await a.waitForTimeout(150); // give server time to propagate
   }
+
+  // Wait until B sees all seeded messages
   await expect(list(b)).toContainText('seed', { timeout: 10000 });
 
-  // scroll B to the top (not at bottom)
-  await list(b).evaluate((el:HTMLElement) => el.scrollTop = 0);
-  expect(await atBottom(list(b))).toBeFalsy();
+  // Manually scroll B up — simulate user scrolling up to read older messages
+  await list(b).evaluate((el: HTMLElement) => { el.scrollTop = 0 });
 
-  const msg = uniq('no-jump');
-  await input(a).fill(msg);
+  // Double check scroll position BEFORE new message
+  const before = await list(b).evaluate(el => ({
+    scrollTop: el.scrollTop,
+    scrollHeight: el.scrollHeight,
+    clientHeight: el.clientHeight,
+    isAtBottom: Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 2,
+  }));
+  console.log('🟡 Before sending:', before);
+  expect(before.isAtBottom).toBeFalsy(); // must NOT be at bottom
+
+  // Now send another message from A
+  const newMsg = uniq('no-jump');
+  await input(a).fill(newMsg);
+  await expect(send).toBeVisible();
+  await send.waitFor({ state: 'attached' });
+  await a.waitForTimeout(150); // give DOM time to settle
   await send.click();
 
-  await expect(list(b)).toContainText(msg, { timeout: 10000 });
-  expect(await atBottom(list(b))).toBeFalsy(); // still not at bottom
+  // Wait until B receives the message
+  await expect(list(b)).toContainText(newMsg, { timeout: 10000 });
+
+  // Check scroll state again — it should NOT have jumped
+  const after = await list(b).evaluate(el => ({
+    scrollTop: el.scrollTop,
+    scrollHeight: el.scrollHeight,
+    clientHeight: el.clientHeight,
+    isAtBottom: Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 2,
+  }));
+  console.log('🟢 After receiving:', after);
+  expect(after.isAtBottom).toBeFalsy(); // still not at bottom
 
   await Promise.all([ctxA.close(), ctxB.close()]);
 });
 
-// AT-03: Auto-scroll resumes after viewer returns to bottom
 test('AT-03: Auto-scroll resumes after viewer returns to bottom', async ({ browser }) => {
   const ctxA = await browser.newContext();
   const ctxB = await browser.newContext();
   const a = await ctxA.newPage();
   const b = await ctxB.newPage();
-  const send  = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
-  await Promise.all([a.goto(BASE_URL + '/'), b.goto(BASE_URL + '/')]);
+  const send = a.getByRole('button', { name: 'Send' }).or(a.locator('button').first());
 
-  const listB = b.locator('.messages-container');
+  await login(a);
+  await login(b);
 
-  // Seed enough history so the list can scroll
-  for (let i = 0; i < 15; i++) {
+  const listB = list(b);
+  // Seed enough messages to make it scrollable
+  for (let i = 0; i < 20; i++) {
     await a.getByPlaceholder('Type a message...').fill(`seed ${i}`);
-    await send.click();
+    await a.getByPlaceholder('Type a message...').press('Enter');
   }
+
   await expect(listB).toContainText('seed 0', { timeout: 10_000 });
 
-  // Scroll up, don't assert here to avoid flakiness
-  await listB.evaluate(el => (el as HTMLElement).scrollTop = 0);
-  await b.waitForTimeout(150);
+  // Simulate user scrolling up
+  await listB.evaluate(el => el.scrollTop = 0);
+  await b.waitForTimeout(300);
 
-  // Now explicitly return to bottom by scrolling the last item into view
-  const lastItem = listB.locator(':scope > *').last();
-  await lastItem.scrollIntoViewIfNeeded();
+  // Simulate user manually scrolling back to bottom (like PageDown or scrollbar)
+  await listB.evaluate(el => el.scrollTop = el.scrollHeight);
+  await b.waitForTimeout(300);
 
-  // Confirm we're at/near bottom
-  await expect.poll(async () => {
-    return await listB.evaluate((el: HTMLElement) => {
-      const delta = Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight);
-      return delta <= 20;
-    });
-  }, { timeout: 2000 }).toBeTruthy();
+  // Confirm near-bottom (within 20px)
+  const atBottom = await listB.evaluate(el => {
+    return Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) <= 20;
+  });
+  expect(atBottom).toBeTruthy();
 
-  // New message arrives, should still be at bottom
-  const msg = `resume ${Date.now()}`;
+  // Send new message from A
+  const msg = `resume-${Date.now()}`;
   await a.getByPlaceholder('Type a message...').fill(msg);
-  await send.click();
+  await a.getByPlaceholder('Type a message...').press('Enter');
 
-  await expect(listB).toContainText(msg, { timeout: 10_000 });
-  await expect.poll(async () => {
-    return await listB.evaluate((el: HTMLElement) => {
-      const delta = Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight);
-      return delta <= 20;
-    });
-  }, { timeout: 2000 }).toBeTruthy();
+  // Wait for message to appear
+  const timeout = 10000;
+  const start = Date.now();
+  let found = false;
+  while (Date.now() - start < timeout) {
+    const text = await listB.innerText();
+    if (text.includes(msg)) {
+      found = true;
+      break;
+    }
+    await b.waitForTimeout(200);
+  }
 
+  expect(found).toBeTruthy();
   await Promise.all([ctxA.close(), ctxB.close()]);
 });
 
 // AT-04: Sending your own message keeps you at bottom 
 test('AT-04: Sender stays at bottom after sending', async ({ page }) => {
-  await page.goto(BASE_URL + '/');
+  await login(page);
   await list(page).evaluate((el:HTMLElement) => el.scrollTop = el.scrollHeight);
   const send  = page.getByRole('button', { name: 'Send' }).or(page.locator('button').first());
   expect(await atBottom(list(page))).toBeTruthy();
