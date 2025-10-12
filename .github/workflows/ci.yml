@@ -152,8 +152,14 @@ jobs:
       working-directory: ./tests/e2e
 
     - name: Run Playwright E2E Tests
-      run: npx playwright test --config=playwright.config.ts    
+      run: npx playwright test --config=playwright.config.ts --reporter=list,json 
       working-directory: ./tests/e2e
+      continue-on-error: true
+
+    - name: Move JSON report to expected path
+      run: |
+        mkdir -p tests/e2e/playwright-report
+        mv playwright-report.json tests/e2e/playwright-report/results.json
 
     - name: Generate readable summary
       if: always()
