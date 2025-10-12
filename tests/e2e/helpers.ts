@@ -23,8 +23,8 @@ export async function login(target: Page | BrowserContext) {
   }
 
   // Perform login
-  await page.getByTestId('login-username').locator('input').fill('AT');      
-  await page.getByTestId('login-password').locator('input').fill('automatedtests');   
+  await page.getByTestId('login-username').locator('input').fill('testuser');      
+  await page.getByTestId('login-password').locator('input').fill('password123');   
   await page.getByTestId('login-button').click();
 
   // Wait until redirected to the main page

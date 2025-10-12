@@ -122,6 +122,10 @@ jobs:
       run: |
         timeout 240 bash -c 'until curl -s http://localhost:3000/health || curl -s http://localhost:3000; do echo "Waiting for backend..."; sleep 2; done'
 
+    - name: Seed Test User into DB
+      run: |
+        docker exec $(docker ps -qf "name=backend") \
+        node /app/scripts/seedUserDirect.ts
     # - name: Wait for Frontend
     #   run: |
     #     until curl -s http://localhost:8000; do echo "Waiting for frontend..."; sleep 2; done
