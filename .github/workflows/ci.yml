@@ -122,10 +122,8 @@ jobs:
       run: |
         timeout 240 bash -c 'until curl -s http://localhost:3000/health || curl -s http://localhost:3000; do echo "Waiting for backend..."; sleep 2; done'
 
-    - name: Seed Test User into DB
-      run: |
-        docker exec $(docker ps -qf "name=api") \
-        npx ts-node api/scripts/seedUser.ts
+    - name: Seed test user into Postgres
+      run: npx ts-node api/scripts/seedUser.ts
     # - name: Wait for Frontend
     #   run: |
     #     until curl -s http://localhost:8000; do echo "Waiting for frontend..."; sleep 2; done
@@ -156,7 +154,7 @@ jobs:
 
     - name: Generate readable summary
       if: always()
-      run: node scripts/generateReadableReport.js
+      run: node scripts/generateReadableReport.cjs
 
     - name: Upload Playwright HTML + JSON + summary
       if: always()
