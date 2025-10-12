@@ -22,19 +22,13 @@ ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 ENV HOST=0.0.0.0
 ENV PORT=3000
+ARG GROQ_API_KEY
+ARG JWT_SECRET
+ENV GROQ_API_KEY=$GROQ_API_KEY
+ENV JWT_SECRET=$JWT_SECRET
 
 # Build
-# RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
 RUN npm run build
 
-# Dev: run ts-node, Prod: run compiled JS 
-# CMD ["sh", "-c", "\
-# if [ \"$NODE_ENV\" = 'test' ]; then \
-#   npm test; \
-# elif [ \"$NODE_ENV\" = 'production' ]; then \
-#   node dist/main.js; \
-# else \
-#   npx ts-node src/main.ts; \
-# fi"]
-# CMD ["npx", "ts-node", "--project", "/app/tsconfig.json", "/app/src/main.ts"]
+#Run
 CMD ["node", "dist/src/main.js"]
