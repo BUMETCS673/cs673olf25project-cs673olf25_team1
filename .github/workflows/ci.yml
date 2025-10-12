@@ -159,8 +159,8 @@ jobs:
     - name: Move JSON report to expected path
       run: |
         mkdir -p tests/e2e/playwright-report
-        mv playwright-report.json tests/e2e/playwright-report/results.json
-
+        mv playwright-report/results.json tests/e2e/playwright-report/results.json
+        
     - name: Generate readable summary
       if: always()
       run: node scripts/generateReadableReport.cjs
