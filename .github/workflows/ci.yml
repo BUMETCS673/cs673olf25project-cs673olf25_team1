@@ -122,6 +122,10 @@ jobs:
       run: |
         timeout 240 bash -c 'until curl -s http://localhost:3000/health || curl -s http://localhost:3000; do echo "Waiting for backend..."; sleep 2; done'
 
+    - name: Install pg module for seed script
+      run: npm install pg
+      working-directory: ./api
+
     - name: Seed test user into Postgres
       run: npx ts-node api/scripts/seedUser.ts
     # - name: Wait for Frontend
