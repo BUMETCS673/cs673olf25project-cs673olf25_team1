@@ -86,7 +86,7 @@ const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({ children, onLogou
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} sx={{ color: "black" }} />
               </ListItemButton>
-              )}
+              )
             </ListItem>
           ))}
         </List>

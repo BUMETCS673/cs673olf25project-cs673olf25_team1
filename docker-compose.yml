@@ -6,20 +6,25 @@ services:
     image: api:latest
     container_name: api
     environment:
-      NODE_ENV: test
+      NODE_ENV: development
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ".]zP>X7jM?>-kw8OV(X?$#SkTm2d"
-      POSTGRES_DB: chit-chat_test
+      POSTGRES_PASSWORD: 'M6Lu7tB$fdyNKDi!E0ftA<KvjY27'
+      POSTGRES_DB: chit-chat
+      DB_SSL: false
+      DB_SYNCHRONIZE: true
     ports:
       - "3000:3000"
     volumes:
       - ./api:/app:cached
-      - api_node_modules:/app/node_modules
+      - /app/node_modules
     depends_on:
       - db
     # command: npx ts-node src/main.ts
+    command: sh -c "npm install && npx ts-node scripts/seedUser.ts && npm run start"
+    env_file:
+      - ./api/.env
 
   # Frontend Service
   frontend:
@@ -45,13 +50,16 @@ services:
     container_name: chit-chat-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ".]zP>X7jM?>-kw8OV(X?$#SkTm2d"
-      POSTGRES_DB: chit-chat_test
+      POSTGRES_PASSWORD: 'M6Lu7tB$fdyNKDi!E0ftA<KvjY27'
+      POSTGRES_DB: chit-chat
+      DB_SSL: false
+      DB_SYNCHRONIZE: true
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+    env_file:
+      - ./api/.env
 
 volumes:
   api_node_modules:
