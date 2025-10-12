@@ -14,6 +14,8 @@ services:
       POSTGRES_DB: chit-chat
       DB_SSL: false
       DB_SYNCHRONIZE: true
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
     ports:
       - "3000:3000"
     volumes:
