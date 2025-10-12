@@ -28,13 +28,7 @@ export default function Login({ onLogin }: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [fullname, setFullname] = useState("");
 
-  const toggleMode = () => {
-    setIsRegistering(!isRegistering);
-    setError(""); // clear errors when switching modes
-  };
   const navigate = useNavigate();
 
   const toggleMode = () => {
