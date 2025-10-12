@@ -22,7 +22,7 @@ export class Account {
 	displayName?: string;
 
 	@Column({ nullable: true })
-	avatar: string;
+	avatar?: string;
 
     @Column({ nullable: true })
     themeColor?: string;

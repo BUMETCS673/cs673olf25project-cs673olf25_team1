@@ -1,0 +1,96 @@
+
+# AI-generated-code: 80% (tool: Github CI, AI chat link: https://chatgpt.com/c/68ea65df-9768-8331-a2d8-e76b4fd8fbba)
+# Human code: 20%
+
+name: "Security Scan"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  id-token: write
+
+jobs:
+  dependency-scan:
+    name: "Dependency Vulnerability Scan"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Root + API + UI
+      - name: Install root deps
+        run: npm ci
+      - name: Install backend deps
+        run: npm ci
+        working-directory: ./api
+      - name: Install frontend deps
+        run: npm ci
+        working-directory: ./chit-chat-ui
+
+      # Run npm audit and save report
+      - name: Run npm audit
+        run: |
+          mkdir -p security-reports
+          npm audit --json > security-reports/root-audit.json || true
+          cd api && npm audit --json > ../security-reports/backend-audit.json || true
+          cd ../chit-chat-ui && npm audit --json > ../security-reports/frontend-audit.json || true
+      - name: Upload audit reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-reports
+          path: security-reports/
+
+  codeql-analysis:
+    name: "Static Code Analysis (SAST)"
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript,typescript
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  trivy-scan:
+    name: "Container Vulnerability Scan"
+    runs-on: ubuntu-latest
+    needs: [dependency-scan]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build backend image
+        run: docker build -t chat-backend:dev ./api
+      - name: Build frontend image
+        run: docker build -t chat-frontend:dev ./chit-chat-ui
+
+      - name: Run Trivy Scan (Backend)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: chat-backend:dev
+          format: 'table'
+          exit-code: '0'
+      - name: Run Trivy Scan (Frontend)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: chat-frontend:dev
+          format: 'table'
+          exit-code: '0'
+
