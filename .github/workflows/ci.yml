@@ -179,6 +179,6 @@ jobs:
     # Clean Up
     - name: Stop Containers
       run: |
-        docker stop api
-        docker rm api
+        docker stop chit-chat-ui api chit-chat-db
+        docker rm chit-chat-ui api chit-chat-db
         docker network rm e2e-network || true
