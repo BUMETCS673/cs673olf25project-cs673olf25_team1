@@ -10,7 +10,7 @@ name: "CI: Metrics + Tests"
 
 on:
  push:
-   branches: [jordyn/cicd]
+   branches: [main]
  pull_request:
    branches: [main]
 
