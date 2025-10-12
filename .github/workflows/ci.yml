@@ -65,17 +65,26 @@ jobs:
         name: code-metrics-report
         path: metrics/
 
-    - name: Set secrets for Docker
-      run: |
-        echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> $GITHUB_ENV
-        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-        printf "POSTGRES_PASSWORD=%s\n" "${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
 
-    - name: Echo Secrets
+    - name: Generate .env file for Docker Compose
       run: |
-        echo "GROQ_API_KEY is set to: $GROQ_API_KEY"
-        echo "JWT_SECRET is set to: $JWT_SECRET"
-        echo "POSTGRES_PASSWORD is set to: $POSTGRES_PASSWORD"
+        cat <<-EOF > .env
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}
+        EOF
+
+    # - name: Set secrets for Docker
+    #   run: |
+    #     echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> $GITHUB_ENV
+    #     echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+    #     printf "POSTGRES_PASSWORD=%s\n" "${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
+
+    # - name: Echo Secrets
+    #   run: |
+    #     echo "GROQ_API_KEY is set to: $GROQ_API_KEY"
+    #     echo "JWT_SECRET is set to: $JWT_SECRET"
+    #     echo "POSTGRES_PASSWORD is set to: $POSTGRES_PASSWORD"
 
     # Start App with Docker for Playwright
     - name: Set up Docker Buildx
