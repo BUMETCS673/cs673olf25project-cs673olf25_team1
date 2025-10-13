@@ -154,6 +154,7 @@ jobs:
     - name: Run Playwright E2E Tests with Full Reporters
       run: |
         npx playwright test --config=./tests/e2e/playwright.config.ts    
+      working-directory: ./tests/e2e
       continue-on-error: true
 
     - name: Debug Report Directory Contents
