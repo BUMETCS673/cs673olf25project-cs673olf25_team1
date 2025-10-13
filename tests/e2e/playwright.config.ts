@@ -25,10 +25,11 @@ export default defineConfig({
   expect: { timeout: 5_000 },
   fullyParallel: true,
   retries: process.env.CI ? 0 : 0,
-  reporter: [['list'], 
-             ['html', { outputFolder: '../../playwright-report', open: 'never' }], 
-             ['json', { outputFile: '../../playwright-report/results.json' }]],
-
+  reporter: [
+    ['list'],
+    ['html', { outputFolder: '../../playwright-report', open: 'never' }],
+    ['json', { outputFile: '../../playwright-report/results.json' }],
+  ],
   use: {
     baseURL: 'http://localhost:8000',
     trace: 'on-first-retry',

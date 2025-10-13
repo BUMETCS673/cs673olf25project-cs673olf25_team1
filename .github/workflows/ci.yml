@@ -151,32 +151,31 @@ jobs:
         npx playwright install --with-deps
       working-directory: ./tests/e2e
 
-    - name: Run Playwright E2E Tests and Save JSON Report
+    - name: Run Playwright E2E Tests with Full Reporters
       run: |
-        mkdir -p playwright-report
-        npx playwright test --reporter=list,json=playwright-report/results.json      
+        npx playwright test --config=playwright.config.ts    
       working-directory: ./tests/e2e
       continue-on-error: true
 
-    - name: Debug Report Directory Contents
-      run: |
-        echo "Checking test output directory"
-        ls -R ./tests/e2e/playwright-report || echo "Directory not found"
-        ls -R ./tests/e2e || true
+    # - name: Debug Report Directory Contents
+    #   run: |
+    #     echo "Checking test output directory"
+    #     ls -R ./tests/e2e/playwright-report || echo "Directory not found"
+    #     ls -R ./tests/e2e || true
 
-    - name: Move JSON report to root-level playwright-report
-      run: |
-        mkdir -p playwright-report
-        cp tests/e2e/playwright-report/results.json playwright-report/results.json
+    # - name: Move JSON report to root-level playwright-report
+    #   run: |
+    #     mkdir -p playwright-report
+    #     cp tests/e2e/playwright-report/results.json playwright-report/results.json
             
-    - name: Generate readable summary
-      if: always()
-      run: |
-        if [ -f playwright-report/results.json ]; then
-          node scripts/generateReadableReport.cjs
-        else
-          echo "Skipping summary generation: results.json not found"
-        fi
+    # - name: Generate readable summary
+    #   if: always()
+    #   run: |
+    #     if [ -f playwright-report/results.json ]; then
+    #       node scripts/generateReadableReport.cjs
+    #     else
+    #       echo "Skipping summary generation: results.json not found"
+    #     fi
 
     - name: Upload Playwright HTML + JSON + summary
       if: always()
