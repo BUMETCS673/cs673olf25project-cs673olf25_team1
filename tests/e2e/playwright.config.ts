@@ -27,8 +27,8 @@ export default defineConfig({
   retries: process.env.CI ? 0 : 0,
   reporter: [
     ['list'],
-    ['html', { outputFolder: './tests/e2e/playwright-report', open: 'never' }],
-    ['json', { outputFile: './tests/e2e/playwright-report/results.json' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['json', { outputFile: 'playwright-report/results.json' }],
   ],
   use: {
     baseURL: 'http://localhost:8000',
