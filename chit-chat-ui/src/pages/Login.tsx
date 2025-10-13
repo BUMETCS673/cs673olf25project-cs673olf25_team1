@@ -179,7 +179,7 @@ export default function Login({ onLogin }: LoginProps) {
                 <Link
                   component="button"
                   variant="body2"
-                  onClick={toggleMode}
+                  onClick={() => navigate("/register")}
                   sx={{ fontWeight: 600 }}
                 >
                   Register here
