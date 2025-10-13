@@ -5,13 +5,12 @@ import { E } from './playwright-report/trace/assets/defaultSettingsView-BA25Usqk
 export async function login(target: Page | BrowserContext) {
   let page: Page;
 
-  // Detect whether we're passed a Page or BrowserContext
   if (typeof (target as Page).goto === 'function') {
     page = target as Page;
   } else {
     page = await (target as BrowserContext).newPage();
   }
-
+  
   const base = process.env.BASE_URL || 'http://localhost:8000';
   // Go to login page
   await page.goto(`${base}/login`); 

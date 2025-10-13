@@ -154,7 +154,7 @@ jobs:
     - name: Run Playwright E2E Tests and Save JSON Report
       run: |
         mkdir -p playwright-report
-        npx playwright test --reporter=json > playwright-report/results.json
+        npx playwright test --reporter=list,json=playwright-report/results.json      
       working-directory: ./tests/e2e
       continue-on-error: true
 
