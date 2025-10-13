@@ -1,7 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const reportDir = path.join("tests", "e2e", "playwright-report");
+//const reportDir = path.join("tests", "e2e", "playwright-report");
+const reportDir = path.resolve(__dirname, "..", "playwright-report");
 const jsonPath = path.join(reportDir, "results.json");
 const mdPath = path.join(reportDir, "summary.md");
 const htmlPath = path.join(reportDir, "summary.html");

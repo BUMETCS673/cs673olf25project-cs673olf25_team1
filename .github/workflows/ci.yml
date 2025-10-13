@@ -156,14 +156,16 @@ jobs:
       working-directory: ./tests/e2e
       continue-on-error: true
 
-    - name: Move JSON report to expected path
+    - name: Move results.json to expected location
+      if: always()
       run: |
-        mkdir -p tests/e2e/playwright-report
-        mv playwright-report/results.json tests/e2e/playwright-report/results.json
-        
+        mkdir -p playwright-report
+        cp tests/e2e/playwright-report/results.json playwright-report/results.json
+            
     - name: Generate readable summary
       if: always()
       run: node scripts/generateReadableReport.cjs
+      working-directory: ./
 
     - name: Upload Playwright HTML + JSON + summary
       if: always()
@@ -173,6 +175,15 @@ jobs:
         path: |
           tests/e2e/playwright-report/**
           test-results/**
+
+    - name: Upload Summary Files
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: readable-playwright-summary
+        path: |
+          tests/e2e/playwright-report/summary.md
+          tests/e2e/playwright-report/summary.html
 
     - name: Upload Playwright test artifacts (screenshots, videos, traces)
       if: always()
