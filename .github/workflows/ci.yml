@@ -152,6 +152,7 @@ jobs:
       working-directory: ./tests/e2e
 
     - name: Run Playwright E2E Tests with Full Reporters
+      id: e2e
       run: |
         npx playwright test 
       working-directory: ./tests/e2e
@@ -203,7 +204,7 @@ jobs:
         path: test-results/
 
     - name: Create GitHub Issues from Failed Tests
-      if: failure() 
+      if: steps.e2e.outcome == 'failure'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: node .github/scripts/create-defects.cjs ${{ github.run_id }}
