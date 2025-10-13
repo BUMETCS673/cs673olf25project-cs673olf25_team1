@@ -151,8 +151,10 @@ jobs:
         npx playwright install --with-deps
       working-directory: ./tests/e2e
 
-    - name: Run Playwright E2E Tests
-      run: npx playwright test --config=playwright.config.ts --reporter=list,json --output=playwright-report
+    - name: Run Playwright E2E Tests and Save JSON Report
+      run: |
+        mkdir -p playwright-report
+        npx playwright test --reporter=json > playwright-report/results.json
       working-directory: ./tests/e2e
       continue-on-error: true
 
