@@ -171,7 +171,7 @@ jobs:
     - name: Generate readable summary
       if: always()
       run: |
-        if [ -f playwright-report/results.json ]; then
+        if [ -f ./tests/e2e/playwright-report/results.json ]; then
           node scripts/generateReadableReport.cjs
         else
           echo "Skipping summary generation: results.json not found"
