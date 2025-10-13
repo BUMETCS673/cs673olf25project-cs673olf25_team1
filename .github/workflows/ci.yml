@@ -152,7 +152,7 @@ jobs:
       working-directory: ./tests/e2e
 
     - name: Run Playwright E2E Tests
-      run: npx playwright test --config=playwright.config.ts --reporter=list,json=playwright-report/results.json
+      run: npx playwright test --config=playwright.config.ts --reporter=list,json --output=playwright-report
       working-directory: ./tests/e2e
       continue-on-error: true
 
