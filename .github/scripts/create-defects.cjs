@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const reportPath = 'playwright-report/results.json'; 
+const reportPath = './tests/e2e/playwright-report/results.json'; 
 
 if (!fs.existsSync(reportPath)) {
   console.error('Playwright JSON report not found.');

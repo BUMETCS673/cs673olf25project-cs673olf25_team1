@@ -13,9 +13,10 @@
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.21",
+    "pg": "^8.16.3",
     "ts-morph": "^27.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.45.0",
     "wait-on": "^9.0.1"
   },
@@ -27,7 +28,7 @@
     "codegen": "playwright codegen -c tests/e2e/playwright.config.ts",
     "test:headless": "playwright test -c tests/e2e/playwright.config.ts",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    "report:readable": "node scripts/generateReadableReport.js",
+    "report:readable": "node scripts/generateReadableReport.cjs",
     "test:report": "npm run test:e2e && npm run report:readable"
   },
   "dependencies": {

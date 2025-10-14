@@ -8,130 +8,177 @@ import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
 
+// AT-1: Successful registration
+test('AT-1: Register new user successfully', async ({ page }) => {
+  const user = `user${Date.now()}`;
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByText(/register here/i).click();
 
+  await page.getByTestId('login-username').locator('input').fill(user);
+  await page.getByTestId('login-password').locator('input').fill('password123');
+  await page.getByTestId('register-button').click();
 
-  // AT-1: Successful registration
-  test('AT-1: Register new user successfully', async ({ page }) => {
-    const user = `user${Date.now()}`;
-    await page.goto(BASE_URL + '/login');
-    // Click the register text 
-    await page.getByText("Don't have an account? Register here").click();
-    await page.getByPlaceholder('Full Name').fill('Test User');
-    await page.getByPlaceholder('Username').fill(user);
-    await page.getByPlaceholder('Password').fill('password123');
-    await page.getByRole('button', { name: 'Register' }).click();
+  await expect(page).toHaveURL(/\/community|\/login|\/dashboard/i);
+});
 
-    await expect(page).toHaveURL(/\/community|\/login|\/dashboard/i);
-  });
+// AT-2: Register with an existing username
+test('AT-2: Registration fails when username already exists', async ({ page }) => {
+  const user = `user${Date.now()}`;
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByText(/register here/i).click();
 
-  // AT-2: Register with an existing username
-  test('AT-2: Registration fails when username already exists', async ({ page }) => {
-    const user = `user${Date.now()}`;
-    await page.goto(BASE_URL + '/login');
-    // Click the register text 
-    await page.getByText("Don't have an account? Register here").click();
-    await page.getByPlaceholder('Full Name').fill('Test User');
-    await page.getByPlaceholder('Username').fill(user);
-    await page.getByPlaceholder('Password').fill('password123');
-    await page.getByRole('button', { name: 'Register' }).click();
+  await page.getByRole('textbox', { name: 'Full Name' }).click();
+  await page.getByRole('textbox', { name: 'Full Name' }).fill('Test User');
+  await page.getByRole('textbox', { name: 'Full Name' }).press('Enter');
+  await page.getByTestId('login-username').locator('input').fill(user);
+  await page.getByTestId('login-password').locator('input').fill('password123');
+  await page.getByTestId('register-button').click();
 
-    await page.goto(BASE_URL + '/login');
-    // Click the register text 
-    await page.getByText("Don't have an account? Register here").click();
-    await page.getByPlaceholder('Full Name').fill('Test User');
-    await page.getByPlaceholder('Username').fill(user);
-    await page.getByPlaceholder('Password').fill('password123');
-    await page.getByRole('button', { name: 'Register' }).click();
+  // Try to register same user again
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByText(/register here/i).click();
 
-    const errorMsg = page.locator('.error');
-    await expect(errorMsg).toBeVisible({ timeout: 5000 });
-    await expect(errorMsg).toHaveText(/already exists|username taken|duplicate/i);
-  });
+  await page.getByRole('textbox', { name: 'Full Name' }).click();
+  await page.getByRole('textbox', { name: 'Full Name' }).fill('Test User');
+  await page.getByRole('textbox', { name: 'Full Name' }).press('Enter');
+  await page.getByTestId('login-username').locator('input').fill(user);
+  await page.getByTestId('login-password').locator('input').fill('password123');
+  await page.getByTestId('register-button').click();
 
-  // AT-3: Registration with empty fields
-  test('AT-3: Registration fails when fields are empty', async ({ page }) => {
-    await page.goto(BASE_URL + '/login');
-    // Click the register text
-    await page.getByText("Don't have an account? Register here").click();
-    await page.getByRole('button', { name: 'Register' }).click();
+  // Assert error message appears
+  const errorMsg = page.locator('[data-testid="auth-error"]');
+  await expect(errorMsg).toBeVisible();
+  await expect(errorMsg).toHaveText(/invalid credentials/i);
+});
 
-    // Expect required validation
-    await expect(page.locator('input[placeholder="Full Name"]:invalid')).toBeVisible();
-    await expect(page.locator('input[placeholder="Username"]:invalid')).toBeVisible();
-    await expect(page.locator('input[placeholder="Password"]:invalid')).toBeVisible();
-  });
+// AT-3: Registration with empty fields
+test('AT-3: Registration fails when fields are empty', async ({ page }) => {
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByText(/register here/i).click();
+  await page.getByTestId('register-button').click();
 
-  // AT-4: Password too short
-  test('AT-4: Registration fails when password is too short', async ({ page }) => {
-    const user = `shortpass${Date.now()}`;
-    await page.goto(BASE_URL + '/login');
-    // Click the register text
-    await page.getByText("Don't have an account? Register here").click();
-    await page.getByPlaceholder('Full Name').fill('Short Pass');
-    await page.getByPlaceholder('Username').fill(user);
-    await page.getByPlaceholder('Password').fill('123');
-    await page.getByRole('button', { name: 'Register' }).click();
+  // HTML5 validation may block this automatically
+  const usernameValid = await page.getByTestId('login-username').locator('input').evaluate(
+    el => (el as HTMLInputElement).checkValidity()
+  );
+  const passwordValid = await page.getByTestId('login-password').locator('input').evaluate(
+    el => (el as HTMLInputElement).checkValidity()
+  );
 
-    const errorMsg = page.locator('.error');
-    await expect(errorMsg).toBeVisible({ timeout: 5000 });
-    await expect(errorMsg).toContainText(/password.*too short|minimum/i);
-  });
+  expect(usernameValid).toBeFalsy();
+  expect(passwordValid).toBeFalsy();
+});
 
-  // AT-5: Successful login with valid credentials
-  test('AT-5: Login with valid credentials redirects to community', async ({ page }) => {
-    await page.goto(BASE_URL + '/login');
-    await page.getByPlaceholder('Username').fill('AT');
-    await page.getByPlaceholder('Password').fill('automatedtests');
-    await page.getByRole('button', { name: 'Login' }).click();
+// AT-4: Password too short
+test('AT-4: Registration fails when password is too short', async ({ page }) => {
+  const user = `short${Date.now()}`;
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByText(/register here/i).click();
 
-    await expect(page).toHaveURL(/\/community|\/dashboard/i);
-    await expect(page.locator('text=Talk to the Community')).toBeVisible({ timeout: 10000 });
-  });
+  await page.getByRole('textbox', { name: 'Full Name' }).click();
+  await page.getByRole('textbox', { name: 'Full Name' }).fill('Test User');
+  await page.getByRole('textbox', { name: 'Full Name' }).press('Enter');
+  await page.getByTestId('login-username').locator('input').fill(user);
+  await page.getByTestId('login-password').locator('input').fill('123'); // too short
+  await page.getByTestId('register-button').click();
 
-  // AT-6: Invalid login (wrong password)
-  test('AT-06: Login fails with invalid password', async ({ page }) => {
-    await page.goto(BASE_URL + '/login');
-    await page.getByPlaceholder('Username').fill('AT');
-    await page.getByPlaceholder('Password').fill('wrong');
-    await page.getByRole('button', { name: 'Login' }).click();
+  const errorMsg = page.locator('[data-testid="auth-error"]');
+  await expect(errorMsg).toBeVisible();
+  await expect(errorMsg).toContainText(/Password must be at least|\/characters|\/uppercase|\/lowercase|\/special/i);
+});
 
-    const errorMsg = page.locator('.error');
-    await expect(errorMsg).toBeVisible({ timeout: 5000 });
-    await expect(errorMsg).toHaveText(/invalid credentials/i);
-  });
+// AT-5: Valid login
+test('AT-5: Login with valid credentials redirects to community', async ({ page }) => {
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByTestId('login-username').locator('input').fill('AT');
+  await page.getByTestId('login-password').locator('input').fill('automatedtests');
+  await page.getByTestId('login-button').click();
 
-  // AT-7: Login with empty fields
-  test('AT-07: Login fails when username or password is missing', async ({ page }) => {
-    await page.goto(BASE_URL + '/login');
-    await page.getByPlaceholder('Username').fill('');
-    await page.getByPlaceholder('Password').fill('');
-    await page.getByRole('button', { name: 'Login' }).click();
+  await expect(page).toHaveURL(/\/community|\/dashboard/i);
+  await expect(page.locator('text=Talk to the Community')).toBeVisible({ timeout: 10000 });
+});
 
-    // Expect built-in HTML5 validation to prevent submission
-    const usernameValid = await page.getByPlaceholder('Username').evaluate(el => (el as HTMLInputElement).checkValidity());
-    const passwordValid = await page.getByPlaceholder('Password').evaluate(el => (el as HTMLInputElement).checkValidity());
-    expect(usernameValid).toBeFalsy();
-    expect(passwordValid).toBeFalsy();
-  });
+// AT-6: Invalid password
+test('AT-6: Login fails with invalid password', async ({ page }) => {
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByTestId('login-username').locator('input').fill('AT');
+  await page.getByTestId('login-password').locator('input').fill('wrong');
+  await page.getByTestId('login-button').click();
 
-  // AT-8: Case sensitivity check for login
-  test('AT-8: Login fails if username case does not match', async ({ page }) => {
-    await page.goto(BASE_URL + '/login');
-    await page.getByPlaceholder('Username').fill('at');
-    await page.getByPlaceholder('Password').fill('automatedtests');
-    await page.getByRole('button', { name: 'Login' }).click();
+  // Assert error message appears
+  const errorMsg = page.locator('[data-testid="auth-error"]');
+  await expect(errorMsg).toBeVisible();
+  await expect(errorMsg).toHaveText(/invalid credentials/i);
+});
 
-    const errorMsg = page.locator('.error');
-    await expect(errorMsg).toBeVisible({ timeout: 5000 });
-    await expect(errorMsg).toHaveText(/invalid credentials/i);
-  });
+// AT-7: Empty login fields
+test('AT-7: Login fails when fields are empty', async ({ page }) => {
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByTestId('login-button').click();
 
-  // AT-9: Navigation between login and register
-  test('AT-9: Navigation between login and register pages works', async ({ page }) => {
-    await page.goto(BASE_URL + '/login');
+  const usernameValid = await page.getByTestId('login-username').locator('input').evaluate(
+    el => (el as HTMLInputElement).checkValidity()
+  );
+  const passwordValid = await page.getByTestId('login-password').locator('input').evaluate(
+    el => (el as HTMLInputElement).checkValidity()
+  );
+
+  expect(usernameValid).toBeFalsy();
+  expect(passwordValid).toBeFalsy();
+});
+
+// AT-8: Username case sensitivity
+test('AT-8: Login fails if username case does not match', async ({ page }) => {
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByTestId('login-username').locator('input').fill('at'); // lowercase
+  await page.getByTestId('login-password').locator('input').fill('automatedtests');
+  await page.getByTestId('login-button').click();
+
+  // Assert error message appears
+  const errorMsg = page.locator('[data-testid="auth-error"]');
+  await expect(errorMsg).toBeVisible();
+  await expect(errorMsg).toHaveText(/invalid credentials/i);
+});
+
+// AT-9: Register ↔ Login navigation works
+test('AT-9: Navigation between login and register pages works', async ({ page }) => {
+  await page.goto(`${BASE_URL}/login`);
+  await page.getByText(/register here/i).click();
+  await expect(page).toHaveURL(/\/register$/);
+
+  await page.getByText(/login here/i).click();
+  await expect(page).toHaveURL(/\/login$/);
+});
+
+test('AT-10: Registration fails when password boundaries are not met', async ({ page }) => {
+  const user = `short${Date.now()}`;
+  const weakPasswords = [
+    '123567',     // too short
+    'uwyehd1@',   // no uppercase
+    'BDHEIS1@',   // no lowercase
+    '12345678',   // numbers only
+    'uwyehdwe',   // lowercase only
+    'JDHCBWIR',   // uppercase only
+    '!@#$%^&*',   // special characters only
+    'uwyehdH@',   // no number
+    'uwyehd1C',   // no special character
+  ];
+
+  const registerWithPassword = async (password: string) => {
+    await page.goto(`${BASE_URL}/login`);
     await page.getByText(/register here/i).click();
-    await expect(page).toHaveURL(/\/register$/);
+    await page.getByRole('textbox', { name: 'Full Name' }).fill('Test User');
+    await page.getByRole('textbox', { name: 'Full Name' }).press('Enter');
+    await page.getByTestId('login-username').locator('input').fill(user);
+    await page.getByTestId('login-password').locator('input').fill(password);
+    await page.getByTestId('register-button').click();
+  };
 
-    await page.getByText(/login here/i).click();
-    await expect(page).toHaveURL(/\/login$/);
-  });
+  const errorMsg = page.locator('[data-testid="auth-error"]');
+
+  for (const password of weakPasswords) {
+    await registerWithPassword(password);
+    await expect(errorMsg).toBeVisible({ timeout: 5000 });
+    await expect(errorMsg).toContainText(/Password must be at least|characters|uppercase|lowercase|special/i);
+  }
+});
